@@ -1,3 +1,3 @@
 <?php
 
-echo 't';
+echo 'teste';
