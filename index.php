@@ -1,3 +1,3 @@
 <?php
 
-echo 'te';
+header('app/config/global.php');
