@@ -1,0 +1,16 @@
+{
+    "name": "pineapplestorm/pineapplestorm",
+    "description": "Projeto acadêmico",
+    "authors": [
+        {
+            "name": "David/William/Vinicius/Igor/Vitor/Giovanne",
+            "email": "nocommentary@pineapplestorm.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Source\\": "app/class"
+        }
+    },
+    "require": {}
+}
