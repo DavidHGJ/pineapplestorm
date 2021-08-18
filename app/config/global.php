@@ -1,5 +1,5 @@
 <?php
 
-define('PATH_PUBLIC', $_SERVER['DOCUMENT_ROOT'] . '/pineapplestorm/public/');
-define('PATH_ASSETS', $_SERVER['DOCUMENT_ROOT'] . '/pineapplestorm/public/assets/');
-define('PATH_INCLUDES', $_SERVER['DOCUMENT_ROOT'] . '/pineapplestorm/public/includes/');
+define('PATH_PUBLIC', __DIR__ . '\\..\\..\\public\\pages\\');
+define('PATH_ASSETS', __DIR__ . '\\..\\..\\public\\assets\\');
+define('PATH_INCLUDES', __DIR__ . '\\..\\..\\public\\includes\\');

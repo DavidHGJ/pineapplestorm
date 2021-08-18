@@ -1,6 +1,4 @@
-RewwriteEngine On
+RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} ^/(.+)/$
-RewriteCond %{DOCUMENT_ROOT}/%1.php -f
 RewriteRule ^(.*)$ index.php?url=$1 [NC,L]
