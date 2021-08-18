@@ -1,12 +1,12 @@
 <?php
 
-require __DIR__ . "/vendor/autoload.php";
+use models\class\Rota;
+
+require 'vendor/autoload.php';
+require 'app/models/class/rota.php';
 
 $urlAtual = explode('/', $_REQUEST['url']);
 
-$paginaInicial = 'login';
+$rota = new Rota($urlAtual);
 
-// if (file_exists(PATH_PUBLIC . $urlAtual . '.php'))
-//     require_once PATH_PUBLIC . $urlAtual . '.php';
-// else
-//     require_once PATH_PUBLIC . $paginaInicial . '.php';
+require_once $rota->caminhoPagina;
