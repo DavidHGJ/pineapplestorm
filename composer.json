@@ -1,5 +1,5 @@
 {
-    "name": "pineapplestorm/pineapplestorm",
+    "name": "davidhgj/pineapplestorm",
     "description": "Projeto acadêmico",
     "authors": [
         {
@@ -9,8 +9,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Source\\": "app/class"
-        }
+            "app\\": "app/"
+        },
+        "files": [
+            "app/config/global.php"
+        ]
     },
-    "require": {}
+    "require": {
+    }
 }
