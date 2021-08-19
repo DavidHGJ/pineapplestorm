@@ -16,7 +16,7 @@ class Rota {
 
     private function criarCaminho() {
 
-        if (is_array($this->urlRecuperada)) {
+        if (sizeof($this->urlRecuperada) > 1) {
 
             $this->caminhoPagina = PATH_PAGE;
 
