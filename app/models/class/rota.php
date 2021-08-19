@@ -2,6 +2,11 @@
 
 namespace models\class;
 
+/**
+ * Classe que define a rota das url's
+ * 
+ * @DavidHGJ
+ */
 class Rota {
 
     public $caminhoPagina;
@@ -14,14 +19,14 @@ class Rota {
         $this->validarCaminho();
     }
 
+    /**
+     * Cria caminho da url.
+     */
     private function criarCaminho() {
-
-        if (is_array($this->urlRecuperada)) {
-
+        if (sizeof($this->urlRecuperada) > 1) {
             $this->caminhoPagina = PATH_PAGE;
 
             foreach ($this->urlRecuperada as $index => $valor) {
-
                 if (array_key_last($this->urlRecuperada) == $index)
                     $this->caminhoPagina .= "$valor.php";
                 else
@@ -32,6 +37,9 @@ class Rota {
             $this->caminhoPagina = PATH_PAGE . $this->urlRecuperada . '.php';
     }
 
+    /**
+     * Valida  o caminho da url.
+     */
     private function validarCaminho() {
         if (!file_exists($this->caminhoPagina)) $this->caminhoPagina = PATH_PAGE . PAGINA_INICIAL . '.php';
     }
