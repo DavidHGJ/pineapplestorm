@@ -1,12 +1,12 @@
 <?php
 
-use models\class\Rota;
+use models\class\rota;
 
+require 'app/models/autoload.php';
 require 'vendor/autoload.php';
-require 'app/models/class/rota.php';
 
 $urlAtual = explode('/', $_REQUEST['url']);
 
-$rota = new Rota($urlAtual);
+$rota = new rota($urlAtual);
 
 require_once $rota->caminhoPagina;

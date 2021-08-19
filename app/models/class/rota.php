@@ -7,7 +7,7 @@ namespace models\class;
  * 
  * @DavidHGJ
  */
-class Rota {
+class rota {
     public $caminhoPagina;
     private $urlRecuperada;
 
@@ -39,6 +39,9 @@ class Rota {
      * Valida  o caminho da url. 
      */
     private function validarCaminho() {
-        if (!file_exists($this->caminhoPagina)) $this->caminhoPagina = PATH_PAGE . PAGINA_INICIAL . '.php';
+        if (!file_exists($this->caminhoPagina)) {
+            header('Location: ' . URL . PAGINA_INICIAL);
+            exit;
+        }
     }
 }
