@@ -16,16 +16,21 @@
             </header>
             <section>
                 <div>
-                    <label for="usuario">Usuário:</label>
+                    <label for="usuario">Usuário</label>
                     <input type="text" name="usuario" id="usuario">
                 </div>
                 <div>
-                    <label for="senha">Senha:</label>
+                    <label for="senha">Senha</label>
                     <input type="password" name="senha" id="senha">
+                    <a href="">Esqueci minha senha</a>
+                </div>
+                <div>
+                    <input type="submit" value="Entrar">
+                    <input type="button" value="Cadastrar-se">
                 </div>
             </section>
             <footer>
-                <p>PinaAppleStorm - Sistema Acadêmico - Faculdade de Americana (FAM)</p>
+                <p>PineAppleStorm - Sistema Acadêmico - Faculdade de Americana (FAM)</p>
             </footer>
         </form>
     </main>
