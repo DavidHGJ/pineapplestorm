@@ -1,6 +1,7 @@
 @use 'variaveis' as var
 @use 'mixins' as mix
 @use 'sass:color'
+@use 'keyframes'
 
 $marginPadrao: 25px
 
@@ -17,6 +18,11 @@ $marginPadrao: 25px
         header
             margin-bottom: $marginPadrao
 
+            transform: translateX(-50%)
+            opacity: 0
+
+            animation: header-login forwards .3s ease
+
             figure
                 @include mix.centralizarFlex(column)
 
@@ -29,6 +35,12 @@ $marginPadrao: 25px
         section
             @include mix.centralizarFlex(column)
             margin-bottom: $marginPadrao - 10px
+
+            transform: translateX(50%)
+            opacity: 0
+
+            animation: section-login forwards .3s ease
+            animation-delay: .3s
 
             div
                 @include mix.centralizarFlex(column)
@@ -123,6 +135,12 @@ $marginPadrao: 25px
 
         footer
             @include mix.centralizarFlex(column)
+
+            transform: translateY(500%)
+            opacity: 0
+
+            animation: footer-login forwards .6s
+            animation-delay: .6s
 
             p
                 font-size: var.$tamanhoXPP
