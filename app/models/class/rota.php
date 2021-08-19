@@ -8,9 +8,7 @@ namespace models\class;
  * @DavidHGJ
  */
 class Rota {
-
     public $caminhoPagina;
-
     private $urlRecuperada;
 
     public function __construct($urlRecuperada) {
@@ -23,9 +21,7 @@ class Rota {
      * Cria caminho da url.
      */
     private function criarCaminho() {
-
         if (sizeof($this->urlRecuperada) > 1) {
-
             $this->caminhoPagina = PATH_PAGE;
 
             foreach ($this->urlRecuperada as $index => $valor) {
@@ -36,7 +32,7 @@ class Rota {
             }
         }
         else
-            $this->caminhoPagina = PATH_PAGE . $this->urlRecuperada . '.php';
+            $this->caminhoPagina = PATH_PAGE . end($this->urlRecuperada) . '.php';
     }
 
     /**

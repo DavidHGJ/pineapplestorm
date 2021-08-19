@@ -6,6 +6,6 @@
     ?>
 </head>
 <body>
-    
+    <p>pagina de login</p>
 </body>
 </html>
