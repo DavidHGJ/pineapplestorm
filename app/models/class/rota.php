@@ -23,13 +23,9 @@ class Rota {
      * Cria caminho da url.
      */
     private function criarCaminho() {
-<<<<<<< HEAD
-        if (sizeof($this->urlRecuperada) > 1) {
-=======
 
         if (sizeof($this->urlRecuperada) > 1) {
 
->>>>>>> 9da5795a840c062e8146d5576d5eb13d7f11c811
             $this->caminhoPagina = PATH_PAGE;
 
             foreach ($this->urlRecuperada as $index => $valor) {
