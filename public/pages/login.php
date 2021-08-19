@@ -10,7 +10,7 @@
         <form action="" method="post">
             <header>
                 <figure>
-                    <img src="" alt="Logo">
+                    <img src="<?= URL_ASSETS . 'img/logo/logo.png' ?>" alt="Logo">
                     <figcaption>PineAppleStorm</figcaption>
                 </figure>
             </header>

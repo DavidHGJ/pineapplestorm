@@ -1,0 +1,17 @@
+@use 'variaveis' as var
+@use 'mixins' as mix
+
+.login
+    @include mix.centralizarFlex(column)
+
+    max-width: var.$limiteLargura
+    margin: 0 auto
+
+    form
+        header
+            figure
+                img
+                    width: 35%
+                
+                figcaption
+                    color: var.$corPrincipal
