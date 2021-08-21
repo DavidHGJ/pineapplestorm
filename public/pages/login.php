@@ -2,7 +2,11 @@
 <html lang="pt-br">
 <head>
     <?php
+
+        use app\include\inclusao;
+
         include PATH_INCLUDES . 'head.php';
+        inclusao::css(['login']);
     ?>
 </head>
 <body>
@@ -26,7 +30,7 @@
                 </div>
                 <div>
                     <input type="submit" value="Entrar">
-                    <input type="button" value="Cadastrar-se">
+                    <input type="button" value="Cadastrar-se" onclick="location.href = '<?= URL . 'cadastro' ?>'">
                 </div>
             </section>
             <footer>
