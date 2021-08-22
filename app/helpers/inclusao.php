@@ -1,6 +1,6 @@
 <?php
 
-namespace app\include;
+namespace app\helpers;
 
 class inclusao {
 
