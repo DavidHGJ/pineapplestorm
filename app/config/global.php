@@ -12,6 +12,7 @@ $urlRecuperada = explode('/', $_SERVER['REQUEST_URI']);
 define('URL', '/' . $urlRecuperada[1] . '/');
 define('URL_ASSETS', '/' . $urlRecuperada[1] . '/public/assets/');
 define('URL_CSS', '/' . $urlRecuperada[1] . '/public/css/');
+define('URL_JS', '/' . $urlRecuperada[1] . '/public/js/');
 
 define('TITLE', ucfirst(end($urlRecuperada)));
 

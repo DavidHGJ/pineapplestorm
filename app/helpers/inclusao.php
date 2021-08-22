@@ -11,4 +11,12 @@ class inclusao {
 
         echo $styles;
     }
+
+    public static function js(Array $listaNomesArquivos) {
+        $scripts = '';
+        foreach ($listaNomesArquivos as $nome)
+            $scripts .= '<script type="text/javascript" src="' . URL_JS . $nome . '.js"></script>';
+
+        echo $scripts;
+    }
 }

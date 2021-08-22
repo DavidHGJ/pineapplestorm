@@ -42,96 +42,81 @@ $marginPadrao: 25px
             animation: section-login forwards .3s ease
             animation-delay: .3s
 
-            div
-                @include mix.centralizarFlex(column)
-                margin-bottom: $marginPadrao - 10px
+            article
+                div
+                    @include mix.centralizarFlex(column)
+                    margin-bottom: $marginPadrao - 10px
 
-                &:nth-of-type(1)
                     label
-                        &::before
-                            background-image: url('../assets/img/icones/user-ico.png')
-                
-                &:nth-of-type(2)
-                    label
-                        &::before
-                            background-image: url('../assets/img/icones/password-ico.png')
+                        position: relative
+                        color: var.$corPrincipal
 
-                label
-                    position: relative
-                    color: var.$corPrincipal
+                        font-weight: 300
+                        font-size: var.$tamanhoPP
 
-                    font-weight: 300
-                    font-size: var.$tamanhoPP
-
-                    margin-bottom: 5px
-                
-                input[type='password'], input[type='text']
-                    background-color: transparent
-                    color: var.$corPrincipal
-
-                    border: 1px solid var.$corPrincipal
-                    border-radius: 25px
-
-                    box-sizing: border-box
-                    padding: 5px 40px 5px 15px
-
-                label
-                    &::before
-                        content: ''
-                        
-                        background-size: cover
-                        background-repeat: no-repeat
-
-                        width: 15px
-                        height: 15px
-
-                        position: absolute
-                        top: 50%
-                        left: 50%
-                        transform: translate(90px, 21px)
-
-                input[type='submit']
-                    background-color: transparent
-                    color: var.$corPrincipal
-
-                    border: 1px solid var.$corPrincipal
-                    border-radius: 25px
-
-                    box-sizing: border-box
-                    padding: 5px 15px
-                    margin-bottom: 10px
-
-                    transition: ease .3s
-
-                    &:hover
-                        color: var.$corSegundaria
-                        box-shadow: inset 0 100px 0 0 var.$corPrincipal
-                        cursor: pointer
-                
-                input[type='button']
-                    background-color: transparent
-                    border: none
-
-                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
-                    font-size: var.$tamanhoXPP
-
-                    &:hover
-                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.4)
-                        cursor: pointer
-
-                a
-                    display: block
-
-                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                        margin-bottom: 5px
                     
-                    font-size: var.$tamanhoXXPP
-                    font-weight: 200
+                    input[type='password'], input[type='text'], input[type='date']
+                        background-color: transparent
+                        color: var.$corPrincipal
 
-                    margin-top: 5px
-                    margin-right: 115px
+                        width: 230px
 
-                    &:hover
-                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.5)
+                        border: 1px solid var.$corPrincipal
+                        border-radius: 25px
+
+                        box-sizing: border-box
+                        padding: 5px 40px 5px 15px
+
+                    input[type='date']
+                        padding: 5px 15px
+
+                        &::-webkit-calendar-picker-indicator
+                            filter: invert(86%) sepia(37%) saturate(5017%) hue-rotate(354deg) brightness(100%) contrast(102%)
+
+                    label
+                        &::before
+                            content: ''
+                            
+                            background-size: cover
+                            background-repeat: no-repeat
+
+                            width: 15px
+                            height: 15px
+
+                            position: absolute
+                            top: 50%
+                            left: 50%
+                            transform: translate(90px, 21px)
+
+                    input[type='submit']
+                        background-color: transparent
+                        color: var.$corPrincipal
+
+                        border: 1px solid var.$corPrincipal
+                        border-radius: 25px
+
+                        box-sizing: border-box
+                        padding: 5px 15px
+                        margin-bottom: 10px
+
+                        transition: ease .3s
+
+                        &:hover
+                            color: var.$corSegundaria
+                            box-shadow: inset 0 100px 0 0 var.$corPrincipal
+                            cursor: pointer
+                    
+                    input[type='button']
+                        background-color: transparent
+                        border: none
+
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                        font-size: var.$tamanhoXPP
+
+                        &:hover
+                            color: color.adjust(var.$corContrasteSecundaria, $alpha: -.4)
+                            cursor: pointer
 
         footer
             @include mix.centralizarFlex(column)
@@ -149,3 +134,30 @@ $marginPadrao: 25px
                 text-align: center
 
                 color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+
+    a.botao
+        display: table
+
+        background-color: transparent
+        color: var.$corPrincipal
+
+        border: 1px solid var.$corPrincipal
+        border-radius: 25px
+
+        box-sizing: border-box
+        padding: 5px 15px
+
+        margin: 0 auto
+        margin-bottom: 10px
+        margin-top: 25px
+
+        transition: ease .3s
+
+        &.disable
+            opacity: .7
+            pointer-events: none
+
+        &:hover
+            color: var.$corSegundaria
+            box-shadow: inset 0 100px 0 0 var.$corPrincipal
+            cursor: pointer
