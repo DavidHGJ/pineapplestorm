@@ -10,7 +10,7 @@ $marginPadrao: 25px
 
     max-width: var.$limiteLargura
     margin: 0 auto
-    padding: 40px 0
+    padding: 20px 0
 
     user-select: none
 
@@ -42,7 +42,59 @@ $marginPadrao: 25px
             animation: section-login forwards .3s ease
             animation-delay: .3s
 
+            h3
+                color: var.$corPrincipal
+                font-size: var.$tamanhoH3
+
+                margin-bottom: 15px
+
+            p
+                font-size: var.$tamanhoXPP
+                color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+
+                a
+                    font-size: var.$tamanhoXPP
+                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+
+                    &:hover
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -0)  
+
             article
+
+                .botoes
+                    @include mix.centralizarFlex
+                    justify-content: space-around
+                    align-items: center
+
+                    .voltar
+                        font-size: var.$tamanhoPP
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                        cursor: pointer
+
+                        &:hover
+                            color: color.adjust(var.$corContrasteSecundaria, $alpha: -.4)
+
+                input[type='submit']
+                    background-color: transparent
+                    color: var.$corPrincipal
+
+                    border: 1px solid var.$corPrincipal
+                    border-radius: 25px
+
+                    box-sizing: border-box
+                    padding: 5px 15px
+
+                    transition: ease .3s
+
+                    &.disable
+                        opacity: .4
+                        pointer-events: none
+
+                    &:hover
+                        color: var.$corSegundaria
+                        box-shadow: inset 0 100px 0 0 var.$corPrincipal
+                        cursor: pointer
+
                 div
                     @include mix.centralizarFlex(column)
                     margin-bottom: $marginPadrao - 10px
@@ -88,24 +140,6 @@ $marginPadrao: 25px
                             top: 50%
                             left: 50%
                             transform: translate(90px, 21px)
-
-                    input[type='submit']
-                        background-color: transparent
-                        color: var.$corPrincipal
-
-                        border: 1px solid var.$corPrincipal
-                        border-radius: 25px
-
-                        box-sizing: border-box
-                        padding: 5px 15px
-                        margin-bottom: 10px
-
-                        transition: ease .3s
-
-                        &:hover
-                            color: var.$corSegundaria
-                            box-shadow: inset 0 100px 0 0 var.$corPrincipal
-                            cursor: pointer
                     
                     input[type='button']
                         background-color: transparent
@@ -154,7 +188,7 @@ $marginPadrao: 25px
         transition: ease .3s
 
         &.disable
-            opacity: .7
+            opacity: .4
             pointer-events: none
 
         &:hover
