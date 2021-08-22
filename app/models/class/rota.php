@@ -44,4 +44,11 @@ class rota {
             exit;
         }
     }
+
+    /**
+     * Redireciona para o arquivo
+     */
+    public static function redirecionar($url_destino) {
+        header('Location: ' . $url_destino);
+    }
 }
