@@ -3,7 +3,7 @@
 <head>
     <?php
 
-        use app\include\inclusao;
+        use app\helpers\inclusao;
 
         include PATH_INCLUDES . 'head.php';
         inclusao::css(['login']);
