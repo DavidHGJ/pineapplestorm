@@ -7,7 +7,7 @@ namespace models\class;
  * 
  * @DavidHGJ
  */
-class rota {
+class Rota {
     public $caminhoPagina;
     private $urlRecuperada;
 
