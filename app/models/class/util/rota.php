@@ -1,6 +1,6 @@
 <?php
 
-namespace models\class;
+namespace models\class\util;
 
 /**
  * Classe que define a rota das url's

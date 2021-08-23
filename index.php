@@ -1,6 +1,6 @@
 <?php
 
-use models\class\Rota;
+use models\class\util\Rota;
 
 require 'app/models/autoload.php';
 require 'vendor/autoload.php';
