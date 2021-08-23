@@ -1,6 +1,7 @@
 <?php
 
-use models\class\conexao;
+use models\class\Conexao;
+use models\class\queryManager\Query;
 
 /**
  * Representa o gerenciador de query's no sistema.
@@ -13,12 +14,15 @@ class QueryManager{
     private static $QueryManager = null;
     /** Sessão de conexão com o banco de dados */
     private static $conexao = null;
+    /** */
+    private static $query = null;
 
     private function __construct(){
         static::$conexao = ( new Conexao("localhost", "PineAppleStorm", "root", "123") )-> getConexao();
+        static::$query = new Query();
     }
 
-    private function __clonse(){}
+    private function __close(){}
     
     public function __wakeup(){
         throw new Exception("Não foi possível recuperar instância.");    
@@ -44,7 +48,7 @@ class QueryManager{
      * @param $condicoes
      *      condições em String única ou em array
      */
-    public function getSimpleSelect($tabelaNome, $colunas, ...$condicoes = null){
+    public function getSimpleSelect($tabelaNome, $colunas, ...$condicoes){
         $query = "SELECT ";
 
         if( is_array($colunas) )
@@ -67,7 +71,9 @@ class QueryManager{
         }
         
         return ($this->conexao)-> query($query);
-    }
+    } 
+
+
 
 }
 
