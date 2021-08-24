@@ -5,6 +5,9 @@
 
 $marginPadrao: 25px
 
+body
+    background-color: var.$corContrastePrincipal
+
 .login
     @include mix.centralizarFlex(column)
 
@@ -58,7 +61,7 @@ $marginPadrao: 25px
 
                 label
                     position: relative
-                    color: var.$corPrincipal
+                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.2)
 
                     font-weight: 300
                     font-size: var.$tamanhoPP
@@ -69,7 +72,7 @@ $marginPadrao: 25px
                     background-color: transparent
                     color: var.$corPrincipal
 
-                    border: 1px solid var.$corPrincipal
+                    border: 1px solid color.adjust(var.$corContrasteSecundaria, $alpha: -.2)
                     border-radius: 25px
 
                     box-sizing: border-box
@@ -112,17 +115,18 @@ $marginPadrao: 25px
                     background-color: transparent
                     border: none
 
-                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.6)
                     font-size: var.$tamanhoXPP
+                    font-weight: 300
 
                     &:hover
-                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.4)
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.2)
                         cursor: pointer
 
                 a
                     display: block
 
-                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.6)
                     
                     font-size: var.$tamanhoXXPP
                     font-weight: 200
@@ -131,7 +135,7 @@ $marginPadrao: 25px
                     margin-right: 115px
 
                     &:hover
-                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.5)
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.2)
 
         footer
             @include mix.centralizarFlex(column)
@@ -148,4 +152,4 @@ $marginPadrao: 25px
                 font-style: italic
                 text-align: center
 
-                color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                color: color.adjust(var.$corContrasteSecundaria, $alpha: -.6)

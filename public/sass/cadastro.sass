@@ -5,6 +5,9 @@
 
 $marginPadrao: 25px
 
+body
+    background-color: var.$corContrastePrincipal
+
 .cadastro
     @include mix.centralizarFlex(column)
 
@@ -50,11 +53,12 @@ $marginPadrao: 25px
 
             p
                 font-size: var.$tamanhoXPP
-                color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                font-weight: 300
+                color: color.adjust(var.$corContrasteSecundaria, $alpha: -.6)
 
                 a
                     font-size: var.$tamanhoXPP
-                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                    color: color.adjust(var.$corContrasteSecundaria, $alpha: -.4)
 
                     &:hover
                         color: color.adjust(var.$corContrasteSecundaria, $alpha: -0)  
@@ -68,11 +72,11 @@ $marginPadrao: 25px
 
                     .voltar
                         font-size: var.$tamanhoPP
-                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.6)
                         cursor: pointer
 
                         &:hover
-                            color: color.adjust(var.$corContrasteSecundaria, $alpha: -.4)
+                           color: color.adjust(var.$corContrasteSecundaria, $alpha: -.3)
 
                 input[type='submit']
                     background-color: transparent
@@ -101,7 +105,7 @@ $marginPadrao: 25px
 
                     label
                         position: relative
-                        color: var.$corPrincipal
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.2)
 
                         font-weight: 300
                         font-size: var.$tamanhoPP
@@ -114,7 +118,7 @@ $marginPadrao: 25px
 
                         width: 230px
 
-                        border: 1px solid var.$corPrincipal
+                        border: 1px solid color.adjust(var.$corContrasteSecundaria, $alpha: -.2)
                         border-radius: 25px
 
                         box-sizing: border-box
@@ -145,11 +149,11 @@ $marginPadrao: 25px
                         background-color: transparent
                         border: none
 
-                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                        color: color.adjust(var.$corContrasteSecundaria, $alpha: -.6)
                         font-size: var.$tamanhoXPP
 
                         &:hover
-                            color: color.adjust(var.$corContrasteSecundaria, $alpha: -.4)
+                            color: color.adjust(var.$corContrasteSecundaria, $alpha: -.3)
                             cursor: pointer
 
         footer
@@ -167,7 +171,7 @@ $marginPadrao: 25px
                 font-style: italic
                 text-align: center
 
-                color: color.adjust(var.$corContrasteSecundaria, $alpha: -.8)
+                color: color.adjust(var.$corContrasteSecundaria, $alpha: -.6)
 
     a.botao
         display: table

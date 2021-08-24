@@ -19,7 +19,6 @@
                 </figure>
             </header>
             <section>
-                <h3>Cadastro</h3>
                 <article id="cadastro-parte-1">
                     <div>
                         <label for="nomeCompleto">Nome Completo:</label>
@@ -49,7 +48,7 @@
                         <input id="botao-2" class="disable" type="submit" value="Cadastrar">
                     </div>
                 </article>
-                <p>Já tem conta? clique <a class="link" href="<?= URL . 'login' ?>">aqui</a></p>
+                <p>Já tem conta? <a class="link" href="<?= URL . 'login' ?>">clique aqui</a></p>
             </section>
             <footer>
                 <p>PineAppleStorm - Sistema Acadêmico - Faculdade de Americana (FAM)</p>
