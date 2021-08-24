@@ -5,7 +5,9 @@ use models\class\util\Rota;
 require 'app/models/autoload.php';
 require 'vendor/autoload.php';
 
-$urlAtual = explode('/', $_REQUEST['url']);
+if ($_REQUEST['url'] != null)
+    $urlAtual = explode('/', $_REQUEST['url']);
+else $urlAtual[] = 'login';
 
 $rota = new Rota($urlAtual);
 
