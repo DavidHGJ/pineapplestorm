@@ -1,6 +1,7 @@
 <?php
 
 define('PAGINA_INICIAL', 'login');
+define('PAGINA_ERRO', 'erro');
 
 define('PATH_PUBLIC', __DIR__ . '\\..\\..\\public\\');
 define('PATH_APP', __DIR__ . '\\..\\..\\app\\');
@@ -13,6 +14,7 @@ define('URL', '/' . $urlRecuperada[1] . '/');
 define('URL_ASSETS', '/' . $urlRecuperada[1] . '/public/assets/');
 define('URL_CSS', '/' . $urlRecuperada[1] . '/public/css/');
 define('URL_JS', '/' . $urlRecuperada[1] . '/public/js/');
+
 
 define('TITLE', ucfirst(end($urlRecuperada)));
 

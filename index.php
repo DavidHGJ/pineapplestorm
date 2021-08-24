@@ -7,6 +7,10 @@ require 'vendor/autoload.php';
 
 $urlAtual = explode('/', $_REQUEST['url']);
 
+
+if (empty($urlAtual)) $urlAtual[] = 'login';
+var_dump($urlAtual); exit;
+
 $rota = new Rota($urlAtual);
 
 require_once $rota->caminhoPagina;

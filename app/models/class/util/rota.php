@@ -40,7 +40,7 @@ class Rota {
      */
     private function validarCaminho() {
         if (!file_exists($this->caminhoPagina)) {
-            header('Location: ' . URL . PAGINA_INICIAL);
+            header('Location: ' . URL . PAGINA_ERRO);
             exit;
         }
     }
