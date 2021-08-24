@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ERROR | E_PARSE);
+
 define('PAGINA_INICIAL', 'login');
 define('PAGINA_ERRO', 'erro');
 
