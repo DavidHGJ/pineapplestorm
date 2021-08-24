@@ -2,7 +2,7 @@
 
 namespace models\class\queryManager;
 
-class Action{
+class Acao{
     const SELECT = "SELECT";
     const INSERT = "INSERT INTO";
     const UPDATE = "UPDATE";
