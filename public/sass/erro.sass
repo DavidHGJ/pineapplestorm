@@ -1,0 +1,45 @@
+@use 'variaveis' as var
+@use 'mixins' as mix
+@use 'sass:color'
+@use 'keyframes'
+
+$marginPadrao: 25px
+
+body
+
+    background-color: #969696 
+
+.erro
+    @include mix.centralizarFlex(column)
+    max-width: var.$limiteLargura
+    margin: 0 auto
+    padding: 40px 0
+
+    user-select: none
+
+    header
+        margin: top 10px 
+
+        h1
+            text-align: center
+            font-size: 150px
+            font-family: var.$fontePadrao
+
+        div
+            img
+                transform: scale(0.2%)
+                opacity: 0
+
+                animation: page-error forwards 1s ease
+                animation-delay: 1s
+
+                margin-left: 150px
+                width: 350px
+                height: 350px
+
+        p
+            margin-top: 25px
+            padding: 80px
+            text-align: justify
+            font-size: 25px
+            font-style: italic
