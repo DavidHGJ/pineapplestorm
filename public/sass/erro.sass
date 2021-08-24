@@ -6,34 +6,40 @@
 $marginPadrao: 25px
 
 body
-
+    @include mix.centralizarFlex(column)
     background-color: #969696 
 
 .erro
     @include mix.centralizarFlex(column)
     max-width: var.$limiteLargura
     margin: 0 auto
-    padding: 40px 0
 
     user-select: none
+
+    @include mix.responsivo(700)
+        background-color: #f70404
 
     header
         margin: top 10px 
 
         h1
+            @include mix.responsivo
+                font-size: 50px
+                
             text-align: center
             font-size: 150px
             font-family: var.$fontePadrao
 
         div
             img
+                margin: 0 auto
+                display: block
                 transform: scale(0.2%)
                 opacity: 0
 
                 animation: page-error forwards 1s ease
                 animation-delay: 1s
 
-                margin-left: 150px
                 width: 350px
                 height: 350px
 
