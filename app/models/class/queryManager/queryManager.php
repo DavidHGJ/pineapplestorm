@@ -39,6 +39,10 @@ class QueryManager{
         return static::$QueryManager;
     }
 
+    public function getConexao(){
+        return $this-> conexao;
+    }
+
     public function setAcao(string $acao){
         ($this-> query)-> setAcao($acao);
         return $this;
