@@ -2,7 +2,7 @@
 
 namespace app\helpers;
 
-class inclusao {
+class Inclusao {
 
     public static function css(Array $listaNomesArquivos) {
         $styles = '';
