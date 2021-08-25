@@ -2,6 +2,7 @@
 
 use models\class\Conexao;
 use models\class\queryManager\Query;
+use models\class\queryManager\Tabela;
 
 /**
  * Representa o gerenciador de query's no sistema.
@@ -18,7 +19,7 @@ class QueryManager{
     private static $query = null;
 
     private function __construct(){
-        static::$conexao = ( new Conexao("localhost", "PineAppleStorm", "root", "123") )-> getConexao();
+        static::$conexao = ( new Conexao("sql10.freemysqlhosting.net", "sql10432719", "sql10432719", "hM6GcxNdEw") )-> getConexao();
         static::$query = new Query();
     }
 
@@ -38,6 +39,22 @@ class QueryManager{
         return static::$QueryManager;
     }
 
+    public function getConexao(){
+        return $this-> conexao;
+    }
+
+    public function setAcao(string $acao){
+        ($this-> query)-> setAcao($acao);
+        return $this;
+    }
+
+    public function setTabela(Tabela $tabela){
+        ($this-> query)-> setTabelaPrincipal($tabela);
+        return $this;
+    }
+
+    
+
     /**
      * Retorna resultado de um simples select com os dados passados por parâmetro.
      * 
@@ -48,7 +65,7 @@ class QueryManager{
      * @param $condicoes
      *      condições em String única ou em array
      */
-    public function getSimpleSelect($tabelaNome, $colunas, ...$condicoes){
+    /*public function getSimpleSelect($tabelaNome, $colunas, ...$condicoes){
         $query = "SELECT ";
 
         if( is_array($colunas) )
@@ -59,7 +76,7 @@ class QueryManager{
 
         $query += "FROM " + $tabelaNome + " ";
 
-        /* Se houver condições serão adicionadas na query */
+         Se houver condições serão adicionadas na query 
         if( !is_null($condicoes) ){
             $query += "WHERE ";
 
@@ -71,7 +88,8 @@ class QueryManager{
         }
         
         return ($this->conexao)-> query($query);
-    } 
+    } */
+
 
 
 

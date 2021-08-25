@@ -3,10 +3,10 @@
 <head>
     <?php
 
-        use app\helpers\inclusao;
+        use app\helpers\Inclusao;
 
         include PATH_INCLUDES . 'head.php';
-        inclusao::css(['cadastro']);
+        Inclusao::css(['cadastro']);
     ?>
 </head>
 <body>
@@ -56,7 +56,7 @@
         </form>
     </main>
     <?php
-        inclusao::js(['formularioCadastro']);
+        Inclusao::js(['formularioCadastro']);
     ?>
 </body>
 </html>

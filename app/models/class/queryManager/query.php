@@ -33,8 +33,22 @@ class Query{
         else if(!is_null($this-> tabelas))
             throw new Exception("A tabela principal já foi definida.\n Não pode ser definida novamente.");
 
-        $this-> tabelas[ "t" + strval(count($this-> tabelas) + 1) ] = $tabela;
+        ($this-> tabelas)::offsetSet($tabela, "t" + strval(count($this-> tabelas) + 1));
+        //$this-> tabelas[ $tabela ] = "t" + strval(count($this-> tabelas) + 1);
     }
+
+    public function setCondicao(Condicao $condicao){
+        if(is_null($condicao))
+            throw new Exception("Não foi possível definir uma condição para query.");
+        else
+            $this-> condicao = $condicao;
+    }
+
+    public function getTabela(){
+        
+    }
+
+
 
 }
 
