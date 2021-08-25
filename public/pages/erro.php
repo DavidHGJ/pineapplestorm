@@ -16,9 +16,7 @@
                 <div >
                     <img src="<?= URL_ASSETS . 'img/erro/erro.png' ?>" alt = "erro" >
                     <p>URL não encontrada, retorne para a página inícial</p>
-                    <div class ="btn-retornar"> 
                     <a href="<?= URL . 'login' ?>">Retornar</a>
-                    </div>
                 </div> 
         </header>       
     </main>
