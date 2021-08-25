@@ -21,3 +21,4 @@ define('URL_JS', '/' . $urlRecuperada[1] . '/public/js/');
 define('TITLE', ucfirst(end($urlRecuperada)));
 
 require_once PATH_APP . 'helpers/inclusao.php';
+require_once PATH_APP . 'helpers/filtro.php';

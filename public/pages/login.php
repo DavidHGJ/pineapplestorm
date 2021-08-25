@@ -3,10 +3,10 @@
 <head>
     <?php
 
-        use app\helpers\inclusao;
+        use app\helpers\Inclusao;
 
         include PATH_INCLUDES . 'head.php';
-        inclusao::css(['login']);
+        Inclusao::css(['login']);
     ?>
 </head>
 <body>

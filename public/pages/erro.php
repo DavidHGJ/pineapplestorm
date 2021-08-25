@@ -3,10 +3,10 @@
 <head>
     
     <?php
-        use app\helpers\inclusao;
+        use app\helpers\Inclusao;
 
         require_once PATH_INCLUDES . 'head.php';
-        inclusao::css(['erro'])
+        Inclusao::css(['erro'])
     ?>
 </head>
 <body>
