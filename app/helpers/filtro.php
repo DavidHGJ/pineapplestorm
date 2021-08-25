@@ -2,8 +2,19 @@
 
 namespace app\helpers;
 
+/**
+ * Classe responsável pelos filtros de validação
+ * 
+ * @DavidHGJ
+ */
 class Filtro {
 
+    /**
+     * Responsável pela validação de requests recebidos
+     * 
+     * @param Mixed $nomeRequest
+     *      Nome do request desejado
+     */
     public static function request($nomeRequest) {
 
         $request = $_REQUEST[$nomeRequest];
