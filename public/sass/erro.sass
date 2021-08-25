@@ -7,7 +7,7 @@ $marginPadrao: 25px
 
 body
     @include mix.centralizarFlex(column)
-    background-color: #969696 
+    background-color: var.$corSecundaria
 
 .erro
     @include mix.centralizarFlex(column)
@@ -15,37 +15,72 @@ body
     margin: 0 auto
 
     user-select: none
-
-    @include mix.responsivo(700)
-        background-color: #f70404
-
+       
     header
         margin: top 10px 
 
         h1
+            margin-bottom: 15%
+            transform: translateX(-50%)
+            opacity: 0
+            color: var.$corPrincipal
+            animation: text-error forwards 2s ease
+            animation-delay: 2s
+
             @include mix.responsivo
                 font-size: 50px
                 
             text-align: center
             font-size: 150px
-            font-family: var.$fontePadrao
+            font-family: Trattatello
 
         div
-            img
-                margin: 0 auto
-                display: block
-                transform: scale(0.2%)
+            p
+                margin: 0 auto 
+                color: var.$corPrincipal
+                transform: translateX(-50%)
                 opacity: 0
+                animation: text-error forwards 2s ease
+                animation-delay: 2s
+                margin-top: 15px
+                text-align: center
+                font-size: 25px
+                font-style: italic
 
-                animation: page-error forwards 1s ease
-                animation-delay: 1s
+        img
+            margin: 0 auto
+            margin-bottom: 15%
+            display: block
+            transform: scale(0.2%)
+            opacity: 0
+            width: 350px
+            height: 350px
+            animation: page-error forwards 1s ease
+            animation-delay: 1s
 
-                width: 350px
-                height: 350px
+            @include mix.responsivo
+                width: 200px
+                height: 200px
+                
 
-        p
-            margin-top: 25px
-            padding: 80px
-            text-align: justify
-            font-size: 25px
-            font-style: italic
+a
+    animation: btn-return 3s forwards ease
+    animation-delay: 3s
+    transform: translateY(100%)
+    opacity: 0
+    margin-top: 15%
+    max-width: 35%
+    @include mix.centralizarFlex(column)
+    margin-left: 32%
+    font-size: 150%
+    color: var.$corSecundaria
+    background-color: var.$corPrincipal
+    
+
+a:hover
+    box-shadow: inset 0 0 0 3px var.$corPrincipal
+    color: var.$corPrincipal
+    background-color: var.$corSecundaria
+    border-radius: 25px
+
+
