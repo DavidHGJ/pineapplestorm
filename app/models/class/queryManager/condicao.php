@@ -48,11 +48,11 @@ class Condicao{
             if( is_string($args[2]) || is_object($args[2]) )
                 $this-> termoDireita = $args[2];
             else
-                throw new Exception("O terceiro parâmetro não foi reconhecido.");
-            
+                throw new Exception("O terceiro parâmetro não foi reconhecido.");   
         }
+        else
+            throw new Exception("O Construtor só aceita 3 parâmetros.");
     }
-
 }
 
 ?>
