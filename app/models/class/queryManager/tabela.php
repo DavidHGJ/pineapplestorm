@@ -33,7 +33,7 @@ class Tabela{
         else if(func_num_args() > 1)
             throw new Exception("Só é possível buscar uma coluna por vez");
         else
-            throw new Exception("É necessário especificar uma coluna para retorna-la.");  
+            return $this-> coluna;
     }
 
 }

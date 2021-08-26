@@ -19,21 +19,23 @@ class Query{
     }
 
     public function setAcao(String $acao){
-        if( in_array($acao, array(Acao::SELECT, Acao::INSERT, Acao::UPDATE)) )
-            $this-> action = $acao;
-        else if(!is_null($acao))
-            throw new Exception("A ação \"" + $this-> acao + "\" já foi definida para esta query.");
+        if( in_array(strtoupper($acao), array( Acao::SELECT, Acao::INSERT, Acao::UPDATE)) )
+            $this-> acao = $acao;
+        else if(empty($acao))
+            throw new Exception("É necessário definir uma ação para executar a consulta.");
+        else if(!is_null($this-> acao))
+            throw new Exception("A ação \"" . $this-> acao . "\" já foi definida para esta query.");
         else
-            throw new Exception("A ação \"" + $acao + "\" não é suportada.");
+            throw new Exception("A ação \"" . $acao . "\" não é suportada.");
     }
 
     public function setTabelaPrincipal(Tabela $tabela){
         if(is_null($tabela))
             throw new Exception("Não foi possível definir tabela para consulta.");
-        else if(!is_null($this-> tabelas))
+        else if(($this-> tabelas)->count() > 0)
             throw new Exception("A tabela principal já foi definida.\n Não pode ser definida novamente.");
 
-        ($this-> tabelas)-> offsetSet($tabela, "t" + strval(count($this-> tabelas) + 1));
+        ($this-> tabelas)-> offsetSet($tabela, "t" . strval(count($this-> tabelas) + 1));
         //$this-> tabelas[ $tabela ] = "t" + strval(count($this-> tabelas) + 1);
     }
 
@@ -66,18 +68,19 @@ class Query{
     }
 
     public function getQuery(){
-        $query = $this-> acao + " ";
+        $query = $this-> acao . " ";
         $colunas = "";
         $tabela = "";
 
-        foreach($this-> tabelas as $obj){
-            if($obj == "t1"){
-                $colunas = implode(", ", ( ($this->tabelas)-> offsetGet($obj) )-> getColuna() );
-                $tabela = ( ($this->tabelas)-> offsetGet($obj) )-> getNome();
+        foreach($this-> tabelas as $key => $val){
+
+            if($val == "t1"){
+                $colunas = implode(", ", $key-> getColuna() );
+                $tabela = $key-> getNome();
             }
         }
 
-        $query += $colunas + " from " + $tabela;
+        $query .= $colunas . " from " . $tabela;
 
         return $query;
     }

@@ -7,6 +7,7 @@ define('PAGINA_ERRO', 'erro');
 
 define('PATH_PUBLIC', __DIR__ . '\\..\\..\\public\\');
 define('PATH_APP', __DIR__ . '\\..\\..\\app\\');
+define('PATH_ROOT', __DIR__ . '\\..\\..\\');
 define('PATH_PAGE', __DIR__ . '\\..\\..\\public\\pages\\');
 define('PATH_ASSETS', __DIR__ . '\\..\\..\\public\\assets\\');
 define('PATH_INCLUDES', __DIR__ . '\\..\\..\\public\\includes\\');

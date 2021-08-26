@@ -21,18 +21,22 @@ class Rota {
      * Cria caminho da url.
      */
     private function criarCaminho() {
-        if (sizeof($this->urlRecuperada) > 1) {
-            $this->caminhoPagina = PATH_PAGE;
+        if ($this->urlRecuperada[0] != 'api-process') {
+            if (sizeof($this->urlRecuperada) > 1) {
+                $this->caminhoPagina = PATH_PAGE;
 
-            foreach ($this->urlRecuperada as $index => $valor) {
-                if (array_key_last($this->urlRecuperada) == $index)
-                    $this->caminhoPagina .= "$valor.php";
-                else
-                    $this->caminhoPagina .= "$valor\\";
+                foreach ($this->urlRecuperada as $index => $valor) {
+                    if (array_key_last($this->urlRecuperada) == $index)
+                        $this->caminhoPagina .= "$valor.php";
+                    else
+                        $this->caminhoPagina .= "$valor\\";
+                }
             }
+            else
+                $this->caminhoPagina = PATH_PAGE . end($this->urlRecuperada) . '.php';
         }
         else
-            $this->caminhoPagina = PATH_PAGE . end($this->urlRecuperada) . '.php';
+            $this->caminhoPagina = PATH_ROOT . 'api\\index.php';
     }
 
     /**

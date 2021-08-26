@@ -1,5 +1,7 @@
 <?php
 
+use models\class\queryManager\QueryManager;
+use models\class\queryManager\Tabela;
 use models\class\util\Rota;
 
 require 'app/models/autoload.php';
@@ -11,4 +13,11 @@ else $urlAtual[] = 'login';
 
 $rota = new Rota($urlAtual);
 
-require_once $rota->caminhoPagina;
+$queryManager = QueryManager::getInstance();
+$tabela = new Tabela('usuario', 'usr_login', 'usr_senha', 'usr_regdate');
+
+$queryManager->setAcao('select')->setTabela($tabela);
+echo '<pre>';
+var_dump($queryManager->queryExec()->fetch()->USR_LOGIN);
+
+//require_once $rota->caminhoPagina;

@@ -1,8 +1,11 @@
 <?php
 
-use models\class\Conexao;
+namespace models\class\queryManager;
+
+use models\class\util\Conexao;
 use models\class\queryManager\Query;
 use models\class\queryManager\Tabela;
+use Exception;
 
 /**
  * Representa o gerenciador de query's no sistema.
@@ -40,25 +43,25 @@ class QueryManager{
     }
 
     public function getConexao(){
-        return $this-> conexao;
+        return static::$conexao;
     }
 
     public function setAcao(string $acao){
-        ($this-> query)-> setAcao($acao);
+        static::$query-> setAcao($acao);
         return $this;
     }
 
     public function setTabela(Tabela $tabela){
-        ($this-> query)-> setTabelaPrincipal($tabela);
+        static::$query-> setTabelaPrincipal($tabela);
         return $this;
     }
 
     public function queryExec(){
-        return ($this-> getConexao())-> query( $this-> queryDebug() );
+        return $this-> getConexao()-> query( $this-> queryDebug() );
     }
 
     public function queryDebug(){
-        return ($this-> query)-> getQuery();
+        return strtoupper(static::$query-> getQuery());
     }
 
     /**
