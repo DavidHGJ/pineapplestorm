@@ -33,22 +33,58 @@ class Query{
         else if(!is_null($this-> tabelas))
             throw new Exception("A tabela principal já foi definida.\n Não pode ser definida novamente.");
 
-        ($this-> tabelas)::offsetSet($tabela, "t" + strval(count($this-> tabelas) + 1));
+        ($this-> tabelas)-> offsetSet($tabela, "t" + strval(count($this-> tabelas) + 1));
         //$this-> tabelas[ $tabela ] = "t" + strval(count($this-> tabelas) + 1);
     }
 
-    public function setCondicao(Condicao $condicao){
-        if(is_null($condicao))
-            throw new Exception("Não foi possível definir uma condição para query.");
+    public function setCondicao(Tabela $tabela, Condicao $condicao){
+        $apelido = "";
+
+        if(($this->tabelas)-> offsetExists($tabela))
+            $apelido = ($this->tabelas)-> offsetGet($tabela);
+
+        if( ($this-> tabelas)-> count() == 1){
+            if(is_null($condicao))
+                throw new Exception("Não foi possível definir uma condição para query.");
+            else{
+                $this-> setApelidoCondicao($condicao, $apelido);
+                $this-> condicao = $condicao;
+            }
+        }
+    }
+
+    private function setApelidoCondicao(Condicao $condicao, string $apelido){
+        if( is_string($condicao->getTermoEsquerda()) )
+            $condicao->addApelidoTermoEsquerda($apelido);
         else
-            $this-> condicao = $condicao;
+            $this-> setApelidoCondicao($condicao->getTermoEsquerda(), $apelido);
+
+        if( is_string($condicao->getTermoDireita()) )
+            $condicao->addApelidoTermoDireita($apelido);
+        else
+            $this-> setApelidoCondicao($condicao->getTermoDireita(), $apelido);
+    }
+
+    public function getQuery(){
+        $query = $this-> acao + " ";
+        $colunas = "";
+        $tabela = "";
+
+        foreach($this-> tabelas as $obj){
+            if($obj == "t1"){
+                $colunas = implode(", ", ( ($this->tabelas)-> offsetGet($obj) )-> getColuna() );
+                $tabela = ( ($this->tabelas)-> offsetGet($obj) )-> getNome();
+            }
+        }
+
+        $query += $colunas + " from " + $tabela;
+
+        return $query;
     }
 
     public function getTabela(){
         
     }
-
-
 
 }
 

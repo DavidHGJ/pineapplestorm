@@ -53,7 +53,13 @@ class QueryManager{
         return $this;
     }
 
-    
+    public function queryExec(){
+        return ($this-> getConexao())-> query( $this-> queryDebug() );
+    }
+
+    public function queryDebug(){
+        return ($this-> query)-> getQuery();
+    }
 
     /**
      * Retorna resultado de um simples select com os dados passados por parâmetro.
