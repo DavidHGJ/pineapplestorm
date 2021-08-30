@@ -3,7 +3,7 @@
 namespace models\class\module;
 
 use DateTime;
-use QueryManager;
+use models\class\queryManager\QueryManager;
 
 /**
  * Classe responsável pelo cadastro de usuários
@@ -14,6 +14,7 @@ class CadastroUsuario {
 
     private $nomeCompleto;
     private $nomeUsuario;
+    private $email;
     private $dataNascimento;
     private $senha;
     private $confirmacaoSenha;
@@ -21,6 +22,7 @@ class CadastroUsuario {
     public function __construct(
         String $nomeCompleto,
         String $nomeUsuario,
+        String $email,
         String $senha,
         String $confirmacaoSenha,
         DateTime $dataNascimento
@@ -30,6 +32,7 @@ class CadastroUsuario {
 
         $this->nomeCompleto = $nomeCompleto;
         $this->nomeUsuario = $nomeUsuario;
+        $this->email = $email;
         $this->senha = $senha;
         $this->confirmacaoSenha = $confirmacaoSenha;
         $this->dataNascimento = $dataNascimento;
