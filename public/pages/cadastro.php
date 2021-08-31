@@ -11,7 +11,7 @@
 </head>
 <body>
     <main class="cadastro">
-        <form action="" method="post">
+        <form action="<?= URL . 'api-process&destino=cadastroUsuario' ?>" method="post">
             <header>
                 <figure>
                     <img src="<?= URL_ASSETS . 'img/logo/logo.png' ?>" alt="Logo">
