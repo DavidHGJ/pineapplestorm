@@ -36,7 +36,6 @@ class Query{
             throw new Exception("A tabela principal já foi definida.\n Não pode ser definida novamente.");
 
         ($this-> tabelas)-> offsetSet($tabela, "t" . strval(count($this-> tabelas) + 1));
-        //$this-> tabelas[ $tabela ] = "t" + strval(count($this-> tabelas) + 1);
     }
 
     public function setCondicao(Tabela $tabela, Condicao $condicao){
@@ -73,7 +72,6 @@ class Query{
         $tabela = "";
 
         foreach($this-> tabelas as $key => $val){
-
             if($val == "t1"){
                 $colunas = implode(", ", $key-> getColuna() );
                 $tabela = $key-> getNome();

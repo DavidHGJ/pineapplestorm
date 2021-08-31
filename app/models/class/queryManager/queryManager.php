@@ -18,7 +18,7 @@ class QueryManager{
     private static $QueryManager = null;
     /** Sessão de conexão com o banco de dados */
     private static $conexao = null;
-    /** */
+    /** Estrutura da query */
     private static $query = null;
 
     private function __construct(){
@@ -63,44 +63,6 @@ class QueryManager{
     public function queryDebug(){
         return strtoupper(static::$query-> getQuery());
     }
-
-    /**
-     * Retorna resultado de um simples select com os dados passados por parâmetro.
-     * 
-     * @param $tabelaNome String
-     *      nome da tabela
-     * @param $colunas
-     *      nome das colunas em String única ou em array
-     * @param $condicoes
-     *      condições em String única ou em array
-     */
-    /*public function getSimpleSelect($tabelaNome, $colunas, ...$condicoes){
-        $query = "SELECT ";
-
-        if( is_array($colunas) )
-            foreach($colunas as $dados)
-                $query += $dados + ", ";
-        else
-            $query += $colunas;
-
-        $query += "FROM " + $tabelaNome + " ";
-
-         Se houver condições serão adicionadas na query 
-        if( !is_null($condicoes) ){
-            $query += "WHERE ";
-
-            if( is_array($colunas) )
-                foreach($colunas as $dados)
-                    $query += $dados + "and ";
-            else
-                $query += $colunas;
-        }
-        
-        return ($this->conexao)-> query($query);
-    } */
-
-
-
 
 }
 

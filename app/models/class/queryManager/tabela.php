@@ -14,6 +14,11 @@ class Tabela{
         $this-> coluna = $coluna;
     }
 
+    public function __destruct(){
+        unset($this-> nome);
+        unset($this-> coluna);
+    }
+
     public function getNome(){
         return $this-> nome;
     }
@@ -34,6 +39,10 @@ class Tabela{
             throw new Exception("Só é possível buscar uma coluna por vez");
         else
             return $this-> coluna;
+    }
+
+    public function setColuna(String ... $coluna){
+        $this-> coluna = $coluna;
     }
 
 }
