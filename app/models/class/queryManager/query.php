@@ -38,6 +38,7 @@ class Query{
         ($this-> tabelas)-> offsetSet($tabela, "t" . strval(count($this-> tabelas) + 1));
     }
 
+    /*
     public function setCondicao(Tabela $tabela, Condicao $condicao){
         $apelido = "";
 
@@ -65,7 +66,7 @@ class Query{
         else
             $this-> setApelidoCondicao($condicao->getTermoDireita(), $apelido);
     }
-
+*/
     public function getQuery(){
         $query = $this-> acao . " ";
         $colunas = "";
@@ -86,7 +87,6 @@ class Query{
     public function getTabela(){
         
     }
-
 }
 
 ?>

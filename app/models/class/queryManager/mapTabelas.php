@@ -12,7 +12,8 @@ abstract class MapTabelas{
     protected function __construct(){
         $this-> tabelas = new WeakMap();
         $this-> adicionarTabelas(
-            new Tabela("USUARIO", "usr_nome", "usr_login")
+            new Tabela("USUARIO", "usr_nome", "usr_login"),
+            new Tabela("NOTA_FISCAL", "NF_IF")
         );
     }
 
