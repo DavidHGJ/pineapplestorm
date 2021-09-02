@@ -18,7 +18,7 @@ class Condicao{
                 if( is_object(func_get_arg(0)) )
                     ($this-> expressao)-> offsetSet(func_get_arg(0), strval(count($this-> expressao) + 1));
                 else
-                    throw new Exception("Só é possível definir uma String ou um objeto Condição como parâmetro.");
+                    throw new Exception("Só é possível definir um objeto do tipo Condição como parâmetro.");
             break;
 
             case 2:

@@ -60,6 +60,8 @@ class Expressao{
             
                 if( in_array( strtoupper($args(0)), array("AND", "OR") ) )
                     $this-> operadorLogico = $args(0);
+                else
+                    throw new Exception("O primeiro parâmetro recebido deve conter 'AND' ou 'OR'");
 
                 if( is_string($args[1]) || is_object($args[1]) )
                     $this-> termoEsquerda = $args[0];
