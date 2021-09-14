@@ -22,7 +22,7 @@ class QueryManager{
     private static $query = null;
 
     private function __construct(){
-        static::$conexao = ( new Conexao("sql10.freemysqlhosting.net", "sql10432719", "sql10432719", "hM6GcxNdEw") )-> getConexao();
+        static::$conexao = ( new Conexao("localhost", "pine", "root", "") )-> getConexao();
         static::$query = new Query();
     }
 
