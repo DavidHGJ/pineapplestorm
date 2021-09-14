@@ -6,7 +6,7 @@ use models\class\queryManager\Operador;
 use Exception;
 
 class Expressao{
-    private $operadorLogico;
+    private $operadorLogico = null;
     private $termoEsquerda;
     private $operador;
     private $termoDireita;
@@ -105,6 +105,10 @@ class Expressao{
 
     public function getOperador(){
         return $this-> operador;
+    }
+
+    public function getOperadorLogico(){
+        return $this-> operadorLogico;
     }
 
     public function getTermoDireita(){

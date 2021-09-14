@@ -57,6 +57,22 @@ class Condicao{
         }
     }
 
+    public function getExpressaoCompleta(){
+        $aux = "";
+
+        foreach($this-> expressao as $chave => $valor){
+            if(!is_null($chave ->getOperadorLogico()))
+                $aux .= $chave-> getOperadorLogico . " " . 
+                        $chave-> getTermoEsquerda  . " " .
+                        $chave-> getOperador       . " " .
+                        $chave-> getTermoDireita   . " ";
+            else
+                $aux .= $chave-> getTermoEsquerda  . " " .
+                        $chave-> getOperador       . " " .
+                        $chave-> getTermoDireita   . " ";
+        }
+    }
+
     /*private $termoEsquerda;
     private $operador;
     private $termoDireita;

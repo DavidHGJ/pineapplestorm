@@ -114,7 +114,10 @@ class Query{
             }
         }
 
-        $query .= $colunas . " from " . $tabela . " " . $apelido;
+        $query .= $colunas . " from " . $tabela . " " . $apelido . " ";
+
+        if(!is_null($this-> condicao))
+            $query .= ($this-> condicao)-> getExpressaoCompleta();
 
         return $query;
     }
