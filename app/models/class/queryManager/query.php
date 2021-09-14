@@ -38,6 +38,40 @@ class Query{
         ($this-> tabelas)-> offsetSet($tabela, "t" . strval(count($this-> tabelas) + 1));
     }
 
+    public function setCondicao(){
+        $args = func_get_args();
+
+        switch(func_num_args()){
+            case 1:
+                if(is_object($args[0]))
+                    $this-> condicao = new Condicao($args[0]);
+                else
+                    throw new Exception("Só é possível passar parâmetro unico do tipo Condicao");
+            break;
+
+            case 3:
+                $this-> condicao = new Condicao($args[0], $args[1], $args[2]);
+            break;
+
+            case 4:
+                ($this-> condicao) ->addExpressao($args[0], $args[1], $args[2], $args[3]);
+            break;
+            
+            case 6: //to do: Quando houver mais de uma tabela na query, será necessário especificar de qual tabela é o campo,
+                    //ser implementado de acordo com o avanço do projeto.
+            break;
+
+            default:
+                throw new Exception("Quantidade de parâmetros inválida");
+        }
+    }
+
+    public function addCondicao(String ... $args){
+        if(count($args) == 4)
+           $this-> setCondicao($args[0], $args[1], $args[2], $args[3]);
+    }
+
+    /*
     public function setCondicao(Tabela $tabela, Condicao $condicao){
         $apelido = "";
 
@@ -65,20 +99,25 @@ class Query{
         else
             $this-> setApelidoCondicao($condicao->getTermoDireita(), $apelido);
     }
-
+*/
     public function getQuery(){
         $query = $this-> acao . " ";
         $colunas = "";
         $tabela = "";
+        $apelido = "";
 
         foreach($this-> tabelas as $key => $val){
             if($val == "t1"){
+                $apelido = $val;
                 $colunas = implode(", ", $key-> getColuna() );
                 $tabela = $key-> getNome();
             }
         }
 
-        $query .= $colunas . " from " . $tabela;
+        $query .= $colunas . " from " . $tabela . " " . $apelido . " ";
+
+        if(!is_null($this-> condicao))
+            $query .= ($this-> condicao)-> getExpressaoCompleta();
 
         return $query;
     }
@@ -86,7 +125,6 @@ class Query{
     public function getTabela(){
         
     }
-
 }
 
 ?>

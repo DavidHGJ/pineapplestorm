@@ -56,6 +56,15 @@ class QueryManager{
         return $this;
     }
 
+    public function setCondicao(){
+        $args = func_get_args();
+        static::$query-> setCondicao($args);
+    }
+
+    public function addCondicao(String ... $args){
+        static::$query-> addCondicao($args[0], $args[1], $args[2], $args[3]);
+    }
+
     public function queryExec(){
         return $this-> getConexao()-> query( $this-> queryDebug() );
     }

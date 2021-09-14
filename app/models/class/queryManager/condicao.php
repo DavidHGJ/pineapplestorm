@@ -4,10 +4,76 @@ namespace models\class\queryManager;
 
 use models\class\queryManager\Operador;
 use Exception;
+use WeakMap;
 
 class Condicao{
 
-    private $termoEsquerda;
+    private $expressao;
+
+    public function __construct(){
+        $this-> expressao = new WeakMap();
+
+        switch(func_num_args()){
+            case 1:
+                if( is_object(func_get_arg(0)) )
+                    ($this-> expressao)-> offsetSet(func_get_arg(0), strval(count($this-> expressao) + 1));
+                else
+                    throw new Exception("Só é possível definir um objeto do tipo Condição como parâmetro.");
+            break;
+
+            case 2:
+                throw new Exception("Não é possível definir uma condição com 2 parâmetros.");
+            break;
+
+            case 3:
+                $args = func_get_args();
+            
+                ($this-> expressao)-> offsetSet(new Expressao($args[0], $args[1], $args[2]), strval(count($this-> expressao) + 1));
+            break;
+
+            default:
+                throw new Exception("O Construtor aceita apenas 1 ou 3 parâmetros.");
+        }            
+    }
+    
+    public function addExpressao(){
+        $args = func_get_args();
+
+        switch(func_num_args()){
+            case 1:
+                if( is_object($args[0]) )
+                    ($this-> expressao)-> offsetSet(new Expressao($args[0]), strval(count($this-> expressao) + 1));
+            break;
+
+            case 4:
+                ($this-> expressao)-> offsetSet(new Expressao($args[0], $args[1], $args[2], $args[3]), strval(count($this-> expressao) + 1));
+            break;
+
+            default:
+                throw new Exception("
+                    Quantidade de parâmetros inválida.\n Deve ser utilizado apenas um do tipo expressao ou 4 strings
+                    sendo a primeira o operador lógico.
+                ");
+        }
+    }
+
+    public function getExpressaoCompleta(){
+        $aux = "";
+
+        foreach($this-> expressao as $chave => $valor){
+            if(!is_null($chave ->getOperadorLogico()))
+                $aux .= $chave-> getOperadorLogico . " " . 
+                        $chave-> getTermoEsquerda  . " " .
+                        $chave-> getOperador       . " " .
+                        $chave-> getTermoDireita   . " ";
+            else
+                $aux .= $chave-> getTermoEsquerda  . " " .
+                        $chave-> getOperador       . " " .
+                        $chave-> getTermoDireita   . " ";
+        }
+    }
+
+    /*private $termoEsquerda;
     private $operador;
     private $termoDireita;
 
@@ -78,7 +144,7 @@ class Condicao{
 
     public function addApelidoTermoDireita(string $apelido){
         $this-> termoDireita = $apelido + "." + $this-> termoDireita;
-    }
+    }*/
 
 }
 
