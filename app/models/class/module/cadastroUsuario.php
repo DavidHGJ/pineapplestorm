@@ -38,3 +38,17 @@ class CadastroUsuario {
         $this->dataNascimento = $dataNascimento;
     }
 }
+
+########
+
+$dados
+
+ob_start();
+
+require
+
+<a href="$dados->token"></a>
+
+$mensagem = ob_get_clean();
+
+enviarEmail(xxxx, $mensagem);
