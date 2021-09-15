@@ -1,8 +1,8 @@
 <?php
 
 use models\class\queryManager\QueryManager;
-use models\class\queryManager\Tabela;
 use models\class\util\Rota;
+use models\class\queryManager\TableManager;
 
 require 'app/models/autoload.php';
 require 'vendor/autoload.php';
