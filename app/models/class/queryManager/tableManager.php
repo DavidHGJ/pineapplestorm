@@ -4,6 +4,7 @@ namespace models\class\queryManager;
 
 use Exception;
 use models\class\queryManager\mapTabelas;
+use WeakMap;
 
 class TableManager extends mapTabelas{
 
@@ -12,6 +13,7 @@ class TableManager extends mapTabelas{
 
     private function __construct(){
         parent::__construct();
+        var_dump($this-> tabelas);exit;
     }
 
     /**
@@ -25,7 +27,7 @@ class TableManager extends mapTabelas{
     }
 
     public function getTabela(String $nome){
-        if( ($this->tabelas)-> count() == 0)
+        if( count($this->tabelas) == 0)
             throw new Exception("Não existe tabela mapeada para retorna-la.");
 
         foreach($this-> tabelas as $tabela => $nomeTabela){
