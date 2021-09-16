@@ -40,21 +40,22 @@ class Query{
 
     public function setCondicao(){
         $args = func_get_args();
+        $aux = $args[0];
 
-        switch(func_num_args()){
+        switch( count($aux) ){
             case 1:
-                if(is_object($args[0]))
-                    $this-> condicao = new Condicao($args[0]);
+                if(is_object($aux[0]))
+                    $this-> condicao = new Condicao($aux[0]);
                 else
                     throw new Exception("Só é possível passar parâmetro unico do tipo Condicao");
             break;
 
             case 3:
-                $this-> condicao = new Condicao($args[0], $args[1], $args[2]);
+                $this-> condicao = new Condicao($aux[0], $aux[1], $aux[2]);
             break;
 
             case 4:
-                ($this-> condicao) ->addExpressao($args[0], $args[1], $args[2], $args[3]);
+                ($this-> condicao) ->addExpressao($aux[0], $aux[1], $aux[2], $aux[3]);
             break;
             
             case 6: //to do: Quando houver mais de uma tabela na query, será necessário especificar de qual tabela é o campo,
@@ -114,10 +115,10 @@ class Query{
             }
         }
 
-        $query .= $colunas . " from " . $tabela . " " . $apelido . " ";
+        $query .= $colunas . " from " . $tabela . " " . $apelido . " "; 
 
         if(!is_null($this-> condicao))
-            $query .= ($this-> condicao)-> getExpressaoCompleta();
+            $query .= "WHERE " . ($this-> condicao)-> getExpressaoCompleta();
 
         return $query;
     }
