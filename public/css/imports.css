@@ -1,1 +1,63 @@
-*{margin:0;padding:0;font-family:"Roboto";font-size:16px;text-decoration:none;list-style:none;outline:none;-webkit-tap-highlight-color:transparent}html{overflow:hidden}body{margin:0 auto;max-width:1400px;box-sizing:border-box;padding:0 10px}/*# sourceMappingURL=imports.css.map */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto";
+  font-size: 16px;
+  text-decoration: none;
+  list-style: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 1400px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 30%;
+  user-select: none;
+  background-color: #111;
+}
+.menu header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding: 15px;
+}
+.menu header figure {
+  margin-right: 15px;
+}
+.menu header figure img {
+  width: 25px;
+}
+.menu header p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-right: 15px;
+}
+.menu header svg {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+.menu header svg image {
+  width: 100%;
+  height: 100%;
+}
+
+/*# sourceMappingURL=imports.css.map */

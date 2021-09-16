@@ -1,0 +1,44 @@
+@use 'variaveis' as var
+@use 'mixins' as mix
+@use 'sass:color'
+
+.menu
+    position: fixed
+    top: 0
+    left: 0
+    height: 100%
+    width: 30%
+
+    user-select: none
+
+    background-color: var.$corSecundaria
+
+    header
+        @include mix.centralizarFlex
+        justify-content: flex-start
+
+        box-sizing: border-box
+        padding: 15px
+
+        figure 
+            margin-right: 15px
+
+            img
+                width: 25px
+        
+        p
+            color: color.adjust(var.$corContrasteSecundaria, $alpha: -.3)
+            font-size: var.$tamanhoP
+            letter-spacing: 1px
+
+            margin-right: 15px
+        
+        svg
+            width: 15px
+            height: 15px
+            
+            cursor: pointer
+
+            image
+                width: 100%
+                height: 100%
