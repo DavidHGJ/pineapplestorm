@@ -13,7 +13,6 @@ class TableManager extends mapTabelas{
 
     private function __construct(){
         parent::__construct();
-        var_dump($this-> tabelas);exit;
     }
 
     /**
