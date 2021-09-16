@@ -27,7 +27,7 @@ class Expressao{
 
             case 3:
                 $args = func_get_args();
-            
+
                 if( is_string($args[0]) || is_object($args[0]) )
                     $this-> termoEsquerda = $args[0];
                 else
@@ -50,9 +50,10 @@ class Expressao{
                         throw new Exception("A condição \"" + $args[1] +"\" não foi reconhecida.");
 
                 if( is_string($args[2]) || is_object($args[2]) )
-                    $this-> termoDireita = $args[2];
+                    $this-> termoDireita = $args[2];    
                 else
                     throw new Exception("O terceiro parâmetro não foi reconhecido."); 
+
             break;
 
             case 4:

@@ -59,6 +59,7 @@ class QueryManager{
     public function setCondicao(){
         $args = func_get_args();
         static::$query-> setCondicao($args);
+        return $this;
     }
 
     public function addCondicao(String ... $args){

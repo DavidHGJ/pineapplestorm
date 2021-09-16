@@ -8,11 +8,14 @@ use WeakMap;
 
 class Condicao{
 
-    private $expressao;
+    private WeakMap $expressao;
+    private Expressao $cache;
 
     public function __construct(){
         $this-> expressao = new WeakMap();
-
+        
+        $args = func_get_args();
+        
         switch(func_num_args()){
             case 1:
                 if( is_object(func_get_arg(0)) )
@@ -28,7 +31,9 @@ class Condicao{
             case 3:
                 $args = func_get_args();
             
-                ($this-> expressao)-> offsetSet(new Expressao($args[0], $args[1], $args[2]), strval(count($this-> expressao) + 1));
+                $this-> cache = new Expressao($args[0], $args[1], $args[2]);
+                
+                ($this-> expressao)-> offsetSet($this-> cache, strval(count($this-> expressao) + 1));
             break;
 
             default:
@@ -59,18 +64,22 @@ class Condicao{
 
     public function getExpressaoCompleta(){
         $aux = "";
-
+        
         foreach($this-> expressao as $chave => $valor){
+            
             if(!is_null($chave ->getOperadorLogico()))
-                $aux .= $chave-> getOperadorLogico . " " . 
-                        $chave-> getTermoEsquerda  . " " .
-                        $chave-> getOperador       . " " .
-                        $chave-> getTermoDireita   . " ";
+                $aux .= $chave-> getOperadorLogico() . " " . 
+                        $chave-> getTermoEsquerda()  . " " .
+                        $chave-> getOperador()       . " " .
+                        $chave-> getTermoDireita()   . " ";
             else
-                $aux .= $chave-> getTermoEsquerda  . " " .
-                        $chave-> getOperador       . " " .
-                        $chave-> getTermoDireita   . " ";
+                $aux .= $chave-> getTermoEsquerda()  . " " .
+                        $chave-> getOperador()       . " " .
+                        $chave-> getTermoDireita()   . " ";
+                        
         }
+
+        return $aux;
     }
 
     /*private $termoEsquerda;

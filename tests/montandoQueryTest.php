@@ -1,10 +1,12 @@
 <?php
 
-use models\class\queryManager\QueryManager;
-use models\class\queryManager\TableManager;
+// use models\class\queryManager\QueryManager;
+// use models\class\queryManager\TableManager;
 
-require '../app/models/autoload.php';
-require '../vendor/autoload.php';
+// require_once './app/models/class/queryManager/mapTabelas.php';
 
-$tabelas = TableManager::getInstance();
-$manager = QueryManager::getInstance()->setTabela($tabelas->getTabela("USUARIO"));
+// require '../app/models/autoload.php';
+// require '../vendor/autoload.php';
+
+// $tabelas = TableManager::getInstance();
+// $manager = QueryManager::getInstance()->setTabela($tabelas->getTabela("usuario"));
