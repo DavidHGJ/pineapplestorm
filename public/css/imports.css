@@ -20,14 +20,25 @@ body {
   padding: 0 10px;
 }
 
+#btn-menu:checked ~ .menu {
+  transform: translateX(0);
+}
+
 .menu {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  width: 30%;
+  width: 20%;
   user-select: none;
   background-color: #111;
+  transition: ease 0.3s;
+}
+@media (max-width: 1200px) {
+  .menu {
+    width: 100%;
+    transform: translateX(-100%);
+  }
 }
 .menu header {
   display: flex;
@@ -37,6 +48,7 @@ body {
   justify-content: flex-start;
   box-sizing: border-box;
   padding: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 }
 .menu header figure {
   margin-right: 15px;
@@ -58,6 +70,42 @@ body {
 .menu header svg image {
   width: 100%;
   height: 100%;
+}
+.menu main {
+  box-sizing: border-box;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+.menu main ul li {
+  box-shadow: border-box;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: ease 0.3s;
+}
+.menu main ul li:hover {
+  background-color: #ffb406;
+}
+.menu main ul li:hover > a {
+  color: #111;
+}
+.menu main ul li a {
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 1px;
+  transition: ease 0.3s;
+}
+.menu footer {
+  box-sizing: border-box;
+  padding-top: 15px;
+}
+.menu footer p {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=imports.css.map */
