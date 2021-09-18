@@ -39,7 +39,7 @@ class Rota {
     private function validarRota() : void {
         try {
             if (!in_array($this->url[0] . '.php', $this->rotasPermitidas))
-                throw new Exception('Acesso negado, URL inserida invalida.', '2');
+                throw new Exception('Acesso negado, URL inserida invalida.', '1');
         }
         catch (Exception $erro) {
             header('Content-type: application/json');

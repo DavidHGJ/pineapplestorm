@@ -19,16 +19,3 @@ catch (Exception $erro) {
 $rota = new Rota($url);
 
 require_once PATH_ROOT . 'routers/Controller.php';
-
-// $request = json_decode(file_get_contents("php://input"));
-
-// header('Content-type: application/json');
-// echo json_encode(['id' => 1, 'nome' => "david"]);
-
-// if ($_REQUEST['url'] != null)
-//     $urlAtual = explode('/', $_REQUEST['url']);
-// else json_encode(false);
-
-// $rota = new Rota($urlAtual);
-
-// require_once $rota->caminhoPagina;

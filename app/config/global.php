@@ -7,6 +7,8 @@ define('METHOD', $_SERVER['REQUEST_METHOD']);
 define('PATH_APP', __DIR__ . '\\..\\..\\app\\');
 define('PATH_ROOT', __DIR__ . '\\..\\..\\');
 
+require_once PATH_APP . 'helpers/Filtro.php';
+
 // $urlRecuperada = explode('/', $_SERVER['REQUEST_URI']);
 // define('URL', '/' . $urlRecuperada[1] . '/');
 // define('URL_ASSETS', '/' . $urlRecuperada[1] . '/public/assets/');
