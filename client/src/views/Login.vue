@@ -1,14 +1,10 @@
 <template>
-    <Login />
+    <p>Teste</p>
 </template>
 
 <script>
-import Login from '../components/Login.vue'
 
 export default {
-    name: 'Login',
-    components: {
-        Login
-    }
+    name: 'Login'
 }
 </script>
