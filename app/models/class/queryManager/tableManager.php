@@ -4,10 +4,7 @@ namespace models\class\queryManager;
 
 use Exception;
 use models\class\queryManager\mapTabelas;
-<<<<<<< HEAD
-use stdClass;
-=======
->>>>>>> 75684545782bd993b480f41dee342759386dc105
+
 use WeakMap;
 
 class TableManager extends MapTabelas{
