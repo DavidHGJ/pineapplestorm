@@ -5,6 +5,7 @@ import TelaInicial from '../components/TelaInicial'
 import Entrada from '../views/Entrada'
 import Saida from '../views/Saida'
 import Products from '../views/Products'
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,11 @@ const routes = [
         component: Products
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   // {
   //   path: '/About',
