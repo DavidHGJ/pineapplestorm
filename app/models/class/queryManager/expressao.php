@@ -12,6 +12,7 @@ class Expressao{
     private $termoDireita;
 
     public function __construct(){
+        $args = func_get_args();
 
         switch(func_num_args()){
             case 1:
@@ -26,46 +27,69 @@ class Expressao{
             break;
 
             case 3:
-                $args = func_get_args();
-
-                if( is_string($args[0]) || is_object($args[0]) )
-                    $this-> termoEsquerda = $args[0];
-                else
-                    throw new Exception("O primeiro parâmetro não foi reconhecido.");
-                
-                if( is_string($args[1]) )
-                    if( in_array(
-                            $args[1], 
-                            array(
-                                Operador::MAIOR, Operador::MENOR, 
-                                Operador::MAIOR_IGUAL, Operador::MENOR_IGUAL, 
-                                Operador::IGUAL, Operador::DIFERENTE
-                            )
-                        ) 
-                    )
-                    {
-                        $this-> operador = $args[1];
-                    }
+                if( in_array( strtoupper($args[0]), array("AND", "OR") ) ){
+                    if( in_array( strtoupper($args[0]), array("AND", "OR") ) )
+                        $this-> operadorLogico = $args[0];
                     else
-                        throw new Exception("A condição \"" + $args[1] +"\" não foi reconhecida.");
+                        throw new Exception("O primeiro parâmetro recebido deve conter 'AND' ou 'OR'");
 
-                if( is_string($args[2]) || is_object($args[2]) )
-                    $this-> termoDireita = $args[2];    
-                else
-                    throw new Exception("O terceiro parâmetro não foi reconhecido."); 
+                    if( is_string($args[1]) || is_object($args[1]) )
+                        $this-> termoEsquerda = $args[1];
+                    else
+                        throw new Exception("O primeiro parâmetro não foi reconhecido.");
+
+                    if( is_string($args[2]) )
+                        if( 
+                                in_array(
+                                $args[2], 
+                                array( Operador::IS_NULL, Operador::IS_NOT_NULL)
+                            ) 
+                        )
+                        {
+                            $this-> operador = $args[2];
+                        }
+                        else
+                            throw new Exception("A condição \"" . $args[2] ."\" não foi reconhecida.");
+                }else{
+                    if( is_string($args[0]) || is_object($args[0]) )
+                        $this-> termoEsquerda = $args[0];
+                    else
+                        throw new Exception("O primeiro parâmetro não foi reconhecido.");
+                    
+                    if( is_string($args[1]) )
+                        if( in_array(
+                                $args[1], 
+                                array(
+                                    Operador::MAIOR, Operador::MENOR, 
+                                    Operador::MAIOR_IGUAL, Operador::MENOR_IGUAL, 
+                                    Operador::IGUAL, Operador::DIFERENTE
+                                )
+                            ) 
+                        )
+                        {
+                            $this-> operador = $args[1];
+                        }
+                        else
+                            throw new Exception("A condição \"" + $args[1] +"\" não foi reconhecida.");
+
+                    if( is_string($args[2]) || is_object($args[2]) )
+                        $this-> termoDireita = $args[2];    
+                    else
+                        throw new Exception("O terceiro parâmetro não foi reconhecido.");     
+                }
 
             break;
 
             case 4:
                 $args = func_get_args();
-            
-                if( in_array( strtoupper($args(0)), array("AND", "OR") ) )
-                    $this-> operadorLogico = $args(0);
+
+                if( in_array( strtoupper($args[0]), array("AND", "OR") ) )
+                    $this-> operadorLogico = $args[0];
                 else
                     throw new Exception("O primeiro parâmetro recebido deve conter 'AND' ou 'OR'");
 
                 if( is_string($args[1]) || is_object($args[1]) )
-                    $this-> termoEsquerda = $args[0];
+                    $this-> termoEsquerda = $args[1];
                 else
                     throw new Exception("O primeiro parâmetro não foi reconhecido.");
                 
@@ -75,7 +99,8 @@ class Expressao{
                             array(
                                 Operador::MAIOR, Operador::MENOR, 
                                 Operador::MAIOR_IGUAL, Operador::MENOR_IGUAL, 
-                                Operador::IGUAL, Operador::DIFERENTE
+                                Operador::IGUAL, Operador::DIFERENTE,
+                                Operador::LIKE
                             )
                         ) 
                     )
@@ -83,17 +108,18 @@ class Expressao{
                         $this-> operador = $args[2];
                     }
                     else
-                        throw new Exception("A condição \"" + $args[1] +"\" não foi reconhecida.");
+                        throw new Exception("A condição \"" . $args[2] ."\" não foi reconhecida.");
 
                 if( is_string($args[3]) || is_object($args[3]) )
                     $this-> termoDireita = $args[3];
                 else
-                    throw new Exception("O terceiro parâmetro não foi reconhecido."); 
+                    throw new Exception("O terceiro parâmetro não foi reconhecido.");
             break;
 
             default:
                 throw new Exception("O Construtor só aceita 3 parâmetros.");
-        }            
+        }     
+
     }
 
     public function getTermoEsquerda(){

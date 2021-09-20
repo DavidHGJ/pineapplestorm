@@ -4,18 +4,19 @@ namespace models\class\queryManager;
 
 use models\class\queryManager\Operador;
 use Exception;
+use SplObjectStorage;
 use WeakMap;
 
 class Condicao{
 
-    private WeakMap $expressao;
-    private Expressao $cache;
+    private SplObjectStorage $expressao;
+    private $exp;
 
     public function __construct(){
-        $this-> expressao = new WeakMap();
+        $this-> expressao = new SplObjectStorage();
         
         $args = func_get_args();
-        
+
         switch(func_num_args()){
             case 1:
                 if( is_object(func_get_arg(0)) )
@@ -29,11 +30,8 @@ class Condicao{
             break;
 
             case 3:
-                $args = func_get_args();
-            
-                $this-> cache = new Expressao($args[0], $args[1], $args[2]);
-                
-                ($this-> expressao)-> offsetSet($this-> cache, strval(count($this-> expressao) + 1));
+                $exp = new Expressao($args[0], $args[1], $args[2]);      
+                ($this-> expressao)-> offsetSet($exp, strval(count($this-> expressao) + 1));
             break;
 
             default:
@@ -44,10 +42,14 @@ class Condicao{
     public function addExpressao(){
         $args = func_get_args();
 
-        switch(func_num_args()){
+        switch(count($args)){
             case 1:
                 if( is_object($args[0]) )
                     ($this-> expressao)-> offsetSet(new Expressao($args[0]), strval(count($this-> expressao) + 1));
+            break;
+
+            case 3:
+                ($this-> expressao)-> offsetSet(new Expressao($args[0], $args[1], $args[2]), strval(count($this-> expressao) + 1));
             break;
 
             case 4:
@@ -66,94 +68,20 @@ class Condicao{
         $aux = "";
         
         foreach($this-> expressao as $chave => $valor){
-            
-            if(!is_null($chave ->getOperadorLogico()))
-                $aux .= $chave-> getOperadorLogico() . " " . 
-                        $chave-> getTermoEsquerda()  . " " .
-                        $chave-> getOperador()       . " " .
-                        $chave-> getTermoDireita()   . " ";
+            if(!is_null($valor ->getOperadorLogico()))
+                $aux .= is_null($valor-> getOperadorLogico()) ? "" : $valor-> getOperadorLogico() . " " . 
+                        $valor-> getTermoEsquerda()  . " " .
+                        $valor-> getOperador()       . " " .
+                        (is_null($valor-> getTermoDireita()) ? "" : $valor-> getTermoDireita()) . " ";
             else
-                $aux .= $chave-> getTermoEsquerda()  . " " .
-                        $chave-> getOperador()       . " " .
-                        $chave-> getTermoDireita()   . " ";
-                        
+                $aux .= $valor-> getTermoEsquerda()  . " " .
+                        $valor-> getOperador()       . " " .
+                        (is_null($valor-> getTermoDireita()) ? "" : $valor-> getTermoDireita()) . " ";
+
         }
 
         return $aux;
     }
-
-    /*private $termoEsquerda;
-    private $operador;
-    private $termoDireita;
-
-    public function __construct(){
-
-        switch(func_num_args()){
-            case 1:
-                if( is_string(func_get_arg(0)) || is_object(func_get_arg(0)))
-                    $this-> termoEsquerda = func_get_arg(0);
-                else
-                    throw new Exception("Só é possível definir uma String ou um objeto Condição como parâmetro.");
-            break;
-
-            case 2:
-                throw new Exception("Não é possível definir uma condição com 2 parâmetros.");
-            break;
-
-            case 3:
-                $args = func_get_args();
-            
-                if( is_string($args[0]) || is_object($args[0]) )
-                    $this-> termoEsquerda = $args[0];
-                else
-                    throw new Exception("O primeiro parâmetro não foi reconhecido.");
-                
-                if( is_string($args[1]) )
-                    if( in_array(
-                            $args[1], 
-                            array(
-                                Operador::MAIOR, Operador::MENOR, 
-                                Operador::MAIOR_IGUAL, Operador::MENOR_IGUAL, 
-                                Operador::IGUAL, Operador::DIFERENTE
-                            )
-                        ) 
-                    )
-                    {
-                        $this-> operador = $args[1];
-                    }
-                    else
-                        throw new Exception("A condição \"" + $args[1] +"\" não foi reconhecida.");
-
-                if( is_string($args[2]) || is_object($args[2]) )
-                    $this-> termoDireita = $args[2];
-                else
-                    throw new Exception("O terceiro parâmetro não foi reconhecido."); 
-            break;
-
-            default:
-                throw new Exception("O Construtor só aceita 3 parâmetros.");
-        }            
-    }
-
-    public function getTermoEsquerda(){
-        return $this-> termoEsquerda;
-    }
-
-    public function addApelidoTermoEsquerda(string $apelido){
-        $this-> termoEsquerda = $apelido + "." + $this-> termoEsquerda;
-    }
-
-    public function getOperador(){
-        return $this-> operador;
-    }
-
-    public function getTermoDireita(){
-        return $this-> termoDireita;
-    }
-
-    public function addApelidoTermoDireita(string $apelido){
-        $this-> termoDireita = $apelido + "." + $this-> termoDireita;
-    }*/
 
 }
 

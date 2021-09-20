@@ -1,14 +1,14 @@
 <template>
-    <Login />
+    <TelaLogin />
 </template>
 
 <script>
-import Login from '../components/Login.vue'
+import TelaLogin from '../components/TelaLogin.vue'
 
 export default {
     name: 'Login',
     components: {
-        Login
+        TelaLogin
     }
 }
 </script>

@@ -9,6 +9,9 @@ class Operador{
     const MENOR_IGUAL = "<=";
     const IGUAL = "=";
     const DIFERENTE = "<>";
+    const LIKE = "LIKE";
+    const IS_NULL = "IS NULL";
+    const IS_NOT_NULL = "IS NOT NULL";
 }
 
 ?>

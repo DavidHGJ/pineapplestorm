@@ -42,7 +42,7 @@ class Query{
         $args = func_get_args();
         $aux = $args[0];
 
-        switch( count($aux) ){
+        switch( sizeof($aux) ){
             case 1:
                 if(is_object($aux[0]))
                     $this-> condicao = new Condicao($aux[0]);
@@ -51,11 +51,14 @@ class Query{
             break;
 
             case 3:
-                $this-> condicao = new Condicao($aux[0], $aux[1], $aux[2]);
+                if(is_null($this-> condicao))
+                    $this-> condicao = new Condicao($aux[0], $aux[1], $aux[2]);
+                else
+                ($this-> condicao)-> addExpressao($aux[0], $aux[1], $aux[2]);    
             break;
 
             case 4:
-                ($this-> condicao) ->addExpressao($aux[0], $aux[1], $aux[2], $aux[3]);
+                ($this-> condicao)-> addExpressao($aux[0], $aux[1], $aux[2], $aux[3]);
             break;
             
             case 6: //to do: Quando houver mais de uma tabela na query, será necessário especificar de qual tabela é o campo,
@@ -67,9 +70,11 @@ class Query{
         }
     }
 
-    public function addCondicao(String ... $args){
-        if(count($args) == 4)
-           $this-> setCondicao($args[0], $args[1], $args[2], $args[3]);
+    public function addCondicao(){
+        $args = func_get_args();
+        $aux = $args[0];
+
+        $this-> setCondicao($aux);
     }
 
     /*
