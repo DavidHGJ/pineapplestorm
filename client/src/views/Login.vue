@@ -1,10 +1,14 @@
 <template>
-    <p>Teste</p>
+    <TelaLogin />
 </template>
 
 <script>
+import TelaLogin from '../components/TelaLogin.vue'
 
 export default {
-    name: 'Login'
+    name: 'Login',
+    components: {
+        TelaLogin
+    }
 }
 </script>
