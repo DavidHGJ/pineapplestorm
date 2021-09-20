@@ -62,8 +62,10 @@ class QueryManager{
         return $this;
     }
 
-    public function addCondicao(String ... $args){
-        static::$query-> addCondicao($args[0], $args[1], $args[2], $args[3]);
+    public function addCondicao(){
+        $args = func_get_args();
+        static::$query-> addCondicao($args);
+        return $this;
     }
 
     public function queryExec(){
@@ -71,7 +73,7 @@ class QueryManager{
     }
 
     public function queryDebug(){
-        return strtoupper(static::$query-> getQuery());
+        return strtoupper(trim(static::$query-> getQuery()));
     }
 
 }
