@@ -8,6 +8,7 @@ import Products from '../views/Products'
 import Fornecedores from '../views/Fornecedores'
 import Transportadoras from '../views/Transportadoras'
 import Filiais from '../views/Filiais'
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
