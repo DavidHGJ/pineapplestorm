@@ -10,10 +10,8 @@
       <v-navigation-drawer app class="navbar" color="#262b2f">
         <v-list-item link to="/">
           <v-list-item-content>
-            <v-list-item-title class="text-h6">
-              Pineapple Site
-            </v-list-item-title>
-            <v-list-item-subtitle> controle de estoque </v-list-item-subtitle>
+            <v-list-item class="text-h5">Pineapple Site</v-list-item>
+            <v-list-item>Controle de estoque</v-list-item>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -59,9 +57,36 @@ export default {
   data() {
     return {
       items: [
-        { title: "Produtos", href: "Products", icon: "mdi-clipboard-text" },
-        { title: "Entrada", href: "Entrada", icon: "mdi-truck" },
-        { title: "Saida", href: "Saida", icon: "mdi-truck-delivery" },
+        {
+          title: "Entrada",
+          href: "Entrada",
+          icon: "mdi-truck",
+        },
+        {
+          title: "Saida",
+          href: "Saida",
+          icon: "mdi-truck-delivery",
+        },
+        {
+          title: "Produtos",
+          href: "Products",
+          icon: "mdi-clipboard-text",
+        },
+        {
+          title: "Fornecedor",
+          href: "Fornecedores",
+          icon: "mdi-account-circle",
+        },
+        {
+          title: "Transportadora",
+          href: "Transportadoras",
+          icon: "mdi-truck",
+        },
+        {
+          title: "Filiais",
+          href: "Filiais",
+          icon: "mdi-home-outline",
+        },
       ],
     };
   },
