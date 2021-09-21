@@ -8,10 +8,9 @@
         <v-spacer></v-spacer>
       </v-app-bar> -->
       <v-navigation-drawer app class="navbar" color="#262b2f">
-        <v-list-item link to="/">
+        <v-list-item link to="/" class="logocontent">
           <v-list-item-content>
-            <v-list-item class="text-h5">Pineapple Site</v-list-item>
-            <v-list-item>Controle de estoque</v-list-item>
+            <img src="../assets/images/logo.png" width="100%" />
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -104,5 +103,12 @@ export default {
   margin-top: 23px;
   margin-left: 15px;
   box-shadow: 5px 5px 5px 5px #101519; /*any color you want*/
+}
+.logocontent {
+  width: 100px;
+  margin: 0 auto;
+}
+i.v-icon.v-icon {
+  color: #ffb500;
 }
 </style>
