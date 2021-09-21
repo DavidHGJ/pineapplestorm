@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\components"
   ],
-  "SelectedNode": "\\routers",
+  "SelectedNode": "\\client\\src\\components\\TelaInicial.vue",
   "PreviewInSolutionExplorer": false
 }

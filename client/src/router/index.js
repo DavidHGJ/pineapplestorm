@@ -31,7 +31,7 @@ const routes = [
         component: Saida
       },
       {
-        path: '/Products',
+        path: '/Produtos',
         component: Products
       },
       {
