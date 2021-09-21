@@ -16,7 +16,7 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2" v-on="on"
+              <v-btn color="primary" dark class="mb-2 buttoncolor" v-on="on"
                 >Novo Transportadora</v-btn
               >
             </template>
@@ -189,5 +189,8 @@ p.description {
   border-radius: 2em;
   margin-left: 15px;
   box-shadow: 5px 5px 5px 5px #101519; /*any color you want*/
+}
+.buttoncolor {
+  background-color: "#ffb500";
 }
 </style>

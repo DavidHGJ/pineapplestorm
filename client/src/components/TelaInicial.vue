@@ -14,7 +14,7 @@
         <img width="100%" src="./../assets/estoque.png" alt="" />
       </v-col> -->
 
-  <v-card class="cards" color="#171e21" width="1600px">
+  <v-card class="cards" color="#171e21" width="100%">
     <v-container>
       <v-row dense>
         <v-col v-for="(item, i) in headers" :key="i" cols="3">

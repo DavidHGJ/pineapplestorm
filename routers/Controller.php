@@ -1,6 +1,6 @@
 <?php
 
-header('Content-type: application/json');
+// header('Content-type: application/json');
 
 switch(METHOD) {
 

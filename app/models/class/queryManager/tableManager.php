@@ -30,8 +30,8 @@ class TableManager extends MapTabelas{
         if( count($this->tabelas) == 0)
             throw new Exception("Não existe tabela mapeada para retorna-la.");
 
-        foreach($this-> tabelas as $tabela => $nomeTabela){
-            if( strtoupper($nome) == strtoupper($nomeTabela) )
+        foreach($this-> tabelas as $nomeTabela => $tabela){
+            if( strtoupper($nome) == strtoupper($tabela-> getNome()) )
                 return clone $tabela;
         }
         
