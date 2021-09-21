@@ -10,7 +10,8 @@ export default new Vuetify({
         },
         themes: {
             light: {
-                primary: '#262b2f',
+                background: '#fff',
+                primary: '#fff',
                 buttoncolor: '#ffb500'
             },
             dark: {
