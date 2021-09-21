@@ -2,7 +2,7 @@
   <v-container>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="fornecedores"
       sort-by="calories"
       class="elevation-1 primary tabela"
     >
@@ -30,20 +30,32 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="12">
                       <v-text-field
-                        v-model="editedItem.name"
+                        v-model="editedItem.nome"
                         label="Nome do Fornecedor"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.weight"
-                        label="Peso em KG"
+                        v-model="editedItem.numero"
+                        label="Numero"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.amount"
-                        label="Quantidade"
+                        v-model="editedItem.cep"
+                        label="CEP"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.cnpj"
+                        label="CNPJ"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.insc"
+                        label="INSC"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -79,23 +91,28 @@ export default {
     return {
       dialog: false,
       headers: [
-        { text: "Nome", value: "name" },
-        { text: "Cidade", value: "name" },
-        { text: "Peso", value: "weight" },
-        { text: "Quantidade", value: "amount" },
+        { text: "Nome", value: "nome" },
+        { text: "Numero", value: "numero" },
+        { text: "CEP", value: "cep" },
+        { text: "CNPJ", value: "cnpj" },
+        { text: "INSC", value: "insc" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
-      desserts: [],
+      fornecedores: [],
       editedIndex: -1,
       editedItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        nome: "",
+        numero: 0,
+        cep: 0,
+        cnpj: 0,
+        insc: 0,
       },
       defaultItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        nome: "",
+        numero: 0,
+        cep: 0,
+        cnpj: 0,
+        insc: 0,
       },
     };
   },
@@ -116,40 +133,69 @@ export default {
   },
   methods: {
     initialize() {
-      this.desserts = [
+      this.fornecedores = [
         {
-          name: "Motor caminhão Volvo Classe 8",
-          weight: 1213,
-          amount: 10,
+          nome: "Fornecedor a",
+          numero: 123,
+          cep: 13386042,
+          cnpj: 12345678910112,
+          insc: 123456,
         },
         {
-          name: "Motor caminhão Volvo Classe 8 Antigo",
-          weight: 1520,
-          amount: 5,
+          nome: "Fornecedor b",
+          numero: 123,
+          cep: 13386042,
+          cnpj: 12345678910112,
+          insc: 123456,
         },
         {
-          name: "Motor caminhão Tesla ",
-          weight: 2123,
-          amount: 3,
+          nome: "Fornecedor c",
+          numero: 123,
+          cep: 13386042,
+          cnpj: 12345678910112,
+          insc: 123456,
         },
         {
-          name: "Turbina de avião Tam",
-          weight: 5000,
-          amount: 2,
+          nome: "Fornecedor d",
+          numero: 123,
+          cep: 13386042,
+          cnpj: 12345678910112,
+          insc: 123456,
+        },
+        {
+          nome: "Fornecedor e",
+          numero: 123,
+          cep: 13386042,
+          cnpj: 12345678910112,
+          insc: 123456,
+        },
+        {
+          nome: "Fornecedor f",
+          numero: 123,
+          cep: 13386042,
+          cnpj: 12345678910112,
+          insc: 123456,
+        },
+        {
+          nome: "Fornecedor g",
+          numero: 123,
+          cep: 13386042,
+          cnpj: 12345678910112,
+          insc: 123456,
         },
       ];
     },
 
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.fornecedores.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
+      const index = this.fornecedores.indexOf(item);
       confirm("Tem certeza de que deseja excluir este item?") &&
-        this.desserts.splice(index, 1);
+        this.fornecedores.splice(index, 1);
     },
 
     close() {
@@ -162,9 +208,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.fornecedores[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.fornecedores.push(this.editedItem);
       }
       this.close();
     },
