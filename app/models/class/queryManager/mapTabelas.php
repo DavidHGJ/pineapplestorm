@@ -8,31 +8,23 @@ use WeakMap;
 
 abstract class MapTabelas{
 
-    protected WeakMap $tabelas;
-
-    private Tabela $usuario;
-    private Tabela $notaFiscal;
-
+    protected SplObjectStorage $tabelas;
 
     protected function __construct(){
-        $this-> tabelas = new WeakMap();
+        $this-> tabelas = new SplObjectStorage();
         
-        $this-> usuario = new Tabela("USUARIO", "usr_nome", "usr_login", "usr_senha", "usr_status", "usr_regdate");
-        ($this-> tabelas)-> offsetSet( $this-> usuario, strtolower($this-> usuario-> getNome()) ); 
+        $this-> adicionarTabelas(
+            new Tabela("USUARIO", "usr_nome", "usr_login", "usr_senha", "usr_status", "usr_regdate"),
+            
+            new Tabela("NOTA_FISCAL", "NF_IF"),
+
+            new Tabela("TRANSPORTADORA", "TRS_ID", "TRS_CIDADE", "TRS_DESC", "TRS_ENDERECO", 
+                "TRS_NUM","TRS_BAIRRO", "TRS_CEP", "TRS_CNPJ", "TRS_INSC", "TRS_CONTATO", "TRS_TEL", "TRS_STATUS")
+        );
     }
     
     private function adicionarTabelas(Tabela ... $tabelas){
-        foreach($tabelas as $key => $tabela){
-            //$this->tabelas[$tabela] = $tabela-> getNome();
+        foreach($tabelas as $key => $tabela)
             ($this-> tabelas)-> offsetSet( $tabela, strtolower($tabela-> getNome()) ); 
-        }
-        var_dump($this-> tabelas);
-
-        $this-> notaFiscal = new Tabela("NOTA_FISCAL", "NF_IF");
-        ($this-> tabelas)-> offsetSet( $this-> notaFiscal, strtolower($this-> notaFiscal-> getNome()) ); 
-
     }
-
 }
-
-?>
