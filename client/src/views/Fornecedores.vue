@@ -80,6 +80,7 @@ export default {
       dialog: false,
       headers: [
         { text: "Nome", value: "name" },
+        { text: "Cidade", value: "name" },
         { text: "Peso", value: "weight" },
         { text: "Quantidade", value: "amount" },
         { text: "Ações", value: "action", sortable: false, align: "left" },

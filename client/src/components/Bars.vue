@@ -33,7 +33,7 @@
 
         <template v-slot:append>
           <div class="pa-2 mb-7">
-            <v-btn block> Sair </v-btn>
+            <v-btn block class="buttoncolor"> Sair </v-btn>
           </div>
         </template>
       </v-navigation-drawer>
@@ -68,7 +68,7 @@ export default {
         },
         {
           title: "Produtos",
-          href: "Products",
+          href: "Produtos",
           icon: "mdi-clipboard-text",
         },
         {
