@@ -12,3 +12,8 @@ export default {
     }
 }
 </script>
+
+<style lang="sass">
+body
+    background-color: #111
+</style>
