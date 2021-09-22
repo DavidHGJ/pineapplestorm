@@ -9,6 +9,7 @@ import Fornecedores from '../views/Fornecedores'
 import Transportadoras from '../views/Transportadoras'
 import Filiais from '../views/Filiais'
 import Login from '../views/Login'
+import Erro from '../views/Erro'
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,11 @@ const routes = [
     name: 'Login',
     component: Login
   },
+  {
+    path: '/erro',
+    name: 'Erro',
+    component: Erro
+  }
 ]
 
 const router = new VueRouter({
