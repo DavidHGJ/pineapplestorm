@@ -1,17 +1,18 @@
 <template>
-    <v-form class="form">
-        <figure>
-            <img src="../assets/images/logo.png" width="100%" />
-            <figcaption>
-                PineappleStorm
-            </figcaption>
-        </figure>
-        <v-text-field label="Digite seu e-mail" color="#ffb406" class="inputText" dark/>
-        <v-text-field label="Digite sua senha" color="#ffb406" class="inputText" type="password" dark/>
-        <div>
-            <v-btn elevation-4 color="#ffb406" class="btn">Entrar</v-btn>
-            <v-btn elevation-4 color="#fff" class="btn" outlined>Cadastrar</v-btn>
-        </div>
+    <v-form id="form">
+        <v-container id="container-form">
+            <figure id="container-img">
+                <img src="../assets/images/logo.png">
+                <figcaption>Pineapplestorm</figcaption>
+            </figure>
+            <v-text-field type="text" color="#ffb406" label="E-mail" class="text"/>
+            <v-text-field type="password" color="#ffb406" label="Senha" class="text"/>
+            <a id="esqueceu-senha">Esqueceu a senha</a>
+            <div id="botoes">
+                <v-btn color="#000" id="entrar">Entrar</v-btn>
+                <v-btn color="#ffb406" outlined>Cadastrar</v-btn>
+            </div>
+        </v-container>
     </v-form>
 </template>
 
@@ -22,61 +23,73 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.form
-    background-color: #333
-
-    border-radius: 8px
-
-    box-sizing: border-box
-    padding: 50px 15px
-
+#form
     position: fixed
     top: 50%
     left: 50%
     transform: translate(-50%, -50%)
 
-    width: 33%
-    height: auto
+    background-color: #fff
 
-    user-select: none
+    box-sizing: border-box
+    padding: 25px 15px
+
+    border-radius: 8px
+
+    width: 25%
+
+    translate: ease .3s
 
     @media (max-width: 1023px)
+        width: 50%
+
+    @media (max-width: 849px)
         width: 100%
         height: 100%
-        border-radius: 0
 
-    .inputText
-        color: #fff
-
-        width: 60%
-        margin: 0 auto
-
-    div
         display: flex
-        flex-direction: column
-
-    .btn
-        font-weight: bold
-        width: 120px
-        
-        margin: 0 auto
-        margin-bottom: 15px
-
-        &:last-child
-            margin-bottom: 0
-
-    figure
-        display: flex
-        flex-direction: column
-        justify-content: center
+        flex-direction: flex
         align-items: center
+        justify-content: center
 
+#container-img
+    width: 100%
+
+    img
         width: 160px
         margin: 0 auto
 
-        figcaption
-            font-weight: bold
-            font-size: 26px
-            letter-spacing: 1px
-            color: #ffb406
+    figcaption
+        font-weight: bold
+        font-size: 26px
+        letter-spacing: 1px
+        color: #ffb406
+
+.text
+    width: 50%
+    
+    margin: 0 auto
+
+#esqueceu-senha
+    font-size: 14px
+    text-align: end
+
+    display: block
+
+    margin: 0 auto
+    margin-bottom: 15px
+
+    width: 50%
+
+#entrar
+    color: #fff
+
+    margin-bottom: 15px
+
+#botoes
+    display: flex
+    flex-direction: column
+
+    width: 35%
+    margin: 0 auto
 </style>
