@@ -4,9 +4,16 @@ namespace models\class\queryManager;
 
 use Exception;
 
+/**
+ * Representa as tabelas do sistema.
+ * 
+ * @androide23
+ */
 class Tabela{
 
+    /** Nome da tabela. */
     private $nome = null;
+    /** Colunas da tabela */
     private $coluna = null;
 
     public function __construct(String $nome, String ... $coluna){
@@ -23,6 +30,11 @@ class Tabela{
         return $this-> nome;
     }
 
+    /**
+     * Retorna as colunas da tabela
+     * 
+     * @return String[] colunas
+     */
     public function getColuna(){
         if(func_num_args() == 1)
             if( is_string(func_get_arg(0)) )
@@ -41,8 +53,18 @@ class Tabela{
             return $this-> coluna;
     }
 
+    /** 
+     * Defini novas colunas para tabela.
+     */
     public function setColuna(String ... $coluna){
         $this-> coluna = $coluna;
+    }
+
+    /**
+     * Retorna a quantidade de colunas da tabela.
+     */
+    public function contaColunas(){
+        return sizeof($this-> coluna);
     }
 
 }
