@@ -56,6 +56,8 @@ class Conexao{
 
     /**
      * Retorna a conexão realizada com o banco de dados.
+     * 
+     * @return Conexao conexão
      */
     public function getConexao(){
         return $this->conexao;
