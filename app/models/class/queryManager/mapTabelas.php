@@ -4,10 +4,14 @@ namespace models\class\queryManager;
 
 use models\class\queryManager\Tabela;
 use SplObjectStorage;
-use WeakMap;
 
+/**
+ * Classe abstrata que instancia todas as tabelas a serem utilizadas no sistema.
+ * 
+ * @androide23
+ */
 abstract class MapTabelas{
-
+    /** Armazena as tabelas a serem utilizadas no sistema. */
     protected SplObjectStorage $tabelas;
 
     protected function __construct(){
@@ -23,6 +27,9 @@ abstract class MapTabelas{
         );
     }
     
+    /** 
+     * Adiciona tabelas à SplObjectStorage
+     */
     private function adicionarTabelas(Tabela ... $tabelas){
         foreach($tabelas as $key => $tabela)
             ($this-> tabelas)-> offsetSet( $tabela, strtolower($tabela-> getNome()) ); 
