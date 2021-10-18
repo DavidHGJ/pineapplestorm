@@ -6,6 +6,7 @@ class Acao{
     const SELECT = "SELECT";
     const INSERT = "INSERT INTO";
     const UPDATE = "UPDATE";
+    const DELETE = "DELETE";
 }
 
 ?>
