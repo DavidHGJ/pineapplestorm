@@ -8,18 +8,31 @@ use models\class\queryManager\Condicao;
 use Exception;
 use WeakMap;
 
+/**
+ * Representa a query no sitema.
+ * 
+ * @androide23
+ */
 class Query{
 
+    /** Ação da query(SELECT/UPDATE/INSERT/DELETE). */
     private $acao = null;
+    /** Armazena as tabelas utilizadas na query. */
     private $tabelas = null;
+    /** Armazena as condições da query. */
     private $condicao = null;
+    /** Armazena os valores para realizar INSERT/UPDATE. */
+    private $valores = null;
 
     public function __construct(){
         $this-> tabelas = new WeakMap();
     }
 
+    /** 
+     * Atribui uma ação para a query. 
+     * */
     public function setAcao(String $acao){
-        if( in_array(strtoupper($acao), array( Acao::SELECT, Acao::INSERT, Acao::UPDATE)) )
+        if( in_array(strtoupper($acao), array( Acao::SELECT, Acao::INSERT, Acao::UPDATE, Acao::DELETE)) )
             $this-> acao = $acao;
         else if(empty($acao))
             throw new Exception("É necessário definir uma ação para executar a consulta.");
@@ -29,6 +42,9 @@ class Query{
             throw new Exception("A ação \"" . $acao . "\" não é suportada.");
     }
 
+    /**
+     * Defini a tabela principal da query.
+     */
     public function setTabelaPrincipal(Tabela $tabela){
         if(is_null($tabela))
             throw new Exception("Não foi possível definir tabela para consulta.");
@@ -38,7 +54,13 @@ class Query{
         ($this-> tabelas)-> offsetSet($tabela, "t" . strval(count($this-> tabelas) + 1));
     }
 
+    /**
+     * Atribui uma condição para a query.
+     */
     public function setCondicao(){
+        if($this-> acao == Acao::INSERT)
+            throw new Exception("Não é possível adicionar condição quando a ação for definida como INSERT");
+
         $args = func_get_args();
         $aux = $args[0];
 
@@ -70,6 +92,9 @@ class Query{
         }
     }
 
+    /**
+     * Adiciona uma condição a query.
+     */
     public function addCondicao(){
         $args = func_get_args();
         $aux = $args[0];
@@ -77,23 +102,17 @@ class Query{
         $this-> setCondicao($aux);
     }
 
-    /*
-    public function setCondicao(Tabela $tabela, Condicao $condicao){
-        $apelido = "";
+    /**
+     * Seta os valores que serão realizados o insert ou update deles.
+     */
+    public function setValores($valores){
+        if($this-> acao == Acao::SELECT)
+            throw new Exception("Só é possível atribuir valores quando a ação for 'INSERT' ou 'UPDATE'.");
 
-        if(($this->tabelas)-> offsetExists($tabela))
-            $apelido = ($this->tabelas)-> offsetGet($tabela);
-
-        if( ($this-> tabelas)-> count() == 1){
-            if(is_null($condicao))
-                throw new Exception("Não foi possível definir uma condição para query.");
-            else{
-                $this-> setApelidoCondicao($condicao, $apelido);
-                $this-> condicao = $condicao;
-            }
-        }
+        $this-> valores = $valores;
     }
 
+    /*
     private function setApelidoCondicao(Condicao $condicao, string $apelido){
         if( is_string($condicao->getTermoEsquerda()) )
             $condicao->addApelidoTermoEsquerda($apelido);
@@ -105,27 +124,133 @@ class Query{
         else
             $this-> setApelidoCondicao($condicao->getTermoDireita(), $apelido);
     }
-*/
+    */
+    /**
+     * Realiza a montagem de query e retorna ela construída.
+     * 
+     * @return String query contruída
+     */
     public function getQuery(){
-        $query = $this-> acao . " ";
-        $colunas = "";
-        $tabela = "";
-        $apelido = "";
+        switch($this-> acao){
 
-        foreach($this-> tabelas as $key => $val){
-            if($val == "t1"){
-                $apelido = $val;
-                $colunas = implode(", ", $key-> getColuna() );
-                $tabela = $key-> getNome();
+            case Acao::SELECT:{
+                $query = $this-> acao . " ";
+                $colunas = "";
+                $tabela = "";
+                $apelido = "";
+
+                foreach($this-> tabelas as $key => $val){
+                    if($val == "t1"){
+                        $apelido = $val;
+                        $colunas = implode(", ", $key-> getColuna() );
+                        $tabela = $key-> getNome();
+                    }
+                }
+
+                $query .= $colunas . " from " . $tabela . " " . $apelido . " "; 
+
+                if(!is_null($this-> condicao))
+                    $query .= "WHERE " . ($this-> condicao)-> getExpressaoCompleta();
+
+                break;
             }
+            case Acao::INSERT:{
+                $query = $this-> acao . " ";
+                $colunas = "";
+                $tabela = "";
+                
+                foreach($this-> tabelas as $key => $val){
+                    if($val == "t1"){
+                        if(count($this-> getValores()) != $key-> contaColunas())
+                            throw new Exception("Quantidade de parâmetros passados são inválidos.");
+
+                        $apelido = $val;
+                        $colunas = implode(", ", $key-> getColuna() );
+                        $tabela = $key-> getNome();
+
+                        $query .= $tabela . "(" . $colunas . ") ";
+                    }
+                }
+
+                $query .= "values(" . implode(", ", $this-> getValores()) . ")";
+
+                break;
+            }
+            case Acao::UPDATE:{
+                $query = $this-> acao . " ";
+                $colunas = "";
+                $tabela = "";
+                
+                foreach($this-> tabelas as $key => $val){
+                    if($val == "t1"){
+                        if(count($this-> getValores()) != $key-> contaColunas())
+                            throw new Exception("Quantidade de parâmetros passados são inválidos.");
+
+                        $apelido = $val;
+                        $updateSets = array();
+
+                        foreach(array_combine($key-> getColuna(), $this-> valores) as $k => $v){
+                            array_push($updateSets, $k . " = " . $v);
+                        }
+
+                        $colunas = implode(", ", $updateSets );
+                        $tabela = $key-> getNome();
+
+                        $query .= $tabela . " set " . $colunas . " ";
+
+                        if(!is_null($this-> condicao))
+                            $query .= "WHERE " . ($this-> condicao)-> getExpressaoCompleta();
+                    }
+                }
+
+                break;
+            }
+            case Acao::DELETE:{
+                $query = $this-> acao . " ";
+                $colunas = "";
+                $tabela = "";
+                $apelido = "";
+
+                foreach($this-> tabelas as $key => $val){
+                    if($val == "t1"){
+                        $apelido = $val;
+                        $colunas = implode(", ", $key-> getColuna() );
+                        $tabela = $key-> getNome();
+                    }
+                }
+
+                if( is_null($this-> condicao) )
+                    throw new Exception("Para realizar o delete é necessário adicionar uma condição.");
+
+                $query .= "from " . $tabela . " WHERE " . ($this-> condicao)-> getExpressaoCompleta(); 
+
+                break;
+            }
+            default:{
+                throw new Exception("Ação atribuída não foi identificada ao gerar a query.");
+            }
+
         }
 
-        $query .= $colunas . " from " . $tabela . " " . $apelido . " "; 
-
-        if(!is_null($this-> condicao))
-            $query .= "WHERE " . ($this-> condicao)-> getExpressaoCompleta();
-
         return $query;
+    }
+
+    /**
+     * Retorna a ação da query.
+     * 
+     * @return Acao ação da query
+     */
+    public function getAcao(){
+        return $this-> acao;      
+    }
+
+    /**
+     * Retorna os valores que serão utilizados para realizar insert ou update.
+     * 
+     * @return String[] valores
+     */
+    public function getValores(){
+        return $this-> valores;
     }
 
     public function getTabela(){
