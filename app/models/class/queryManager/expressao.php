@@ -5,10 +5,19 @@ namespace models\class\queryManager;
 use models\class\queryManager\Operador;
 use Exception;
 
+/**
+ * Representa a expressão de uma condição no sistema.
+ * 
+ * @androide23
+ */
 class Expressao{
+    /** Operador lógico da expressão. */
     private $operadorLogico = null;
+    /** Termo da esqueda da expressão. */
     private $termoEsquerda;
+    /** Operador da expressão. */
     private $operador;
+    /** Termo da direita da expressão. */
     private $termoDireita;
 
     public function __construct(){
@@ -40,7 +49,7 @@ class Expressao{
 
                     if( is_string($args[2]) )
                         if( 
-                                in_array(
+                            in_array(
                                 $args[2], 
                                 array( Operador::IS_NULL, Operador::IS_NOT_NULL)
                             ) 
@@ -122,26 +131,52 @@ class Expressao{
 
     }
 
+    /**
+     * Retorna o termo da esqueda da expressão.
+     * 
+     * @return String Termo da esquerda
+     */
     public function getTermoEsquerda(){
         return $this-> termoEsquerda;
     }
 
+    /**
+     * Adiciona apelido ao termo da esquerda da espressão.
+     */
     public function addApelidoTermoEsquerda(string $apelido){
         $this-> termoEsquerda = $apelido + "." + $this-> termoEsquerda;
     }
 
+    /**
+     * Retorna o operador da expressão.
+     * 
+     * @return String Operador
+     */
     public function getOperador(){
         return $this-> operador;
     }
 
+    /**
+     * Retorna o operador lógico da expressão.
+     * 
+     * @return String operador lógico
+     */
     public function getOperadorLogico(){
         return $this-> operadorLogico;
     }
 
+    /**
+     * Retorna o termo da direita da expressão.
+     * 
+     * @return String termo da direita
+     */
     public function getTermoDireita(){
         return $this-> termoDireita;
     }
 
+    /**
+     * Adiciona apelido ao termo da direita da espressão.
+     */
     public function addApelidoTermoDireita(string $apelido){
         $this-> termoDireita = $apelido + "." + $this-> termoDireita;
     }
