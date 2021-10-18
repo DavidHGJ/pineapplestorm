@@ -5,10 +5,12 @@ namespace models\class\queryManager;
 use Exception;
 use models\class\queryManager\mapTabelas;
 
-use WeakMap;
-
+/**
+ * Representa o gerenciador de tabelas do sistema.
+ * 
+ * @androide23
+ */
 class TableManager extends MapTabelas{
-
     /** Instância do gerenciador de query */
     private static $TableManager = null;
 
@@ -26,6 +28,11 @@ class TableManager extends MapTabelas{
         return static::$TableManager;
     }
 
+    /**
+     * Retorna o clone de uma tabela já instanciada.
+     * 
+     * @return Tabela tabela
+     */
     public function getTabela(String $nome){
         if( count($this->tabelas) == 0)
             throw new Exception("Não existe tabela mapeada para retorna-la.");
