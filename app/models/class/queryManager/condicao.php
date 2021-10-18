@@ -7,10 +7,15 @@ use Exception;
 use SplObjectStorage;
 use WeakMap;
 
+/**
+ * Representa a condição de uma query no sistema.
+ * 
+ * @androide23
+ */
 class Condicao{
 
+    /** Armazena as expressões da condição. */
     private SplObjectStorage $expressao;
-    private $exp;
 
     public function __construct(){
         $this-> expressao = new SplObjectStorage();
@@ -39,6 +44,9 @@ class Condicao{
         }            
     }
     
+    /**
+     * Adiciona uma expressão à condição.
+     */
     public function addExpressao(){
         $args = func_get_args();
 
@@ -64,6 +72,11 @@ class Condicao{
         }
     }
 
+    /**
+     * Retorna todas as expressões concatenadas.
+     * 
+     * @return String expressões concatenadas
+     */
     public function getExpressaoCompleta(){
         $aux = "";
         
