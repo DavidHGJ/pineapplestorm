@@ -14,6 +14,7 @@ use models\class\queryManager\TableManager;
  */
 class Transportadora implements iController {
     
+    private $tabela = 'transportadora';
     private QueryManager $queryManager;
     private TableManager $tabelaManager;
 
@@ -27,7 +28,7 @@ class Transportadora implements iController {
 
     public function get($identificador) {
         
-        $tabela = $this->tabelaManager->getTabela('transportadora');
+        $tabela = $this->tabelaManager->getTabela($this->tabela);
 
         if (is_null($identificador)) 
             $this->queryManager->setAcao(Acao::SELECT)->setTabela($tabela);

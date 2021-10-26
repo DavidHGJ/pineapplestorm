@@ -22,8 +22,8 @@ abstract class MapTabelas{
             
             new Tabela("NOTA_FISCAL", "NF_IF"),
 
-            new Tabela("TRANSPORTADORA", "TRS_ID", "TRS_CIDADE", "TRS_DESC", "TRS_ENDERECO", 
-                "TRS_NUM","TRS_BAIRRO", "TRS_CEP", "TRS_CNPJ", "TRS_INSC", "TRS_CONTATO", "TRS_TEL", "TRS_STATUS")
+            new Tabela("TRANSPORTADORA", "TRS_ID", "TRS_DESC", "TRS_NUM", "TRS_CEP", "TRS_CNPJ",
+            "TRS_INSC", "TRS_STATUS", "TRS_COMPLEMENTO")
         );
     }
     

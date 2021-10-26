@@ -7,7 +7,16 @@ $transportadora = new Transportadora;
 switch(METHOD) {
 
     case 'GET':
-        $transportadora->get($identificador);
+        $retornoConsulta = $transportadora->get($identificador);
+
+        if ($retornoConsulta->rowCount() > 0)
+        {
+            $response[] = ['error' => false, 'message' => ''];
+
+            $response[] = $retornoConsulta->fetchAll();
+
+            echo json_encode($response);
+        }
     break;
 
     case 'POST':
