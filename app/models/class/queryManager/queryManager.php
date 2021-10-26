@@ -12,7 +12,7 @@ use Exception;
  * 
  * Exemplos práticos da biblioteca gerenciadora de query's.
  * 
- * Select:</br>
+ * Select:
  * $queryManager->
  *   setAcao(Acao::SELECT)->
  *   setTabela($tabela)->
@@ -37,6 +37,19 @@ use Exception;
  *   setAcao(Acao::DELETE)->
  *   setTabela($tabela)->
  *   setCondicao("id", Operador::IGUAL, "1");
+ * 
+ * Insert:
+ * $queryManager-> 
+ *   setAcao(Acao::INSERT)->
+ *   setTabela($tabela)->
+ *   setValores(
+ *       $con->quote("teste"), 
+ *       $con->quote("adw"), 
+ *       $con->quote("adawd"), 
+ *       $con->quote("adawd"), 
+ *       $con->quote("awdaw")
+ *   );
+ * 
  * 
  * @androide23
  */
