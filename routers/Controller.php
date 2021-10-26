@@ -15,7 +15,8 @@ switch(METHOD) {
     case 'PUT':
         $request = json_decode(file_get_contents("php://input"));
 
-        if (is_null($request)) {
+        if (is_null($request))
+        {
             echo json_encode(['error' => true, 'message' => 'Requisição invalida.', 'code' => '1']);
             exit;
         }

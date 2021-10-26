@@ -7,7 +7,7 @@ namespace models\class\controllers;
  */
 interface iController {
     public function get($identificacao);
-    public function post();
-    public function put();
-    public function delete();
+    public function post($request);
+    public function put($request, $identificacao);
+    public function delete($identificacao);
 }

@@ -14,9 +14,9 @@ use models\class\queryManager\TableManager;
  */
 class Transportadora implements iController {
     
-    private $tabela = 'transportadora';
     private QueryManager $queryManager;
     private TableManager $tabelaManager;
+    private Tabela $tabela;
 
     /**
      *## Construtor
@@ -24,26 +24,83 @@ class Transportadora implements iController {
     public function __construct() {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
+        $this->tabela = $this->tabelaManager->getTabela("transportadora");
     }
 
-    public function get($identificador) {
-        
-        $tabela = $this->tabelaManager->getTabela($this->tabela);
-
-        if (is_null($identificador)) 
-            $this->queryManager->setAcao(Acao::SELECT)->setTabela($tabela);
-        else
-            $this->queryManager
+    public function get($identificador) 
+    {
+        if (is_null($identificador))
+            $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
-                ->setTabela($tabela)
-                ->setCondicao('id', Operador::IGUAL, strval($identificador));
+                ->setTabela($this->tabela)
+                ->queryExec();
+        else
+            $retornoConsulta = $this->queryManager
+                ->setAcao(Acao::SELECT)
+                ->setTabela($this->tabela)
+                ->setCondicao('trs_id', Operador::IGUAL, strval($identificador))
+                ->queryExec();
 
-        return $this->queryManager->queryExec();
+        if ($retornoConsulta->rowCount() > 0)
+        {
+            $response = ['error' => false, 'message' => ''];
+
+            $response['data'] = $retornoConsulta->fetchAll();
+        }
+        else
+            $response[] = ['error' => true, 'message' => 'Nenhum dado encontrado.'];
+
+        return $response;
     }
 
-    public function post() {}
+    public function post($request)
+    {
+        $this->tabela->setColuna(
+            'trs_desc',
+            'trs_num',
+            'trs_cep',
+            'trs_cnpj',
+            'trs_insc',
+            'trs_status',
+            'trs_complemento'
+        );
 
-    public function put() {}
+        $retornoConsulta = $this->queryManager
+            ->setAcao(Acao::INSERT)
+            ->setTabela($this->tabela)
+            ->setValores(
+                "'$request->trs_desc'",
+                "'$request->trs_num'",
+                "'$request->trs_cep'",
+                "'$request->trs_cnpj'",
+                "'$request->trs_insc'",
+                "'$request->trs_status'",
+                "'$request->trs_complemento'"
+            )
+            ->queryExec();
 
-    public function delete() {}
+        return ($retornoConsulta)
+            ? ['error' => false, 'message' => 'Operação realizada com sucesso.']
+            : ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
+    }
+
+    public function put($request, $identificador)
+    {
+    }
+
+    public function delete($identificador) 
+    {
+        if (is_null($identificador))
+            return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
+        else
+        {
+            $this->queryManager
+                ->setAcao(Acao::DELETE)
+                ->setTabela($this->tabela)
+                ->setCondicao('trs_id', Operador::IGUAL, strval($identificador))
+                ->queryExec();
+
+            return ['error' => false, 'message' => 'Registro removido com sucesso.'];
+        }
+    }
 }

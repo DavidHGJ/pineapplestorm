@@ -7,20 +7,11 @@ $transportadora = new Transportadora;
 switch(METHOD) {
 
     case 'GET':
-        $retornoConsulta = $transportadora->get($identificador);
-
-        if ($retornoConsulta->rowCount() > 0)
-        {
-            $response[] = ['error' => false, 'message' => ''];
-
-            $response[] = $retornoConsulta->fetchAll();
-
-            echo json_encode($response);
-        }
+        echo json_encode($transportadora->get($identificador));
     break;
 
     case 'POST':
-        echo json_encode('inserir');
+        echo json_encode($transportadora->post($request));
     break;
 
     case 'PUT':
@@ -28,6 +19,6 @@ switch(METHOD) {
     break;
 
     case 'DELETE':
-        echo json_encode('deletar');
+        echo json_encode($transportadora->delete($identificador));
     break;
 }
