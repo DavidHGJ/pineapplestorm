@@ -23,7 +23,13 @@ abstract class MapTabelas{
             new Tabela("NOTA_FISCAL", "NF_IF"),
 
             new Tabela("TRANSPORTADORA", "TRS_ID", "TRS_DESC", "TRS_NUM", "TRS_CEP", "TRS_CNPJ",
-            "TRS_INSC", "TRS_STATUS", "TRS_COMPLEMENTO")
+            "TRS_INSC", "TRS_STATUS", "TRS_COMPLEMENTO"),
+
+            new Tabela("PRODUTO", "PRD_ID", "CAT_ID", "FOR_ID", "PRD_DESC", "PRD_PESO", "PRD_STATUS", "PRD_QTDE", "PRD_REGDATE"),
+
+            new Tabela("FORNECEDOR", "FOR_ID", 'FOR_NOME', 'FOR_NUMERO', 'FOR_CEP', 'FOR_CNPJ', 'FOR_INSC', 'FOR_STATUS', 'FOR_COMPLEMENTO'),
+
+            new Tabela('FILIAIS', 'FIL_ID', 'FIL_CNPJ', 'FIL_INSC', 'FIL_STATUS', 'FIL_DESC', 'FIL_CEP', 'FIL_NUM', 'FIL_COMPLEMENTO')
         );
     }
     

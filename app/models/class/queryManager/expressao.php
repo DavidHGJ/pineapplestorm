@@ -81,7 +81,7 @@ class Expressao{
                         else
                             throw new Exception("A condição \"" + $args[1] +"\" não foi reconhecida.");
 
-                    if( is_string($args[2]) || is_object($args[2]) )
+                    if( is_string($args[2]) || is_object($args[2]) || is_integer($args[2]) )
                         $this-> termoDireita = $args[2];    
                     else
                         throw new Exception("O terceiro parâmetro não foi reconhecido.");     

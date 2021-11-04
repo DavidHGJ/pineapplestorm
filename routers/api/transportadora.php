@@ -15,7 +15,7 @@ switch(METHOD) {
     break;
 
     case 'PUT':
-        echo json_encode('alterar');
+        echo json_encode($transportadora->put($request, $identificador));
     break;
 
     case 'DELETE':

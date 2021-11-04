@@ -20,13 +20,23 @@ switch(METHOD) {
             echo json_encode(['error' => true, 'message' => 'Requisição invalida.', 'code' => '1']);
             exit;
         }
+
+        if (METHOD == 'PUT')
+        {
+            if ($url[1] != null)
+                $identificador = Filtro::validarDado($url[1], 'int');
+            else {
+                echo json_encode(['error' => true, 'message' => 'Espera-se um ID para realizar a alteração.', 'code' => '2']);
+                exit;
+        }
+        }
     break;
 
     case 'DELETE':
         if ($url[1] != null)
             $identificador = Filtro::validarDado($url[1], 'int');
         else {
-            echo json_encode(['error' => true, 'message' => 'Espera-se um ID para realizar a remoção.', 'code' => '2']);
+            echo json_encode(['error' => true, 'message' => 'Espera-se um ID para realizar a remoção.', 'code' => '3']);
             exit;
         }
     break;

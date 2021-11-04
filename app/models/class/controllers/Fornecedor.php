@@ -12,7 +12,7 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class Transportadora implements iController {
+class Fornecedor implements iController {
     
     private QueryManager $queryManager;
     private TableManager $tabelaManager;
@@ -24,7 +24,7 @@ class Transportadora implements iController {
     public function __construct() {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
-        $this->tabela = $this->tabelaManager->getTabela("transportadora");
+        $this->tabela = $this->tabelaManager->getTabela("fornecedor");
     }
 
     public function get($identificador) 
@@ -38,7 +38,7 @@ class Transportadora implements iController {
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('trs_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('for_id', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
         if ($retornoConsulta->rowCount() > 0)
@@ -56,26 +56,26 @@ class Transportadora implements iController {
     public function post($request)
     {
         $this->tabela->setColuna(
-            'trs_desc',
-            'trs_num',
-            'trs_cep',
-            'trs_cnpj',
-            'trs_insc',
-            'trs_status',
-            'trs_complemento'
+            'for_nome',
+            'for_numero',
+            'for_cep',
+            'for_cnpj',
+            'for_insc',
+            'for_status',
+            'for_complemento'
         );
 
         $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->trs_desc'",
-                "'$request->trs_num'",
-                "'$request->trs_cep'",
-                "'$request->trs_cnpj'",
-                "'$request->trs_insc'",
-                "'$request->trs_status'",
-                "'$request->trs_complemento'"
+                "'$request->for_nome'",
+                "'$request->for_numero'",
+                "'$request->for_cep'",
+                "'$request->for_cnpj'",
+                "'$request->for_insc'",
+                "'$request->for_status'",
+                "'$request->for_complemento'"
             )
             ->queryExec();
 
@@ -93,28 +93,28 @@ class Transportadora implements iController {
             $tabela = clone $this-> tabela;
 
             $tabela->setColuna(
-                'trs_desc',
-                'trs_num',
-                'trs_cep',
-                'trs_cnpj',
-                'trs_insc',
-                'trs_status',
-                'trs_complemento'
+                'for_nome',
+                'for_numero',
+                'for_cep',
+                'for_cnpj',
+                'for_insc',
+                'for_status',
+                'for_complemento'
             );    
 
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->trs_desc'",
-                    "'$request->trs_num'",
-                    "'$request->trs_cep'",
-                    "'$request->trs_cnpj'",
-                    "'$request->trs_insc'",
-                    "'$request->trs_status'",
-                    "'$request->trs_complemento'"
+                    "'$request->for_nome'",
+                    "'$request->for_numero'",
+                    "'$request->for_cep'",
+                    "'$request->for_cnpj'",
+                    "'$request->for_insc'",
+                    "'$request->for_status'",
+                    "'$request->for_complemento'"
                 )
-                ->setCondicao('trs_id', Operador::IGUAL, $identificador)
+                ->setCondicao('for_id', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
@@ -130,7 +130,7 @@ class Transportadora implements iController {
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('trs_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('for_id', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];
