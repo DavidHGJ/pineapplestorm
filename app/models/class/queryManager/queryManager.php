@@ -63,7 +63,7 @@ class QueryManager{
     private static $query = null;
 
     private function __construct(){
-        static::$conexao = ( new Conexao("localhost", "pine", "root", "") )-> getConexao();
+        static::$conexao = ( new Conexao("localhost", "pine", "root", "12345") )-> getConexao();
         static::$query = new Query();
     }
 
@@ -169,4 +169,3 @@ class QueryManager{
         return strtoupper(trim(static::$query-> getQuery()));
     }
 }
-?>

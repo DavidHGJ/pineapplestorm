@@ -160,7 +160,7 @@ export default {
     postFornecedor() {
       console.log(this.editedItem);
       api
-        .post("/Fornecedor", this.editedItem)
+        .post("/fornecedores", this.editedItem)
         .then(() => {
           alert("Fornecedor cadastrada com sucesso");
           this.carregarFornecedor();
@@ -172,7 +172,7 @@ export default {
 
     updateFornecedor(id) {
       api
-        .put(`/Fornecedor/${id}`, this.editedItem)
+        .put(`/fornecedores/${id}`, this.editedItem)
         .then(() => {
           alert("Fornecedor atualizada com sucesso");
           this.carregarFornecedor();
@@ -185,7 +185,7 @@ export default {
     deleteUser(id) {
       console.log(id);
       api
-        .delete(`/Fornecedor/${id}`)
+        .delete(`/fornecedores/${id}`)
         .then(() => {
           alert("Fornecedor deletada com sucesso");
           this.carregarFornecedor();
@@ -204,9 +204,10 @@ export default {
     deleteItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       const idItem = Object.assign({}, item);
+      console.log(idItem);
       confirm("Tem certeza de que deseja excluir este fornecedor?") &&
         //this.desserts.splice(index, 1);
-        this.deleteUser(idItem.TRS_ID);
+        this.deleteUser(idItem.FOR_ID);
     },
 
     close() {
@@ -219,7 +220,7 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        this.updateFornecedor(this.editedIndex);
+        this.updateFornecedor(this.editedItem.FOR_ID);
       } else {
         this.postFornecedor(this.editedIndex);
       }

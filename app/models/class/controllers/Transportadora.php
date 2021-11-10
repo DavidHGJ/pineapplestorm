@@ -12,8 +12,9 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class Transportadora implements iController {
-    
+class Transportadora implements iController
+{
+
     private QueryManager $queryManager;
     private TableManager $tabelaManager;
     private Tabela $tabela;
@@ -21,13 +22,14 @@ class Transportadora implements iController {
     /**
      *## Construtor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
         $this->tabela = $this->tabelaManager->getTabela("transportadora");
     }
 
-    public function get($identificador) 
+    public function get($identificador)
     {
         if (is_null($identificador))
             $retornoConsulta = $this->queryManager
@@ -38,16 +40,14 @@ class Transportadora implements iController {
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('trs_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('TRS_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
-        if ($retornoConsulta->rowCount() > 0)
-        {
+        if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];
 
             $response['data'] = $retornoConsulta->fetchAll();
-        }
-        else
+        } else
             $response[] = ['error' => true, 'message' => 'Nenhum dado encontrado.'];
 
         return $response;
@@ -56,26 +56,26 @@ class Transportadora implements iController {
     public function post($request)
     {
         $this->tabela->setColuna(
-            'trs_desc',
-            'trs_num',
-            'trs_cep',
-            'trs_cnpj',
-            'trs_insc',
-            'trs_status',
-            'trs_complemento'
+            'TRS_DESC',
+            'TRS_NUM',
+            'TRS_CEP',
+            'TRS_CNPJ',
+            'TRS_INSC',
+            'TRS_STATUS',
+            'TRS_COMPLEMENTO'
         );
 
         $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->trs_desc'",
-                "'$request->trs_num'",
-                "'$request->trs_cep'",
-                "'$request->trs_cnpj'",
-                "'$request->trs_insc'",
-                "'$request->trs_status'",
-                "'$request->trs_complemento'"
+                "'$request->TRS_DESC'",
+                "'$request->TRS_NUM'",
+                "'$request->TRS_CEP'",
+                "'$request->TRS_CNPJ'",
+                "'$request->TRS_INSC'",
+                "'$request->TRS_STATUS'",
+                "'$request->TRS_COMPLEMENTO'"
             )
             ->queryExec();
 
@@ -88,49 +88,47 @@ class Transportadora implements iController {
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
-            $tabela = clone $this-> tabela;
+        else {
+            $tabela = clone $this->tabela;
 
             $tabela->setColuna(
-                'trs_desc',
-                'trs_num',
-                'trs_cep',
-                'trs_cnpj',
-                'trs_insc',
-                'trs_status',
-                'trs_complemento'
-            );    
+                'TRS_DESC',
+                'TRS_NUM',
+                'TRS_CEP',
+                'TRS_CNPJ',
+                'TRS_INSC',
+                'TRS_STATUS',
+                'TRS_COMPLEMENTO'
+            );
 
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->trs_desc'",
-                    "'$request->trs_num'",
-                    "'$request->trs_cep'",
-                    "'$request->trs_cnpj'",
-                    "'$request->trs_insc'",
-                    "'$request->trs_status'",
-                    "'$request->trs_complemento'"
+                    "'$request->TRS_DESC'",
+                    "'$request->TRS_NUM'",
+                    "'$request->TRS_CEP'",
+                    "'$request->TRS_CNPJ'",
+                    "'$request->TRS_INSC'",
+                    "'$request->TRS_STATUS'",
+                    "'$request->TRS_COMPLEMENTO'"
                 )
-                ->setCondicao('trs_id', Operador::IGUAL, $identificador)
+                ->setCondicao('TRS_ID', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
         }
     }
 
-    public function delete($identificador) 
+    public function delete($identificador)
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
+        else {
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('trs_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('TRS_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];

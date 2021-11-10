@@ -206,7 +206,7 @@ export default {
       const idItem = Object.assign({}, item);
       confirm("Tem certeza de que deseja excluir este fornecedor?") &&
         //this.desserts.splice(index, 1);
-        this.deleteUser(idItem.TRS_ID);
+        this.deleteUser(idItem.FIL_ID);
     },
 
     close() {
@@ -219,7 +219,7 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        this.updateFilial(this.editedIndex);
+        this.updateFilial(this.editedItem.FIL_ID);
       } else {
         this.postFilial(this.editedIndex);
       }

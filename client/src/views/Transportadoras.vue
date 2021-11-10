@@ -198,12 +198,14 @@ export default {
     },
 
     editItem(item) {
+      console.log(item);
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
+      console.log(item);
       this.editedIndex = this.desserts.indexOf(item);
       const idItem = Object.assign({}, item);
       confirm("Tem certeza de que deseja excluir este fornecedor?") &&
@@ -221,7 +223,7 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        this.updateTransportadora(this.editedIndex);
+        this.updateTransportadora(this.editedItem.TRS_ID);
       } else {
         this.postTransportadora(this.editedIndex);
       }

@@ -12,8 +12,9 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class Fornecedor implements iController {
-    
+class Fornecedor implements iController
+{
+
     private QueryManager $queryManager;
     private TableManager $tabelaManager;
     private Tabela $tabela;
@@ -21,13 +22,14 @@ class Fornecedor implements iController {
     /**
      *## Construtor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
         $this->tabela = $this->tabelaManager->getTabela("fornecedor");
     }
 
-    public function get($identificador) 
+    public function get($identificador)
     {
         if (is_null($identificador))
             $retornoConsulta = $this->queryManager
@@ -38,16 +40,14 @@ class Fornecedor implements iController {
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('for_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('FOR_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
-        if ($retornoConsulta->rowCount() > 0)
-        {
+        if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];
 
             $response['data'] = $retornoConsulta->fetchAll();
-        }
-        else
+        } else
             $response[] = ['error' => true, 'message' => 'Nenhum dado encontrado.'];
 
         return $response;
@@ -56,26 +56,26 @@ class Fornecedor implements iController {
     public function post($request)
     {
         $this->tabela->setColuna(
-            'for_nome',
-            'for_numero',
-            'for_cep',
-            'for_cnpj',
-            'for_insc',
-            'for_status',
-            'for_complemento'
+            'FOR_NOME',
+            'FOR_NUMERO',
+            'FOR_CEP',
+            'FOR_CNPJ',
+            'FOR_INSC',
+            'FOR_STATUS',
+            'FOR_COMPLEMENTO'
         );
 
         $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->for_nome'",
-                "'$request->for_numero'",
-                "'$request->for_cep'",
-                "'$request->for_cnpj'",
-                "'$request->for_insc'",
-                "'$request->for_status'",
-                "'$request->for_complemento'"
+                "'$request->FOR_NOME'",
+                "'$request->FOR_NUMERO'",
+                "'$request->FOR_CEP'",
+                "'$request->FOR_CNPJ'",
+                "'$request->FOR_INSC'",
+                "'$request->FOR_STATUS'",
+                "'$request->FOR_COMPLEMENTO'"
             )
             ->queryExec();
 
@@ -88,49 +88,47 @@ class Fornecedor implements iController {
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
-            $tabela = clone $this-> tabela;
+        else {
+            $tabela = clone $this->tabela;
 
             $tabela->setColuna(
-                'for_nome',
-                'for_numero',
-                'for_cep',
-                'for_cnpj',
-                'for_insc',
-                'for_status',
-                'for_complemento'
-            );    
+                'FOR_NOME',
+                'FOR_NUMERO',
+                'FOR_CEP',
+                'FOR_CNPJ',
+                'FOR_INSC',
+                'FOR_STATUS',
+                'FOR_COMPLEMENTO'
+            );
 
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->for_nome'",
-                    "'$request->for_numero'",
-                    "'$request->for_cep'",
-                    "'$request->for_cnpj'",
-                    "'$request->for_insc'",
-                    "'$request->for_status'",
-                    "'$request->for_complemento'"
+                    "'$request->FOR_NOME'",
+                    "'$request->FOR_NUMERO'",
+                    "'$request->FOR_CEP'",
+                    "'$request->FOR_CNPJ'",
+                    "'$request->FOR_INSC'",
+                    "'$request->FOR_STATUS'",
+                    "'$request->FOR_COMPLEMENTO'"
                 )
-                ->setCondicao('for_id', Operador::IGUAL, $identificador)
+                ->setCondicao('FOR_ID', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
         }
     }
 
-    public function delete($identificador) 
+    public function delete($identificador)
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
+        else {
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('for_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('FOR_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];

@@ -36,19 +36,19 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.FIL_CNPJ"
+                        v-model="editedItem.CAT_ID"
                         label="Categoria"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.FIL_CNPJ"
+                        v-model="editedItem.FOR_ID"
                         label="Fornecedor"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.FIL_CNPJ"
+                        v-model="editedItem.PRD_PESO"
                         label="Peso"
                       ></v-text-field>
                     </v-col>
@@ -163,7 +163,7 @@ export default {
           this.carregarProdutos();
         })
         .catch(() => {
-          alert("Erro ao cadastrar Produto");
+          alert("Erro ao atualizar Produto");
         });
     },
 
@@ -204,7 +204,7 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        this.updateProduto(this.editedIndex);
+        this.updateProduto(this.editedItem.PRD_ID);
       } else {
         this.postProduto(this.editedIndex);
       }
