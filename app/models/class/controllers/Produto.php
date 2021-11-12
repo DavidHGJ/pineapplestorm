@@ -12,8 +12,9 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class Produto implements iController {
-    
+class Produto implements iController
+{
+
     private QueryManager $queryManager;
     private TableManager $tabelaManager;
     private Tabela $tabela;
@@ -21,13 +22,14 @@ class Produto implements iController {
     /**
      *## Construtor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
         $this->tabela = $this->tabelaManager->getTabela("produto");
     }
 
-    public function get($identificador) 
+    public function get($identificador)
     {
         if (is_null($identificador))
             $retornoConsulta = $this->queryManager
@@ -38,16 +40,14 @@ class Produto implements iController {
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('prd_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('PRD_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
-        if ($retornoConsulta->rowCount() > 0)
-        {
+        if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];
 
             $response['data'] = $retornoConsulta->fetchAll();
-        }
-        else
+        } else
             $response[] = ['error' => true, 'message' => 'Nenhum dado encontrado.'];
 
         return $response;
@@ -56,26 +56,26 @@ class Produto implements iController {
     public function post($request)
     {
         $this->tabela->setColuna(
-            'cat_id',
-            'for_id',
-            'prd_desc',
-            'prd_peso',
-            'prd_status',
-            'prd_qtde',
-            'prd_regdate'
+            'CAT_ID',
+            'FOR_ID',
+            'PRD_DESC',
+            'PRD_PESO',
+            'PRD_STATUS',
+            'PRD_QTDE',
+            'PRD_REGDATE'
         );
 
         $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->cat_id'",
-                "'$request->for_id'",
-                "'$request->prd_desc'",
-                "'$request->prd_peso'",
-                "'$request->prd_status'",
-                "'$request->prd_qtde'",
-                "'$request->prd_regdate'"
+                "'$request->CAT_ID'",
+                "'$request->FOR_ID'",
+                "'$request->PRD_DESC'",
+                "'$request->PRD_PESO'",
+                "'$request->PRD_STATUS'",
+                "'$request->PRD_QTDE'",
+                "'$request->PRD_REGDATE'"
             )
             ->queryExec();
 
@@ -88,49 +88,47 @@ class Produto implements iController {
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
-            $tabela = clone $this-> tabela;
+        else {
+            $tabela = clone $this->tabela;
 
             $tabela->setColuna(
-                'cat_id',
-                'for_id',
-                'prd_desc',
-                'prd_peso',
-                'prd_status',
-                'prd_qtde',
-                'prd_regdate'
-            );    
+                'CAT_ID',
+                'FOR_ID',
+                'PRD_DESC',
+                'PRD_PESO',
+                'PRD_STATUS',
+                'PRD_QTDE',
+                'PRD_REGDATE'
+            );
 
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->cat_id'",
-                    "'$request->for_id'",
-                    "'$request->prd_desc'",
-                    "'$request->prd_peso'",
-                    "'$request->prd_status'",
-                    "'$request->prd_qtde'",
-                    "'$request->prd_regdate'"
+                    "'$request->CAT_ID'",
+                    "'$request->FOR_ID'",
+                    "'$request->PRD_DESC'",
+                    "'$request->PRD_PESO'",
+                    "'$request->PRD_STATUS'",
+                    "'$request->PRD_QTDE'",
+                    "'$request->PRD_REGDATE'"
                 )
-                ->setCondicao('prd_id', Operador::IGUAL, $identificador)
+                ->setCondicao('PRD_ID', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
         }
     }
 
-    public function delete($identificador) 
+    public function delete($identificador)
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
+        else {
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('prd_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('PRD_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];

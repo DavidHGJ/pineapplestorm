@@ -10,7 +10,7 @@
         <v-toolbar flat color="primary">
           <v-toolbar-title
             >Fornecedores
-            <v-icon>mdi-account-circle</v-icon>
+            <v-icon>mdi-home-outline</v-icon>
           </v-toolbar-title>
           <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
           <v-spacer></v-spacer>
@@ -30,20 +30,38 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="12">
                       <v-text-field
-                        v-model="editedItem.name"
+                        v-model="editedItem.FOR_NOME"
                         label="Nome do Fornecedor"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.weight"
-                        label="Peso em KG"
+                        v-model="editedItem.FOR_CNPJ"
+                        label="CNPJ"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.amount"
-                        label="Quantidade"
+                        v-model="editedItem.FOR_INSC"
+                        label="INSC"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.FOR_CEP"
+                        label="CEP"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.FOR_NUM"
+                        label="NUMERO"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.FOR_COMPLEMENTO"
+                        label="COMPLEMENTO"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -66,35 +84,49 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarFornecedor">Resetar</v-btn>
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
+import api from "../api/api";
+
 export default {
   name: "Fornecedores",
   data() {
     return {
       dialog: false,
       headers: [
-        { text: "Nome", value: "name" },
-        { text: "Peso", value: "weight" },
-        { text: "Quantidade", value: "amount" },
+        { text: "id", value: "FOR_ID" },
+        { text: "Descrição", value: "FOR_NOME" },
+        { text: "CNPJ", value: "FOR_CNPJ" },
+        { text: "INSC", value: "FOR_INSC" },
+        { text: "Cep", value: "FOR_CEP" },
+        { text: "Numero", value: "FOR_NUM" },
+        { text: "Complemento", value: "FOR_COMPLEMENTO" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        FOR_NOME: "",
+        FOR_NUM: "",
+        FOR_CEP: "",
+        FOR_CNPJ: "",
+        FOR_INSC: "",
+        FOR_STATUS: "",
+        FOR_COMPLEMENTO: "",
       },
       defaultItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        FOR_NOME: "",
+        FOR_NUM: "",
+        FOR_CEP: "",
+        FOR_CNPJ: "",
+        FOR_INSC: "",
+        FOR_STATUS: "",
+        FOR_COMPLEMENTO: "",
       },
     };
   },
@@ -111,32 +143,56 @@ export default {
   },
 
   created() {
-    this.initialize();
+    this.carregarFornecedor();
   },
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: "Motor caminhão Volvo Classe 8",
-          weight: 1213,
-          amount: 10,
-        },
-        {
-          name: "Motor caminhão Volvo Classe 8 Antigo",
-          weight: 1520,
-          amount: 5,
-        },
-        {
-          name: "Motor caminhão Tesla ",
-          weight: 2123,
-          amount: 3,
-        },
-        {
-          name: "Turbina de avião Tam",
-          weight: 5000,
-          amount: 2,
-        },
-      ];
+    carregarFornecedor() {
+      api
+        .get("/fornecedores")
+        .then((res) => {
+          this.desserts = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    postFornecedor() {
+      console.log(this.editedItem);
+      api
+        .post("/fornecedores", this.editedItem)
+        .then(() => {
+          alert("Fornecedor cadastrada com sucesso");
+          this.carregarFornecedor();
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar Fornecedor");
+        });
+    },
+
+    updateFornecedor(id) {
+      api
+        .put(`/fornecedores/${id}`, this.editedItem)
+        .then(() => {
+          alert("Fornecedor atualizada com sucesso");
+          this.carregarFornecedor();
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar Fornecedor");
+        });
+    },
+
+    deleteUser(id) {
+      console.log(id);
+      api
+        .delete(`/fornecedores/${id}`)
+        .then(() => {
+          alert("Fornecedor deletada com sucesso");
+          this.carregarFornecedor();
+        })
+        .catch(() => {
+          alert("Erro ao deletar Fornecedor");
+        });
     },
 
     editItem(item) {
@@ -146,9 +202,12 @@ export default {
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Tem certeza de que deseja excluir este item?") &&
-        this.desserts.splice(index, 1);
+      this.editedIndex = this.desserts.indexOf(item);
+      const idItem = Object.assign({}, item);
+      console.log(idItem);
+      confirm("Tem certeza de que deseja excluir este fornecedor?") &&
+        //this.desserts.splice(index, 1);
+        this.deleteUser(idItem.FOR_ID);
     },
 
     close() {
@@ -161,9 +220,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        this.updateFornecedor(this.editedItem.FOR_ID);
       } else {
-        this.desserts.push(this.editedItem);
+        this.postFornecedor(this.editedIndex);
       }
       this.close();
     },

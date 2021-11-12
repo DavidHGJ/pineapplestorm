@@ -17,7 +17,7 @@
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn color="primary" dark class="mb-2 buttoncolor" v-on="on"
-                >Novo Transportadora</v-btn
+                >Nova Transportadora</v-btn
               >
             </template>
             <v-card>
@@ -30,20 +30,38 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="12">
                       <v-text-field
-                        v-model="editedItem.name"
+                        v-model="editedItem.TRS_DESC"
                         label="Nome da Transportadora"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.weight"
-                        label="Peso em KG"
+                        v-model="editedItem.TRS_CNPJ"
+                        label="CNPJ"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.amount"
-                        label="Quantidade"
+                        v-model="editedItem.TRS_INSC"
+                        label="INSC"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.TRS_CEP"
+                        label="CEP"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.TRS_NUM"
+                        label="NUMERO"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.TRS_COMPLEMENTO"
+                        label="COMPLEMENTO"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -66,35 +84,49 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarTransportadora">Resetar</v-btn>
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
+import api from "../api/api";
+
 export default {
   name: "Transportadoras",
   data() {
     return {
       dialog: false,
       headers: [
-        { text: "Nome", value: "name" },
-        { text: "Peso", value: "weight" },
-        { text: "Quantidade", value: "amount" },
+        { text: "id", value: "TRS_ID" },
+        { text: "Descrição", value: "TRS_DESC" },
+        { text: "CNPJ", value: "TRS_CNPJ" },
+        { text: "INSC", value: "TRS_INSC" },
+        { text: "Cep", value: "TRS_CEP" },
+        { text: "Numero", value: "TRS_NUM" },
+        { text: "Complemento", value: "TRS_COMPLEMENTO" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        TRS_DESC: "",
+        TRS_NUM: "",
+        TRS_CEP: "",
+        TRS_CNPJ: "",
+        TRS_INSC: "",
+        TRS_STATUS: "",
+        TRS_COMPLEMENTO: "",
       },
       defaultItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        TRS_DESC: "",
+        TRS_NUM: "",
+        TRS_CEP: "",
+        TRS_CNPJ: "",
+        TRS_INSC: "",
+        TRS_STATUS: "",
+        TRS_COMPLEMENTO: "",
       },
     };
   },
@@ -113,44 +145,72 @@ export default {
   },
 
   created() {
-    this.initialize();
+    this.carregarTransportadora();
   },
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: "Motor caminhão Volvo Classe 8",
-          weight: 1213,
-          amount: 10,
-        },
-        {
-          name: "Motor caminhão Volvo Classe 8 Antigo",
-          weight: 1520,
-          amount: 5,
-        },
-        {
-          name: "Motor caminhão Tesla ",
-          weight: 2123,
-          amount: 3,
-        },
-        {
-          name: "Turbina de avião Tam",
-          weight: 5000,
-          amount: 2,
-        },
-      ];
+    carregarTransportadora() {
+      api
+        .get("/transportadora")
+        .then((res) => {
+          this.desserts = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    postTransportadora() {
+      console.log(this.editedItem);
+      api
+        .post("/transportadora", this.editedItem)
+        .then(() => {
+          alert("Transportadora cadastrada com sucesso");
+          this.carregarTransportadora();
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar transportadora");
+        });
+    },
+
+    updateTransportadora(id) {
+      api
+        .put(`/transportadora/${id}`, this.editedItem)
+        .then(() => {
+          alert("Transportadora atualizada com sucesso");
+          this.carregarTransportadora();
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar transportadora");
+        });
+    },
+
+    deleteUser(id) {
+      console.log(id);
+      api
+        .delete(`/transportadora/${id}`)
+        .then(() => {
+          alert("Transportadora deletada com sucesso");
+          this.carregarTransportadora();
+        })
+        .catch(() => {
+          alert("Erro ao deletar transportadora");
+        });
     },
 
     editItem(item) {
+      console.log(item);
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Tem certeza de que deseja excluir este item?") &&
-        this.desserts.splice(index, 1);
+      console.log(item);
+      this.editedIndex = this.desserts.indexOf(item);
+      const idItem = Object.assign({}, item);
+      confirm("Tem certeza de que deseja excluir este fornecedor?") &&
+        //this.desserts.splice(index, 1);
+        this.deleteUser(idItem.TRS_ID);
     },
 
     close() {
@@ -163,9 +223,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        this.updateTransportadora(this.editedItem.TRS_ID);
       } else {
-        this.desserts.push(this.editedItem);
+        this.postTransportadora(this.editedIndex);
       }
       this.close();
     },

@@ -17,7 +17,7 @@
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn color="primary" dark class="mb-2 buttoncolor" v-on="on"
-                >Novo Produto</v-btn
+                >Nova Produto</v-btn
               >
             </template>
             <v-card>
@@ -30,20 +30,26 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="12">
                       <v-text-field
-                        v-model="editedItem.name"
-                        label="Nome do produto"
+                        v-model="editedItem.PRD_DESC"
+                        label="Descrição do Produto"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.weight"
-                        label="Peso em KG"
+                        v-model="editedItem.CAT_ID"
+                        label="Categoria"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.amount"
-                        label="Quantidade"
+                        v-model="editedItem.FOR_ID"
+                        label="Fornecedor"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.PRD_PESO"
+                        label="Peso"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -66,41 +72,52 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarProdutos">Resetar</v-btn>
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
+import api from "../api/api";
+
 export default {
-  name: "Products",
+  name: "Produtos",
   data() {
     return {
       dialog: false,
       headers: [
-        { text: "Nome", value: "name" },
-        { text: "Peso", value: "weight" },
-        { text: "Quantidade", value: "amount" },
+        { text: "id", value: "PRD_ID" },
+        { text: "Descrição", value: "PRD_DESC" },
+        { text: "categoria", value: "CAT_ID" },
+        { text: "fornecedor", value: "FOR_ID" },
+        { text: "Peso", value: "PRD_PESO" },
+        { text: "Quantidade", value: "PRD_QTDE" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        PRD_ID: "",
+        PRD_DESC: "",
+        CAT_ID: "",
+        FOR_ID: "",
+        PRD_PESO: "",
+        PRD_QTDE: "",
       },
       defaultItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        PRD_ID: "",
+        PRD_DESC: "",
+        CAT_ID: "",
+        FOR_ID: "",
+        PRD_PESO: "",
+        PRD_QTDE: "",
       },
     };
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Novo Item" : "Editar Item";
+      return this.editedIndex === -1 ? "Novo Produto" : "Editar Produto";
     },
   },
 
@@ -111,32 +128,56 @@ export default {
   },
 
   created() {
-    this.initialize();
+    this.carregarProdutos();
   },
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: "Motor caminhão Volvo Classe 8",
-          weight: 1213,
-          amount: 10,
-        },
-        {
-          name: "Motor caminhão Volvo Classe 8 Antigo",
-          weight: 1520,
-          amount: 5,
-        },
-        {
-          name: "Motor caminhão Tesla ",
-          weight: 2123,
-          amount: 3,
-        },
-        {
-          name: "Turbina de avião Tam",
-          weight: 5000,
-          amount: 2,
-        },
-      ];
+    carregarProdutos() {
+      api
+        .get("/produtos")
+        .then((res) => {
+          this.desserts = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    postProduto() {
+      console.log(this.editedItem);
+      api
+        .post("/produtos", this.editedItem)
+        .then(() => {
+          alert("Produto cadastrada com sucesso");
+          this.carregarProdutos();
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar Produto");
+        });
+    },
+
+    updateProduto(id) {
+      api
+        .put(`/produtos/${id}`, this.editedItem)
+        .then(() => {
+          alert("Produto atualizada com sucesso");
+          this.carregarProdutos();
+        })
+        .catch(() => {
+          alert("Erro ao atualizar Produto");
+        });
+    },
+
+    deleteUser(id) {
+      console.log(id);
+      api
+        .delete(`/produtos/${id}`)
+        .then(() => {
+          alert("Produto deletada com sucesso");
+          this.carregarProdutos();
+        })
+        .catch(() => {
+          alert("Erro ao deletar Produto");
+        });
     },
 
     editItem(item) {
@@ -146,9 +187,11 @@ export default {
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Tem certeza de que deseja excluir este item?") &&
-        this.desserts.splice(index, 1);
+      this.editedIndex = this.desserts.indexOf(item);
+      const idItem = Object.assign({}, item);
+      confirm("Tem certeza de que deseja excluir este fornecedor?") &&
+        //this.desserts.splice(index, 1);
+        this.deleteUser(idItem.TRS_ID);
     },
 
     close() {
@@ -161,9 +204,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        this.updateProduto(this.editedItem.PRD_ID);
       } else {
-        this.desserts.push(this.editedItem);
+        this.postProduto(this.editedIndex);
       }
       this.close();
     },

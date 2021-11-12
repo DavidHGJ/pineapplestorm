@@ -16,7 +16,9 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
-              <v-btn dark class="mb-2 buttoncolor" v-on="on">Nova Filial</v-btn>
+              <v-btn color="primary" dark class="mb-2 buttoncolor" v-on="on"
+                >Nova Filial</v-btn
+              >
             </template>
             <v-card>
               <v-card-title>
@@ -28,20 +30,38 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="12">
                       <v-text-field
-                        v-model="editedItem.name"
+                        v-model="editedItem.FIL_DESC"
                         label="Nome da Filial"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.weight"
-                        label="Peso em KG"
+                        v-model="editedItem.FIL_CNPJ"
+                        label="CNPJ"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.amount"
-                        label="Quantidade"
+                        v-model="editedItem.FIL_INSC"
+                        label="INSC"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.FIL_CEP"
+                        label="CEP"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.FIL_NUM"
+                        label="NUMERO"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.FIL_COMPLEMENTO"
+                        label="COMPLEMENTO"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -64,35 +84,49 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarFilial">Resetar</v-btn>
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
+import api from "../api/api";
+
 export default {
   name: "Filiais",
   data() {
     return {
       dialog: false,
       headers: [
-        { text: "Nome", value: "name" },
-        { text: "Peso", value: "weight" },
-        { text: "Quantidade", value: "amount" },
+        { text: "id", value: "FIL_ID" },
+        { text: "Descrição", value: "FIL_DESC" },
+        { text: "CNPJ", value: "FIL_CNPJ" },
+        { text: "INSC", value: "FIL_INSC" },
+        { text: "Cep", value: "FIL_CEP" },
+        { text: "Numero", value: "FIL_NUM" },
+        { text: "Complemento", value: "FIL_COMPLEMENTO" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        FIL_DESC: "",
+        FIL_NUM: "",
+        FIL_CEP: "",
+        FIL_CNPJ: "",
+        FIL_INSC: "",
+        FIL_STATUS: "",
+        FIL_COMPLEMENTO: "",
       },
       defaultItem: {
-        name: "",
-        weight: 0,
-        amount: 0,
+        FIL_DESC: "",
+        FIL_NUM: "",
+        FIL_CEP: "",
+        FIL_CNPJ: "",
+        FIL_INSC: "",
+        FIL_STATUS: "",
+        FIL_COMPLEMENTO: "",
       },
     };
   },
@@ -109,32 +143,56 @@ export default {
   },
 
   created() {
-    this.initialize();
+    this.carregarFilial();
   },
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: "Motor caminhão Volvo Classe 8",
-          weight: 1213,
-          amount: 10,
-        },
-        {
-          name: "Motor caminhão Volvo Classe 8 Antigo",
-          weight: 1520,
-          amount: 5,
-        },
-        {
-          name: "Motor caminhão Tesla ",
-          weight: 2123,
-          amount: 3,
-        },
-        {
-          name: "Turbina de avião Tam",
-          weight: 5000,
-          amount: 2,
-        },
-      ];
+    carregarFilial() {
+      api
+        .get("/filiais")
+        .then((res) => {
+          this.desserts = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    postFilial() {
+      console.log(this.editedItem);
+      api
+        .post("/filiais", this.editedItem)
+        .then(() => {
+          alert("Filial cadastrada com sucesso");
+          this.carregarFilial();
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar Filial");
+        });
+    },
+
+    updateFilial(id) {
+      api
+        .put(`/filiais/${id}`, this.editedItem)
+        .then(() => {
+          alert("Filial atualizada com sucesso");
+          this.carregarFilial();
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar Filial");
+        });
+    },
+
+    deleteUser(id) {
+      console.log(id);
+      api
+        .delete(`/filiais/${id}`)
+        .then(() => {
+          alert("Filial deletada com sucesso");
+          this.carregarFilial();
+        })
+        .catch(() => {
+          alert("Erro ao deletar Filial");
+        });
     },
 
     editItem(item) {
@@ -144,9 +202,11 @@ export default {
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Tem certeza de que deseja excluir este item?") &&
-        this.desserts.splice(index, 1);
+      this.editedIndex = this.desserts.indexOf(item);
+      const idItem = Object.assign({}, item);
+      confirm("Tem certeza de que deseja excluir este fornecedor?") &&
+        //this.desserts.splice(index, 1);
+        this.deleteUser(idItem.FIL_ID);
     },
 
     close() {
@@ -159,9 +219,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        this.updateFilial(this.editedItem.FIL_ID);
       } else {
-        this.desserts.push(this.editedItem);
+        this.postFilial(this.editedIndex);
       }
       this.close();
     },
