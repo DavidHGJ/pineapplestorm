@@ -12,8 +12,9 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class Categoria implements iController {
-    
+class Categoria implements iController
+{
+
     private QueryManager $queryManager;
     private TableManager $tabelaManager;
     private Tabela $tabela;
@@ -21,13 +22,14 @@ class Categoria implements iController {
     /**
      *## Construtor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
         $this->tabela = $this->tabelaManager->getTabela("categoria");
     }
 
-    public function get($identificador) 
+    public function get($identificador)
     {
         if (is_null($identificador))
             $retornoConsulta = $this->queryManager
@@ -38,16 +40,14 @@ class Categoria implements iController {
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('cat_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('CAT_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
-        if ($retornoConsulta->rowCount() > 0)
-        {
+        if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];
 
             $response['data'] = $retornoConsulta->fetchAll();
-        }
-        else
+        } else
             $response[] = ['error' => true, 'message' => 'Nenhum dado encontrado.'];
 
         return $response;
@@ -56,16 +56,16 @@ class Categoria implements iController {
     public function post($request)
     {
         $this->tabela->setColuna(
-            'cat_desc',
-            'cat_status'
+            'CAT_DESC',
+            'CAT_STATUS'
         );
 
         $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->cat_desc'",
-                "'$request->cat_status'",
+                "'$request->CAT_DESC'",
+                "'$request->CAT_STATUS'"
             )
             ->queryExec();
 
@@ -78,39 +78,37 @@ class Categoria implements iController {
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
-            $tabela = clone $this-> tabela;
+        else {
+            $tabela = clone $this->tabela;
 
-            $this->tabela->setColuna(
-                'cat_desc',
-                'cat_status'
+            $tabela->setColuna(
+                'CAT_DESC',
+                'CAT_STATUS',
             );
-    
+
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->cat_desc'",
-                    "'$request->cat_status'"
+                    "'$request->CAT_DESC'",
+                    "'$request->CAT_STATUS'"
                 )
-                ->setCondicao('cat_id', Operador::IGUAL, $identificador)
+                ->setCondicao('CAT_ID', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
         }
     }
 
-    public function delete($identificador) 
+    public function delete($identificador)
     {
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
-        else
-        {
+        else {
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('cat_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('CAT_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];

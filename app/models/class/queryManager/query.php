@@ -183,6 +183,7 @@ class Query{
                 
                 foreach($this-> tabelas as $key => $val){
                     if($val == "t1"){
+                        
                         if(count($this-> getValores()) != $key-> contaColunas())
                             throw new Exception("Quantidade de parâmetros passados são inválidos.");
 
