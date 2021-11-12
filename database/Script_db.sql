@@ -181,6 +181,7 @@ create table if not exists saida(
     sai_lote varchar(10),
     sai_qtde double,
     sai_valor double,
+    sai_data date,
     usr_id int,
     nf_id int,
     
