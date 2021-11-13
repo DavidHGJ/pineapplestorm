@@ -54,7 +54,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.FOR_NUM"
+                        v-model="editedItem.FOR_NUMERO"
                         label="NUMERO"
                       ></v-text-field>
                     </v-col>
@@ -104,7 +104,7 @@ export default {
         { text: "CNPJ", value: "FOR_CNPJ" },
         { text: "INSC", value: "FOR_INSC" },
         { text: "Cep", value: "FOR_CEP" },
-        { text: "Numero", value: "FOR_NUM" },
+        { text: "Numero", value: "FOR_NUMERO" },
         { text: "Complemento", value: "FOR_COMPLEMENTO" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
@@ -112,7 +112,7 @@ export default {
       editedIndex: -1,
       editedItem: {
         FOR_NOME: "",
-        FOR_NUM: "",
+        FOR_NUMERO: "",
         FOR_CEP: "",
         FOR_CNPJ: "",
         FOR_INSC: "",
@@ -121,7 +121,7 @@ export default {
       },
       defaultItem: {
         FOR_NOME: "",
-        FOR_NUM: "",
+        FOR_NUMERO: "",
         FOR_CEP: "",
         FOR_CNPJ: "",
         FOR_INSC: "",

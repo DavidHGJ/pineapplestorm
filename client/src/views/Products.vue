@@ -17,7 +17,7 @@
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn color="primary" dark class="mb-2 buttoncolor" v-on="on"
-                >Nova Produto</v-btn
+                >Novo Produto</v-btn
               >
             </template>
             <v-card>
@@ -50,6 +50,12 @@
                       <v-text-field
                         v-model="editedItem.PRD_PESO"
                         label="Peso"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.PRD_QTDE"
+                        label="Quantidade"
                       ></v-text-field>
                     </v-col>
                   </v-row>
