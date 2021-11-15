@@ -77,9 +77,11 @@ export default {
       editedIndex: -1,
       editedItem: {
         CAT_DESC: "",
+        CAT_STATUS: "",
       },
       defaultItem: {
         CAT_DESC: "",
+        CAT_STATUS: "",
       },
     };
   },
@@ -113,7 +115,7 @@ export default {
     postCategoria() {
       console.log(this.editedItem);
       api
-        .post("/categoria", this.editedItem)
+        .post("/categoria", this.addStatus(this.editedItem))
         .then(() => {
           alert("Categoria cadastrada com sucesso");
           this.carregarCategoria();
@@ -177,6 +179,10 @@ export default {
         this.postCategoria(this.editedIndex);
       }
       this.close();
+    },
+    addStatus(item) {
+      item.CAT_STATUS = "A";
+      return item;
     },
   },
 };

@@ -34,7 +34,7 @@
                         label="Nome do Fornecedor"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         v-model="editedItem.FOR_CNPJ"
                         label="CNPJ"
@@ -62,7 +62,7 @@
                         v-maska="'#####'"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="8">
                       <v-text-field
                         v-model="editedItem.FOR_COMPLEMENTO"
                         label="COMPLEMENTO"
@@ -240,6 +240,7 @@ export default {
       item.FOR_CNPJ = item.FOR_CNPJ.replace(/[^0-9]/g, "");
       item.FOR_INSC = item.FOR_INSC.replace(/[^0-9]/g, "");
       item.FOR_CEP = item.FOR_CEP.replace(/[^0-9]/g, "");
+      item.FOR_STATUS = "A";
       return item;
     },
   },

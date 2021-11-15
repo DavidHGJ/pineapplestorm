@@ -118,6 +118,7 @@ export default {
         FOR_ID: "",
         PRD_PESO: "",
         PRD_QTDE: "",
+        PRD_STATUS: "A",
       },
     };
   },

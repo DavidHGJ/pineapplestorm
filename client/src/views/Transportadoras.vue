@@ -34,7 +34,7 @@
                         label="Nome da Transportadora"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         v-model="editedItem.TRS_CNPJ"
                         label="CNPJ"
@@ -62,7 +62,7 @@
                         v-maska="'#########'"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="8">
                       <v-text-field
                         v-model="editedItem.TRS_COMPLEMENTO"
                         label="COMPLEMENTO"
@@ -242,6 +242,7 @@ export default {
       item.TRS_CNPJ = item.TRS_CNPJ.replace(/[^0-9]/g, "");
       item.TRS_INSC = item.TRS_INSC.replace(/[^0-9]/g, "");
       item.TRS_CEP = item.TRS_CEP.replace(/[^0-9]/g, "");
+      item.TRS_STATUS = "A";
       return item;
     },
   },

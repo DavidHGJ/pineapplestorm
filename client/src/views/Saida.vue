@@ -141,7 +141,6 @@ export default {
       produtos: [],
       itensSaida: [],
       headers: [
-        { text: "id", value: "ITE_ID" },
         { text: "Produto", value: "PRD_ID" },
         { text: "Quantidade", value: "ITE_QTDE" },
         { text: "Valor", value: "ITE_VALOR" },
