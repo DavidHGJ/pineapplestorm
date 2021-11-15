@@ -38,24 +38,28 @@
                       <v-text-field
                         v-model="editedItem.FIL_CNPJ"
                         label="CNPJ"
+                        v-maska="'##.###.###/####-##'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.FIL_INSC"
                         label="INSC"
+                        v-maska="'###.###.###.###'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.FIL_CEP"
                         label="CEP"
+                        v-maska="'#####-###'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.FIL_NUM"
                         label="NUMERO"
+                        v-maska="'#########'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
@@ -92,6 +96,7 @@
 
 <script>
 import api from "../api/api";
+import { mask } from "maska";
 
 export default {
   name: "Filiais",
@@ -151,6 +156,11 @@ export default {
         .get("/filiais")
         .then((res) => {
           this.desserts = res.data.data;
+          this.desserts.forEach((element) => {
+            element.FIL_CNPJ = mask(element.FIL_CNPJ, "##.###.###/####-##");
+            element.FIL_INSC = mask(element.FIL_INSC, "###.###.###.###");
+            element.FIL_CEP = mask(element.FIL_CEP, "#####-###");
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -160,7 +170,7 @@ export default {
     postFilial() {
       console.log(this.editedItem);
       api
-        .post("/filiais", this.editedItem)
+        .post("/filiais", this.removeMask(this.editedItem))
         .then(() => {
           alert("Filial cadastrada com sucesso");
           this.carregarFilial();
@@ -172,7 +182,7 @@ export default {
 
     updateFilial(id) {
       api
-        .put(`/filiais/${id}`, this.editedItem)
+        .put(`/filiais/${id}`, this.removeMask(this.editedItem))
         .then(() => {
           alert("Filial atualizada com sucesso");
           this.carregarFilial();
@@ -224,6 +234,12 @@ export default {
         this.postFilial(this.editedIndex);
       }
       this.close();
+    },
+    removeMask(item) {
+      item.FIL_CNPJ = item.FIL_CNPJ.replace(/[^0-9]/g, "");
+      item.FIL_INSC = item.FIL_INSC.replace(/[^0-9]/g, "");
+      item.FIL_CEP = item.FIL_CEP.replace(/[^0-9]/g, "");
+      return item;
     },
   },
 };

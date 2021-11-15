@@ -12,7 +12,7 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class Produto implements iController
+class Categoria implements iController
 {
 
     private QueryManager $queryManager;
@@ -26,7 +26,7 @@ class Produto implements iController
     {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
-        $this->tabela = $this->tabelaManager->getTabela("produto");
+        $this->tabela = $this->tabelaManager->getTabela("categoria");
     }
 
     public function get($identificador)
@@ -40,7 +40,7 @@ class Produto implements iController
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('PRD_ID', Operador::IGUAL, strval($identificador))
+                ->setCondicao('CAT_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
         if ($retornoConsulta->rowCount() > 0) {
@@ -56,22 +56,16 @@ class Produto implements iController
     public function post($request)
     {
         $this->tabela->setColuna(
-            'CAT_ID',
-            'FOR_ID',
-            'PRD_DESC',
-            'PRD_PESO',
-            'PRD_QTDE'
+            'CAT_DESC',
+            'CAT_STATUS'
         );
 
         $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->CAT_ID'",
-                "'$request->FOR_ID'",
-                "'$request->PRD_DESC'",
-                "'$request->PRD_PESO'",
-                "'$request->PRD_QTDE'"
+                "'$request->CAT_DESC'",
+                "'$request->CAT_STATUS'"
             )
             ->queryExec();
 
@@ -88,28 +82,18 @@ class Produto implements iController
             $tabela = clone $this->tabela;
 
             $tabela->setColuna(
-                'CAT_ID',
-                'FOR_ID',
-                'PRD_DESC',
-                'PRD_PESO',
-                'PRD_STATUS',
-                'PRD_QTDE',
-                'PRD_REGDATE'
+                'CAT_DESC',
+                'CAT_STATUS',
             );
 
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->CAT_ID'",
-                    "'$request->FOR_ID'",
-                    "'$request->PRD_DESC'",
-                    "'$request->PRD_PESO'",
-                    "'$request->PRD_STATUS'",
-                    "'$request->PRD_QTDE'",
-                    "'$request->PRD_REGDATE'"
+                    "'$request->CAT_DESC'",
+                    "'$request->CAT_STATUS'"
                 )
-                ->setCondicao('PRD_ID', Operador::IGUAL, $identificador)
+                ->setCondicao('CAT_ID', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
@@ -124,7 +108,7 @@ class Produto implements iController
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('PRD_ID', Operador::IGUAL, strval($identificador))
+                ->setCondicao('CAT_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];
