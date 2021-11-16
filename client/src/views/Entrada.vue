@@ -82,7 +82,7 @@
                   <v-card-text>
                     <v-container>
                       <v-row>
-                        <v-col cols="12" sm="6" md="4" class="mt-4">
+                        <v-col cols="12" sm="6" md="8" class="mt-4">
                           <v-combobox
                             :items="produtos"
                             v-model="editedItem.PRD_ID"
@@ -152,6 +152,7 @@ export default {
       transportadoras: [],
       transportadorasCombo: [],
       produtos: [],
+      itens: [],
       itensEntrada: [],
       headers: [
         { text: "Produto", value: "PRD_ID" },
@@ -168,6 +169,7 @@ export default {
         NF_TIPO: "",
         TRS_ID: "",
         USR_ID: "",
+        ITENS: [],
       },
       editedItem: {
         PRD_ID: "",
@@ -253,7 +255,8 @@ export default {
       this.close();
     },
     finalizar() {
-      console.log(this.itensEntrada);
+      this.editedNF.ITENS.push(this.itensEntrada);
+      console.log(JSON.stringify(this.editedNF));
     },
     addNota() {
       this.editedNF.NF_TIPO = "1";
@@ -261,8 +264,6 @@ export default {
       this.editedNF.TRS_ID = this.transportadoras.find(
         (element) => element.TRS_DESC === this.editedNF.TRS_DESC
       ).TRS_ID;
-
-      console.log(this.editedNF);
     },
   },
 };
