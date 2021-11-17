@@ -34,31 +34,35 @@
                         label="Nome da Transportadora"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         v-model="editedItem.TRS_CNPJ"
                         label="CNPJ"
+                        v-maska="'##.###.###/####-##'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.TRS_INSC"
                         label="INSC"
+                        v-maska="'###.###.###.###'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.TRS_CEP"
                         label="CEP"
+                        v-maska="'#####-###'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.TRS_NUM"
                         label="NUMERO"
+                        v-maska="'#########'"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="8">
                       <v-text-field
                         v-model="editedItem.TRS_COMPLEMENTO"
                         label="COMPLEMENTO"
@@ -92,6 +96,7 @@
 
 <script>
 import api from "../api/api";
+import { mask } from "maska";
 
 export default {
   name: "Transportadoras",
@@ -153,6 +158,11 @@ export default {
         .get("/transportadora")
         .then((res) => {
           this.desserts = res.data.data;
+          this.desserts.forEach((element) => {
+            element.TRS_CNPJ = mask(element.TRS_CNPJ, "##.###.###/####-##");
+            element.TRS_INSC = mask(element.TRS_INSC, "###.###.###.###");
+            element.TRS_CEP = mask(element.TRS_CEP, "#####-###");
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -160,9 +170,8 @@ export default {
     },
 
     postTransportadora() {
-      console.log(this.editedItem);
       api
-        .post("/transportadora", this.editedItem)
+        .post("/transportadora", this.removeMask(this.editedItem))
         .then(() => {
           alert("Transportadora cadastrada com sucesso");
           this.carregarTransportadora();
@@ -174,7 +183,7 @@ export default {
 
     updateTransportadora(id) {
       api
-        .put(`/transportadora/${id}`, this.editedItem)
+        .put(`/transportadora/${id}`, this.removeMask(this.editedItem))
         .then(() => {
           alert("Transportadora atualizada com sucesso");
           this.carregarTransportadora();
@@ -228,6 +237,13 @@ export default {
         this.postTransportadora(this.editedIndex);
       }
       this.close();
+    },
+    removeMask(item) {
+      item.TRS_CNPJ = item.TRS_CNPJ.replace(/[^0-9]/g, "");
+      item.TRS_INSC = item.TRS_INSC.replace(/[^0-9]/g, "");
+      item.TRS_CEP = item.TRS_CEP.replace(/[^0-9]/g, "");
+      item.TRS_STATUS = "A";
+      return item;
     },
   },
 };

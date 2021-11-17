@@ -60,9 +60,7 @@ class Produto implements iController
             'FOR_ID',
             'PRD_DESC',
             'PRD_PESO',
-            'PRD_STATUS',
-            'PRD_QTDE',
-            'PRD_REGDATE'
+            'PRD_QTDE'
         );
 
         $retornoConsulta = $this->queryManager
@@ -73,9 +71,7 @@ class Produto implements iController
                 "'$request->FOR_ID'",
                 "'$request->PRD_DESC'",
                 "'$request->PRD_PESO'",
-                "'$request->PRD_STATUS'",
-                "'$request->PRD_QTDE'",
-                "'$request->PRD_REGDATE'"
+                "'$request->PRD_QTDE'"
             )
             ->queryExec();
 

@@ -10,6 +10,7 @@ import Transportadoras from '../views/Transportadoras'
 import Filiais from '../views/Filiais'
 import Login from '../views/Login'
 import Erro from '../views/Erro'
+import Categorias from '../views/Categorias'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,10 @@ const routes = [
       {
         path: '/Filiais',
         component: Filiais
+      },
+      {
+        path: '/Categorias',
+        component: Categorias
       }
     ]
   },

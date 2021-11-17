@@ -10,7 +10,7 @@
         <v-toolbar flat color="primary">
           <v-toolbar-title
             >Fornecedores
-            <v-icon>mdi-home-outline</v-icon>
+            <v-icon>mdi-account-circle</v-icon>
           </v-toolbar-title>
           <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
           <v-spacer></v-spacer>
@@ -34,31 +34,35 @@
                         label="Nome do Fornecedor"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         v-model="editedItem.FOR_CNPJ"
                         label="CNPJ"
+                        v-maska="'##.###.###/####-##'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.FOR_INSC"
                         label="INSC"
+                        v-maska="'###.###.###.###'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.FOR_CEP"
                         label="CEP"
+                        v-maska="'#####-###'"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.FOR_NUM"
+                        v-model="editedItem.FOR_NUMERO"
                         label="NUMERO"
+                        v-maska="'#####'"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="8">
                       <v-text-field
                         v-model="editedItem.FOR_COMPLEMENTO"
                         label="COMPLEMENTO"
@@ -92,6 +96,7 @@
 
 <script>
 import api from "../api/api";
+import { mask } from "maska";
 
 export default {
   name: "Fornecedores",
@@ -104,7 +109,7 @@ export default {
         { text: "CNPJ", value: "FOR_CNPJ" },
         { text: "INSC", value: "FOR_INSC" },
         { text: "Cep", value: "FOR_CEP" },
-        { text: "Numero", value: "FOR_NUM" },
+        { text: "Numero", value: "FOR_NUMERO" },
         { text: "Complemento", value: "FOR_COMPLEMENTO" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
@@ -112,7 +117,7 @@ export default {
       editedIndex: -1,
       editedItem: {
         FOR_NOME: "",
-        FOR_NUM: "",
+        FOR_NUMERO: "",
         FOR_CEP: "",
         FOR_CNPJ: "",
         FOR_INSC: "",
@@ -121,7 +126,7 @@ export default {
       },
       defaultItem: {
         FOR_NOME: "",
-        FOR_NUM: "",
+        FOR_NUMERO: "",
         FOR_CEP: "",
         FOR_CNPJ: "",
         FOR_INSC: "",
@@ -151,6 +156,11 @@ export default {
         .get("/fornecedores")
         .then((res) => {
           this.desserts = res.data.data;
+          this.desserts.forEach((element) => {
+            element.FOR_CNPJ = mask(element.FOR_CNPJ, "##.###.###/####-##");
+            element.FOR_INSC = mask(element.FOR_INSC, "###.###.###.###");
+            element.FOR_CEP = mask(element.FOR_CEP, "#####-###");
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -158,9 +168,8 @@ export default {
     },
 
     postFornecedor() {
-      console.log(this.editedItem);
       api
-        .post("/fornecedores", this.editedItem)
+        .post("/fornecedores", this.removeMask(this.editedItem))
         .then(() => {
           alert("Fornecedor cadastrada com sucesso");
           this.carregarFornecedor();
@@ -172,7 +181,7 @@ export default {
 
     updateFornecedor(id) {
       api
-        .put(`/fornecedores/${id}`, this.editedItem)
+        .put(`/fornecedores/${id}`, this.removeMask(this.editedItem))
         .then(() => {
           alert("Fornecedor atualizada com sucesso");
           this.carregarFornecedor();
@@ -225,6 +234,14 @@ export default {
         this.postFornecedor(this.editedIndex);
       }
       this.close();
+    },
+
+    removeMask(item) {
+      item.FOR_CNPJ = item.FOR_CNPJ.replace(/[^0-9]/g, "");
+      item.FOR_INSC = item.FOR_INSC.replace(/[^0-9]/g, "");
+      item.FOR_CEP = item.FOR_CEP.replace(/[^0-9]/g, "");
+      item.FOR_STATUS = "A";
+      return item;
     },
   },
 };

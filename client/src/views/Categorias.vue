@@ -9,15 +9,15 @@
       <template v-slot:top>
         <v-toolbar flat color="primary">
           <v-toolbar-title
-            >Produtos
-            <v-icon>mdi-clipboard-text</v-icon>
+            >Categorias
+            <v-icon>mdi-clipboard-edit-outline</v-icon>
           </v-toolbar-title>
           <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn color="primary" dark class="mb-2 buttoncolor" v-on="on"
-                >Novo Produto</v-btn
+                >Nova Categoria</v-btn
               >
             </template>
             <v-card>
@@ -30,32 +30,8 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="12">
                       <v-text-field
-                        v-model="editedItem.PRD_DESC"
-                        label="Descrição do Produto"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.CAT_ID"
-                        label="Categoria"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.FOR_ID"
-                        label="Fornecedor"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.PRD_PESO"
-                        label="Peso"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.PRD_QTDE"
-                        label="Quantidade"
+                        v-model="editedItem.CAT_DESC"
+                        label="Nome da Categoria"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -78,7 +54,7 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="carregarProdutos">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarCategoria">Resetar</v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -88,43 +64,30 @@
 import api from "../api/api";
 
 export default {
-  name: "Produtos",
+  name: "Categorias",
   data() {
     return {
       dialog: false,
       headers: [
-        { text: "id", value: "PRD_ID" },
-        { text: "Descrição", value: "PRD_DESC" },
-        { text: "categoria", value: "CAT_ID" },
-        { text: "fornecedor", value: "FOR_ID" },
-        { text: "Peso", value: "PRD_PESO" },
-        { text: "Quantidade", value: "PRD_QTDE" },
+        { text: "id", value: "CAT_ID" },
+        { text: "Descrição", value: "CAT_DESC" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        PRD_ID: "",
-        PRD_DESC: "",
-        CAT_ID: "",
-        FOR_ID: "",
-        PRD_PESO: "",
-        PRD_QTDE: "",
+        CAT_DESC: "",
+        CAT_STATUS: "",
       },
       defaultItem: {
-        PRD_ID: "",
-        PRD_DESC: "",
-        CAT_ID: "",
-        FOR_ID: "",
-        PRD_PESO: "",
-        PRD_QTDE: "",
-        PRD_STATUS: "A",
+        CAT_DESC: "",
+        CAT_STATUS: "",
       },
     };
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Novo Produto" : "Editar Produto";
+      return this.editedIndex === -1 ? "Nova Categoria" : "Editar Categoria";
     },
   },
 
@@ -135,12 +98,12 @@ export default {
   },
 
   created() {
-    this.carregarProdutos();
+    this.carregarCategoria();
   },
   methods: {
-    carregarProdutos() {
+    carregarCategoria() {
       api
-        .get("/produtos")
+        .get("/categoria")
         .then((res) => {
           this.desserts = res.data.data;
         })
@@ -149,40 +112,41 @@ export default {
         });
     },
 
-    postProduto() {
+    postCategoria() {
       console.log(this.editedItem);
       api
-        .post("/produtos", this.editedItem)
+        .post("/categoria", this.addStatus(this.editedItem))
         .then(() => {
-          alert("Produto cadastrada com sucesso");
-          this.carregarProdutos();
+          alert("Categoria cadastrada com sucesso");
+          this.carregarCategoria();
         })
         .catch(() => {
-          alert("Erro ao cadastrar Produto");
+          alert("Erro ao cadastrar Categoria");
         });
     },
 
-    updateProduto(id) {
+    updateCategoria(id) {
       api
-        .put(`/produtos/${id}`, this.editedItem)
+        .put(`/categoria/${id}`, this.editedItem)
         .then(() => {
-          alert("Produto atualizada com sucesso");
-          this.carregarProdutos();
+          alert("Categoria atualizada com sucesso");
+          this.carregarCategoria();
         })
         .catch(() => {
-          alert("Erro ao atualizar Produto");
+          alert("Erro ao cadastrar Categoria");
         });
     },
 
     deleteUser(id) {
+      console.log(id);
       api
-        .delete(`/produtos/${id}`)
+        .delete(`/categoria/${id}`)
         .then(() => {
-          alert("Produto deletada com sucesso");
-          this.carregarProdutos();
+          alert("Categoria deletada com sucesso");
+          this.carregarCategoria();
         })
         .catch(() => {
-          alert("Erro ao deletar Produto");
+          alert("Erro ao deletar Categoria");
         });
     },
 
@@ -195,9 +159,9 @@ export default {
     deleteItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       const idItem = Object.assign({}, item);
-      confirm("Tem certeza de que deseja excluir este produto?") &&
+      confirm("Tem certeza de que deseja excluir esta Categoria?") &&
         //this.desserts.splice(index, 1);
-        this.deleteUser(idItem.PRD_ID);
+        this.deleteUser(idItem.CAT_ID);
     },
 
     close() {
@@ -210,11 +174,15 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        this.updateProduto(this.editedItem.PRD_ID);
+        this.updateCategoria(this.editedItem.CAT_ID);
       } else {
-        this.postProduto(this.editedIndex);
+        this.postCategoria(this.editedIndex);
       }
       this.close();
+    },
+    addStatus(item) {
+      item.CAT_STATUS = "A";
+      return item;
     },
   },
 };

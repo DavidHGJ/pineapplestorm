@@ -166,6 +166,6 @@ class QueryManager{
      * @return String script da query
      */
     public function queryDebug(){
-        return strtoupper(trim(static::$query-> getQuery()));
+        return trim(static::$query-> getQuery());
     }
 }

@@ -86,6 +86,11 @@ export default {
           href: "Filiais",
           icon: "mdi-home-outline",
         },
+        {
+          title: "Categorias",
+          href: "Categorias",
+          icon: "mdi-clipboard-edit-outline",
+        },
       ],
     };
   },
