@@ -34,7 +34,7 @@
                         label="Nome da Filial"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         v-model="editedItem.FIL_CNPJ"
                         label="CNPJ"
@@ -62,7 +62,7 @@
                         v-maska="'#########'"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="8">
                       <v-text-field
                         v-model="editedItem.FIL_COMPLEMENTO"
                         label="COMPLEMENTO"
@@ -239,6 +239,7 @@ export default {
       item.FIL_CNPJ = item.FIL_CNPJ.replace(/[^0-9]/g, "");
       item.FIL_INSC = item.FIL_INSC.replace(/[^0-9]/g, "");
       item.FIL_CEP = item.FIL_CEP.replace(/[^0-9]/g, "");
+      item.FIL_STATUS = "A";
       return item;
     },
   },

@@ -8,18 +8,32 @@
         <v-form>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="6">
+              <v-col cols="12" sm="6" md="3">
                 <v-text-field
                   label="Numero"
                   v-maska="'#########'"
                   v-model="editedNF.NF_NUM"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6" md="3">
+              <v-col cols="12" sm="6" md="2">
                 <v-text-field
                   label="Série"
                   v-maska="'###'"
                   v-model="editedNF.NF_SERIE"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2">
+                <v-text-field
+                  label="Valor Frete"
+                  v-maska="'##########'"
+                  v-model="editedNF.ENT_FRETE"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2">
+                <v-text-field
+                  label="Valor Imposto"
+                  v-maska="'##########'"
+                  v-model="editedNF.ENT_IMPOSTO"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="3" class="mt-4">
@@ -68,7 +82,7 @@
                   <v-card-text>
                     <v-container>
                       <v-row>
-                        <v-col cols="12" sm="6" md="4" class="mt-4">
+                        <v-col cols="12" sm="6" md="8" class="mt-4">
                           <v-combobox
                             :items="produtos"
                             v-model="editedItem.PRD_ID"
@@ -138,9 +152,9 @@ export default {
       transportadoras: [],
       transportadorasCombo: [],
       produtos: [],
+      itens: [],
       itensEntrada: [],
       headers: [
-        { text: "id", value: "ITE_ID" },
         { text: "Produto", value: "PRD_ID" },
         { text: "Quantidade", value: "ITE_QTDE" },
         { text: "Valor", value: "ITE_VALOR" },
@@ -155,6 +169,7 @@ export default {
         NF_TIPO: "",
         TRS_ID: "",
         USR_ID: "",
+        ITENS: [],
       },
       editedItem: {
         PRD_ID: "",
@@ -240,7 +255,8 @@ export default {
       this.close();
     },
     finalizar() {
-      console.log(this.itensEntrada);
+      this.editedNF.ITENS.push(this.itensEntrada);
+      console.log(JSON.stringify(this.editedNF));
     },
     addNota() {
       this.editedNF.NF_TIPO = "1";
@@ -248,8 +264,6 @@ export default {
       this.editedNF.TRS_ID = this.transportadoras.find(
         (element) => element.TRS_DESC === this.editedNF.TRS_DESC
       ).TRS_ID;
-
-      console.log(this.editedNF);
     },
   },
 };

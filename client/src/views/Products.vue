@@ -118,6 +118,7 @@ export default {
         FOR_ID: "",
         PRD_PESO: "",
         PRD_QTDE: "",
+        PRD_STATUS: "A",
       },
     };
   },
@@ -174,7 +175,6 @@ export default {
     },
 
     deleteUser(id) {
-      console.log(id);
       api
         .delete(`/produtos/${id}`)
         .then(() => {
@@ -195,9 +195,9 @@ export default {
     deleteItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       const idItem = Object.assign({}, item);
-      confirm("Tem certeza de que deseja excluir este fornecedor?") &&
+      confirm("Tem certeza de que deseja excluir este produto?") &&
         //this.desserts.splice(index, 1);
-        this.deleteUser(idItem.TRS_ID);
+        this.deleteUser(idItem.PRD_ID);
     },
 
     close() {
