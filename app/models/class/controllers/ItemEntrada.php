@@ -12,7 +12,7 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class EntradaNf implements iController
+class ItemEntrada
 {
 
     private QueryManager $queryManager;
@@ -26,7 +26,7 @@ class EntradaNf implements iController
     {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
-        $this->tabela = $this->tabelaManager->getTabela("entrada");
+        $this->tabela = $this->tabelaManager->getTabela("item_entrada");
     }
 
     public function get($identificador)
@@ -40,7 +40,7 @@ class EntradaNf implements iController
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('ENT_ID', Operador::IGUAL, strval($identificador))
+                ->setCondicao('ite_id', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
         if ($retornoConsulta->rowCount() > 0) {
@@ -53,34 +53,31 @@ class EntradaNf implements iController
         return $response;
     }
 
-    public function post($request)
+    public function post($request, $idEntrada)
     {
-        $notaFiscal = new NotaFiscal;
+        $this->tabela->setColuna(
+            'prd_id',
+            'ite_qtde',
+            'ite_valor',
+            'ite_lote',
+            'ent_id'
+        );
 
-        $notaFiscal->post($request);
+        $retornoConsulta = $this->queryManager
+            ->setAcao(Acao::INSERT)
+            ->setTabela($this->tabela)
+            ->setValores(
+                "'$request->PRD_ID'",
+                "'$request->ITE_QTDE'",
+                "'$request->ITE_VALOR'",
+                "'$request->ITE_LOTE'",
+                "'$idEntrada'"
+            )
+            ->queryExec();
 
-        $idNotaFiscal = QueryManager::getInstance()->getConexao()->lastInsertId();
-
-        unset($notaFiscal);
-
-        $entrada = new Entrada;
-
-        $entrada->post($request, $idNotaFiscal);
-
-        $idEntrada = QueryManager::getInstance()->getConexao()->lastInsertId();
-
-        unset($entrada);
-
-        foreach($request->ITENS as $item)
-        {
-            $itemEntrada = new ItemEntrada;
-
-            $itemEntrada->post($item, $idEntrada);
-
-            unset($itemEntrada);
-        }
-
-        return ['error' => false, 'message' => 'Operação realizada com sucesso.'];
+        return ($retornoConsulta)
+            ? ['error' => false, 'message' => 'Operação realizada com sucesso.']
+            : ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
     }
 
     public function put($request, $identificador)
@@ -91,28 +88,24 @@ class EntradaNf implements iController
             $tabela = clone $this->tabela;
 
             $tabela->setColuna(
-                'TRS_ID',
-                'ENT_DATA',
-                'ENT_TOTAL',
-                'ENT_FRETE',
-                'ENT_IMPOSTO',
-                'USR_ID',
-                'NF_ID'
+                'prd_id',
+                'ite_qtde',
+                'ite_valor',
+                'ite_lote',
+                'ent_id'
             );
 
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->TRS_ID'",
-                    "'$request->ENT_DATA'",
-                    "'$request->ENT_TOTAL'",
-                    "'$request->ENT_FRETE'",
-                    "'$request->ENT_IMPOSTO'",
-                    "'$request->USR_ID'",
-                    "'$request->NF_ID'"
+                    "'$request->PRD_ID'",
+                    "'$request->ITE_QTDE'",
+                    "'$request->ITE_VALOR'",
+                    "'$request->ITE_LOTE'",
+                    "'$request->ENT_ID'"
                 )
-                ->setCondicao('ENT_ID', Operador::IGUAL, $identificador)
+                ->setCondicao('ite_id', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
@@ -127,7 +120,7 @@ class EntradaNf implements iController
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('ENT_ID', Operador::IGUAL, strval($identificador))
+                ->setCondicao('ite_id', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];
