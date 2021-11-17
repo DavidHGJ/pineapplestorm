@@ -25,7 +25,7 @@ abstract class MapTabelas{
             new Tabela("TRANSPORTADORA", "TRS_ID", "TRS_DESC", "TRS_NUM", "TRS_CEP", "TRS_CNPJ",
             "TRS_INSC", "TRS_STATUS", "TRS_COMPLEMENTO"),
 
-            new Tabela("PRODUTO", "PRD_ID", "CAT_ID", "FOR_ID", "PRD_DESC", "PRD_PESO", "PRD_STATUS", "PRD_QTDE", "PRD_REGDATE"),
+            new Tabela("PRODUTO", "PRD_ID", "CAT_ID", "FOR_ID", "PRD_DESC", "PRD_PESO", "PRD_STATUS", "CALCULA_QUANTIDADE_PRODUTO(PRD_ID) AS PRD_QTD", "PRD_REGDATE"),
 
             new Tabela("FORNECEDOR", "FOR_ID", 'FOR_NOME', 'FOR_NUMERO', 'FOR_CEP', 'FOR_CNPJ', 'FOR_INSC', 'FOR_STATUS', 'FOR_COMPLEMENTO'),
 
@@ -49,11 +49,11 @@ abstract class MapTabelas{
 
             new Tabela('GRUPO_X_USUARIO', 'GRU_X_USR_ID', 'USR_ID', 'GRU_ID'),
 
-            new Tabela('ENTRADA', 'ENT_ID', 'TRS_ID', 'ENT_DATA', 'ENT_TOTAL', 'ENT_FRETE', 'ENT_IMPOSTO', 'USR_ID', 'NF_ID'),
+            new Tabela('ENTRADA', 'ENT_ID', 'TRS_ID', 'ENT_DATA', 'CONTA_QTDE_ITEMS_ENTRADA(ENT_ID) AS ENT_QTDE', 'VALOR_TOTAL_ITEMS_ENTRADA(ENT_ID) AS ENT_VALOR', 'ENT_TOTAL', 'ENT_FRETE', 'ENT_IMPOSTO', 'USR_ID', 'NF_ID'),
 
             new Tabela('ITEM_ENTRADA', 'ITE_ID', 'PRD_ID', 'ITE_QTDE', 'ITE_VALOR', 'ITE_LOTE', 'NF_ID'),
 
-            new Tabela('SAIDA', 'SAI_ID', 'FIL_ID', 'SAI_LOTE', 'SAI_QTDE', 'SAI_VALOR', 'USR_ID', 'NF_ID'),
+            new Tabela('SAIDA', 'SAI_ID', 'FIL_ID', 'SAI_LOTE', 'CONTA_QTDE_ITEMS_SAIDA(SAI_ID) AS SAI_QTDE', 'VALOR_TOTAL_ITEMS_SAIDA(SAI_ID) AS SAI_VALOR', 'USR_ID', 'NF_ID'),
 
             new Tabela('ITEM_SAIDA', 'ITS_ID', 'SAI_ID', 'PRD_ID', 'SAI_LOTE', 'SAI_QTDE', 'SAI_VALOR', 'NF_ID')
         );
