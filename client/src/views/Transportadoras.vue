@@ -194,7 +194,6 @@ export default {
     },
 
     deleteUser(id) {
-      console.log(id);
       api
         .delete(`/transportadora/${id}`)
         .then(() => {
@@ -207,14 +206,12 @@ export default {
     },
 
     editItem(item) {
-      console.log(item);
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      console.log(item);
       this.editedIndex = this.desserts.indexOf(item);
       const idItem = Object.assign({}, item);
       confirm("Tem certeza de que deseja excluir este fornecedor?") &&

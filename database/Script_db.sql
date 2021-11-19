@@ -26,7 +26,7 @@ create table if not exists contato(
 create table if not exists filiais(
 	fil_id int auto_increment,
     fil_cnpj char(14),
-    fil_insc char(10),
+    fil_insc char(12),
     fil_status char(1),
     fil_desc varchar(255),
     fil_cep char(9),
@@ -52,7 +52,7 @@ create table if not exists transportadora(
     trs_num varchar(9),
     trs_cep char(9),
     trs_cnpj char(14),
-    trs_insc char(10),
+    trs_insc char(12),
     trs_status char(1),
     trs_complemento varchar(45),
     
@@ -73,9 +73,9 @@ create table if not exists fornecedor(
 	for_id int auto_increment,
     for_nome varchar(255),
     for_numero varchar(5),
-    for_cep char(5),
+    for_cep char(9),
     for_cnpj char(14),
-    for_insc char(10),
+    for_insc char(12),
     for_status char(1),
     for_complemento varchar(45),
     
@@ -218,6 +218,9 @@ create table if not exists item_saida(
     constraint fk_i_s_saida_id foreign key(sai_id) references saida(sai_id),
     constraint un_item_saida_prd_id_sai_id unique key(prd_id, sai_id)
 );
+
+-- SET GLOBAL log_bin_trust_function_creators = 1;
+
 
 delimiter $$
 create function calcula_quantidade_produto( 

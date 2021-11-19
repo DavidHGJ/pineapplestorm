@@ -13,6 +13,7 @@
                   label="Numero"
                   v-maska="'#########'"
                   v-model="editedNF.NF_NUM"
+                  :disabled="txt1"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="2">
@@ -20,6 +21,7 @@
                   label="Série"
                   v-maska="'###'"
                   v-model="editedNF.NF_SERIE"
+                  :disabled="txt2"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="2">
@@ -27,6 +29,7 @@
                   label="Valor Frete"
                   v-maska="'##########'"
                   v-model="editedNF.ENT_FRETE"
+                  :disabled="txt3"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="2">
@@ -34,6 +37,7 @@
                   label="Valor Imposto"
                   v-maska="'##########'"
                   v-model="editedNF.ENT_IMPOSTO"
+                  :disabled="txt4"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="3" class="mt-4">
@@ -43,17 +47,23 @@
                   label="Selecionar Transportadora"
                   outlined
                   dense
+                  :disabled="txt5"
                 ></v-combobox>
               </v-col>
             </v-row>
 
-            <v-btn color="buttoncolor" class="mr-4" @click="addNota">
+            <v-btn
+              color="buttoncolor"
+              class="mr-4"
+              @click="addNota"
+              :disabled="btn1"
+            >
               Adicionar nota
             </v-btn>
           </v-container>
         </v-form>
       </v-col>
-      <v-col lg="12" class="mb-10 ml-5 primary">
+      <v-col lg="12" class="mb-10 ml-5 primary" v-show="enableItens">
         <v-data-table
           :headers="headers"
           :items="itensEntrada"
@@ -84,7 +94,7 @@
                       <v-row>
                         <v-col cols="12" sm="6" md="8" class="mt-4">
                           <v-combobox
-                            :items="produtos"
+                            :items="produtosCombo"
                             v-model="editedItem.PRD_ID"
                             label="Produto"
                             outlined
@@ -134,6 +144,9 @@
             <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
           </template>
         </v-data-table>
+        <v-btn color="error" class="mr-4 mt-4" @click="enableFields()">
+          Voltar
+        </v-btn>
         <v-btn color="buttoncolor" class="mr-4 mt-4" @click="finalizar">
           Finalizar entrada
         </v-btn>
@@ -152,6 +165,7 @@ export default {
       transportadoras: [],
       transportadorasCombo: [],
       produtos: [],
+      produtosCombo: [],
       itens: [],
       itensEntrada: [],
       headers: [
@@ -183,6 +197,13 @@ export default {
         ITE_VALOR: "",
         ITE_LOTE: "",
       },
+      enableItens: false,
+      txt1: false,
+      txt2: false,
+      txt3: false,
+      txt4: false,
+      txt5: false,
+      btn1: false,
     };
   },
   computed: {
@@ -218,8 +239,9 @@ export default {
       api
         .get("/produtos")
         .then((res) => {
+          this.produtos = res.data.data;
           res.data.data.forEach((element) => {
-            this.produtos.push(element.PRD_DESC);
+            this.produtosCombo.push(element.PRD_DESC);
           });
         })
         .catch((error) => {
@@ -255,15 +277,42 @@ export default {
       this.close();
     },
     finalizar() {
-      this.editedNF.ITENS.push(this.itensEntrada);
+      this.itensEntrada.forEach((element) => {
+        element.PRD_ID = this.produtos.find(
+          (e) => e.PRD_DESC === element.PRD_ID
+        ).PRD_ID;
+        this.editedNF.ITENS.push(element);
+      });
+
       console.log(JSON.stringify(this.editedNF));
     },
     addNota() {
-      this.editedNF.NF_TIPO = "1";
+      this.editedNF.NF_TIPO = "0";
       this.editedNF.USR_ID = "1";
       this.editedNF.TRS_ID = this.transportadoras.find(
         (element) => element.TRS_DESC === this.editedNF.TRS_DESC
       ).TRS_ID;
+      this.enableItens = true;
+      this.disableFields();
+    },
+    disableFields() {
+      this.txt1 = true;
+      this.txt2 = true;
+      this.txt3 = true;
+      this.txt4 = true;
+      this.txt5 = true;
+      this.btn1 = true;
+    },
+
+    enableFields() {
+      this.txt1 = false;
+      this.txt2 = false;
+      this.txt3 = false;
+      this.txt4 = false;
+      this.txt5 = false;
+      this.btn1 = false;
+      this.enableItens = false;
+      this.itensEntrada = [];
     },
   },
 };

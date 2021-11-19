@@ -168,7 +168,6 @@ export default {
     },
 
     postFilial() {
-      console.log(this.editedItem);
       api
         .post("/filiais", this.removeMask(this.editedItem))
         .then(() => {
@@ -193,7 +192,6 @@ export default {
     },
 
     deleteUser(id) {
-      console.log(id);
       api
         .delete(`/filiais/${id}`)
         .then(() => {

@@ -113,7 +113,6 @@ export default {
     },
 
     postCategoria() {
-      console.log(this.editedItem);
       api
         .post("/categoria", this.addStatus(this.editedItem))
         .then(() => {
@@ -138,7 +137,6 @@ export default {
     },
 
     deleteUser(id) {
-      console.log(id);
       api
         .delete(`/categoria/${id}`)
         .then(() => {

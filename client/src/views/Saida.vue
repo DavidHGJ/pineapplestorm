@@ -2,7 +2,7 @@
   <v-container class="pt-6">
     <v-row>
       <v-col lg="12" class="mb-10 ml-5 primary">
-        <h2 class="intro-text">Nova saida</h2>
+        <h2 class="intro-text">Nova saída</h2>
         <h3 class="intro-text">Adicionar Nota Fiscal</h3>
 
         <v-form>
@@ -56,7 +56,7 @@
           <template v-slot:top>
             <v-toolbar flat color="primary">
               <v-toolbar-title
-                >Itens de saida
+                >Itens de saída
                 <v-icon>mdi-truck-delivery</v-icon>
               </v-toolbar-title>
               <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
@@ -128,7 +128,7 @@
           </template>
         </v-data-table>
         <v-btn color="buttoncolor" class="mr-4 mt-4" @click="finalizar">
-          Finalizar saida
+          Finalizar saída
         </v-btn>
       </v-col>
     </v-row>
@@ -163,6 +163,7 @@ export default {
         TRS_ID: "",
         TRS_DESC: "",
         USR_ID: "",
+        ITENS: [],
       },
       editedItem: {
         ITE_ID: "",
@@ -207,6 +208,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          alert("DEU ERRO");
         });
     },
     carregarProdutos() {
@@ -250,7 +252,8 @@ export default {
       this.close();
     },
     finalizar() {
-      console.log(this.itensSaida);
+      this.editedNF.ITENS.push(this.itensSaida);
+      console.log(JSON.stringify(this.editedNF));
     },
     addNota() {
       this.editedNF.NF_TIPO = "0";
@@ -261,8 +264,6 @@ export default {
       this.editedNF.FIL_ID = this.filiais.find(
         (element) => element.FIL_DESC === this.editedNF.FIL_DESC
       );
-
-      console.log(this.filiais);
     },
   },
 };

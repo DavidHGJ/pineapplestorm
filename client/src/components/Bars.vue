@@ -57,12 +57,12 @@ export default {
     return {
       items: [
         {
-          title: "Entrada",
+          title: "Entradas",
           href: "Entrada",
           icon: "mdi-truck",
         },
         {
-          title: "Saida",
+          title: "Saidas",
           href: "Saida",
           icon: "mdi-truck-delivery",
         },
@@ -72,12 +72,12 @@ export default {
           icon: "mdi-clipboard-text",
         },
         {
-          title: "Fornecedor",
+          title: "Fornecedores",
           href: "Fornecedores",
           icon: "mdi-account-circle",
         },
         {
-          title: "Transportadora",
+          title: "Transportadoras",
           href: "Transportadoras",
           icon: "mdi-truck",
         },
