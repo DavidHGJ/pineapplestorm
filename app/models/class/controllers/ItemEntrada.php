@@ -59,7 +59,6 @@ class ItemEntrada
             'prd_id',
             'ite_qtde',
             'ite_valor',
-            'ite_lote',
             'ent_id'
         );
 
@@ -70,7 +69,6 @@ class ItemEntrada
                 "'$request->PRD_ID'",
                 "'$request->ITE_QTDE'",
                 "'$request->ITE_VALOR'",
-                "'$request->ITE_LOTE'",
                 "'$idEntrada'"
             )
             ->queryExec();

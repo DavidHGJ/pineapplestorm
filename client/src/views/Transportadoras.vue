@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-data-table
+      hide-default-footer
+      disable-pagination
       :headers="headers"
       :items="desserts"
       sort-by="calories"
@@ -85,7 +87,8 @@
       </template>
       <template v-slot:[`item.action`]="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> Editar </v-icon>
-        <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
+        <v-icon small class="mr-2" @click="deleteItem(item)"> Deletar </v-icon>
+        <v-icon small @click="abrirContatos(item)"> Contatos </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="carregarTransportadora">Resetar</v-btn>
@@ -97,6 +100,7 @@
 <script>
 import api from "../api/api";
 import { mask } from "maska";
+import { cnpjValidation } from "../../js/cnpj.validation";
 
 export default {
   name: "Transportadoras",
@@ -228,12 +232,19 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        this.updateTransportadora(this.editedItem.TRS_ID);
+      if (this.validaCnpj(this.editedItem.TRS_CNPJ)) {
+        if (this.editedIndex > -1) {
+          this.updateTransportadora(this.editedItem.TRS_ID);
+        } else {
+          this.postTransportadora(this.editedIndex);
+        }
+        this.close();
       } else {
-        this.postTransportadora(this.editedIndex);
+        alert("CNPJ Inválido!!");
       }
-      this.close();
+    },
+    validaCnpj(cnpj) {
+      return cnpjValidation(cnpj);
     },
     removeMask(item) {
       item.TRS_CNPJ = item.TRS_CNPJ.replace(/[^0-9]/g, "");
@@ -241,6 +252,9 @@ export default {
       item.TRS_CEP = item.TRS_CEP.replace(/[^0-9]/g, "");
       item.TRS_STATUS = "A";
       return item;
+    },
+    abrirContatos(item) {
+      this.$router.push({ path: `/ContatoTransportadoras/${item.TRS_ID}` }); // -> /user/123
     },
   },
 };
@@ -259,7 +273,6 @@ p.description {
 }
 
 .tabela {
-  border-radius: 2em;
   margin-left: 15px;
   box-shadow: 5px 5px 5px 5px #101519; /*any color you want*/
 }

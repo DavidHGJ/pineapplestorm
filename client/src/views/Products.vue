@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-data-table
+      hide-default-footer
+      disable-pagination
       :headers="headers"
       :items="desserts"
       sort-by="calories"
@@ -92,6 +94,7 @@ export default {
         { text: "categoria", value: "CAT_ID" },
         { text: "fornecedor", value: "FOR_ID" },
         { text: "Peso", value: "PRD_PESO" },
+        { text: "Quantidade", value: "PRD_QTD" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
@@ -224,7 +227,6 @@ p.description {
 }
 
 .tabela {
-  border-radius: 2em;
   margin-left: 15px;
   box-shadow: 5px 5px 5px 5px #101519; /*any color you want*/
 }

@@ -33,7 +33,7 @@
 
         <template v-slot:append>
           <div class="pa-2 mb-7">
-            <v-btn block> Sair </v-btn>
+            <v-btn block @click="logout()"> Sair </v-btn>
           </div>
         </template>
       </v-navigation-drawer>
@@ -58,41 +58,48 @@ export default {
       items: [
         {
           title: "Entradas",
-          href: "Entrada",
+          href: "/Entrada",
           icon: "mdi-truck",
         },
         {
           title: "Saidas",
-          href: "Saida",
+          href: "/Saida",
           icon: "mdi-truck-delivery",
         },
         {
           title: "Produtos",
-          href: "Products",
+          href: "/Products",
           icon: "mdi-clipboard-text",
         },
         {
           title: "Fornecedores",
-          href: "Fornecedores",
+          href: "/Fornecedores",
           icon: "mdi-account-circle",
         },
         {
           title: "Transportadoras",
-          href: "Transportadoras",
+          href: "/Transportadoras",
           icon: "mdi-truck",
         },
         {
           title: "Filiais",
-          href: "Filiais",
+          href: "/Filiais",
           icon: "mdi-home-outline",
         },
         {
           title: "Categorias",
-          href: "Categorias",
+          href: "/Categorias",
           icon: "mdi-clipboard-edit-outline",
         },
       ],
     };
+  },
+  methods: {
+    logout() {
+      if (confirm("Tem certeza que deseja sair?")) {
+        this.$router.push("/login");
+      }
+    },
   },
   computed: {
     theme() {

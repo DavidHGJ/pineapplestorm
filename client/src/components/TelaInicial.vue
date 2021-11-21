@@ -1,21 +1,28 @@
 <template>
-  <!-- <v-col lg="6" class="mb-10">
-        <h2 class="intro-text">Sistema de controle de estoque</h2>
-        <div class="mt-10">
-          <v-btn to="/Entrada" color="success" class="white--text mr-10" rounded
-            >Cadastrar entrada</v-btn
-          >
-          <v-btn to="/Saida" color="success" class="white--text mr-10" rounded
-            >Cadastrar saida</v-btn
-          >
-        </div>
-      </v-col>
-      <v-col lg="6">
-        <img width="100%" src="./../assets/estoque.png" alt="" />
-      </v-col> -->
+  <v-container class="content">
+    <h2 class="intro-text">Sistema de controle de estoque</h2>
+    <div class="mt-10">
+      <v-btn to="/Entrada" color="buttoncolor" class="white--text mr-10" rounded
+        >Cadastrar entrada</v-btn
+      >
+      <v-btn
+        to="/Saida"
+        color="buttoncolor"
+        class="white--text mr-10 mt-5"
+        rounded
+        >Cadastrar saida</v-btn
+      >
+    </div>
+    <v-col lg="6">
+      <img
+        width="100%"
+        src="./../assets/estoque.png"
+        class="position: absolute"
+      />
+    </v-col>
+  </v-container>
 
-  <v-card class="cards" color="#171e21" width="100%">
-    <v-container>
+  <!-- <v-container>
       <v-row dense>
         <v-col v-for="(item, i) in headers" :key="i" cols="3">
           <v-card :color="item.color" dark>
@@ -30,16 +37,15 @@
               </div>
 
               <v-avatar class="ma-3" size="125" tile>
-                <!-- <v-img :src="item.src"></v-img> -->
                 <v-icon size="125">{{ item.icon }}</v-icon>
               </v-avatar>
             </div>
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> -->
 
-    <v-container>
+  <!-- <v-container>
       <v-row dense>
         <v-col v-for="(item, i) in card1" :key="i" cols="6">
           <v-card :color="item.color" dark height="400px">
@@ -59,8 +65,6 @@
               </div>
 
               <v-avatar class="ma-3" size="125" tile>
-                <!-- <v-img :src="item.src"></v-img> -->
-                <!-- <v-icon size="125">{{ item.icon }}</v-icon> -->
               </v-avatar>
             </div>
           </v-card>
@@ -81,16 +85,14 @@
               </div>
 
               <v-avatar class="ma-3" size="125" tile>
-                <!-- <v-img :src="item.src"></v-img> -->
-                <!-- <v-icon size="125">{{ item.icon }}</v-icon> -->
               </v-avatar>
             </div>
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> -->
 
-    <v-container>
+  <!-- <v-container>
       <v-row dense>
         <v-col v-for="(item, i) in footer" :key="i" cols="4 ">
           <v-card :color="item.color" dark height="290px">
@@ -102,20 +104,15 @@
                 ></v-card-title>
 
                 <v-icon size="200">{{ item.icon }}</v-icon>
-
-                <!-- <v-card-subtitle v-text="item.artist"></v-card-subtitle> -->
               </div>
 
               <v-avatar class="ma-3" size="125" tile>
-                <!-- <v-img :src="item.src"></v-img> -->
-                <!-- <v-icon size="125">{{ item.icon }}</v-icon> -->
               </v-avatar>
             </div>
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
-  </v-card>
+    </v-container> -->
 </template>
 
 <script>
@@ -199,5 +196,11 @@ p.description {
   font-size: 19px;
   margin: 32px 0px;
   color: #444444ba;
+}
+.content {
+  width: 70vw;
+  height: 70vh;
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -2,6 +2,14 @@
   <v-container class="pt-6">
     <v-row>
       <v-col lg="12" class="mb-10 ml-5 primary">
+        <div class="alerts">
+          <v-alert type="success" :value="alertSucess">
+            Cadastrado com sucesso
+          </v-alert>
+          <v-alert type="error" :value="alertError">
+            Erro ao cadastrar entrada
+          </v-alert>
+        </div>
         <h2 class="intro-text">Nova entrada</h2>
         <h3 class="intro-text">Adicionar Nota Fiscal</h3>
 
@@ -41,14 +49,17 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="3" class="mt-4">
-                <v-combobox
+                <v-select
                   :items="transportadorasCombo"
-                  v-model="editedNF.TRS_DESC"
+                  item-text="TRS_DESC"
+                  item-value="TRS_ID"
+                  return-object
+                  v-model="editedNF.TRANSP"
                   label="Selecionar Transportadora"
                   outlined
                   dense
                   :disabled="txt5"
-                ></v-combobox>
+                ></v-select>
               </v-col>
             </v-row>
 
@@ -65,6 +76,8 @@
       </v-col>
       <v-col lg="12" class="mb-10 ml-5 primary" v-show="enableItens">
         <v-data-table
+          hide-default-footer
+          disable-pagination
           :headers="headers"
           :items="itensEntrada"
           sort-by="calories"
@@ -93,13 +106,16 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" sm="6" md="8" class="mt-4">
-                          <v-combobox
+                          <v-select
                             :items="produtosCombo"
-                            v-model="editedItem.PRD_ID"
+                            item-text="PRD_DESC"
+                            item-value="PRD_ID"
+                            return-object
+                            v-model="editedItem.PROD"
                             label="Produto"
                             outlined
                             dense
-                          ></v-combobox>
+                          ></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
@@ -113,13 +129,6 @@
                             v-model="editedItem.ITE_VALOR"
                             label="Valor"
                             v-maska="'##########'"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.ITE_LOTE"
-                            label="Lote"
-                            v-maska="'#########'"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -168,11 +177,12 @@ export default {
       produtosCombo: [],
       itens: [],
       itensEntrada: [],
+      alertSucess: false,
+      alertError: false,
       headers: [
-        { text: "Produto", value: "PRD_ID" },
+        { text: "Produto", value: "PRD_DESC" },
         { text: "Quantidade", value: "ITE_QTDE" },
         { text: "Valor", value: "ITE_VALOR" },
-        { text: "Lote", value: "ITE_LOTE" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       dialog: false,
@@ -183,19 +193,20 @@ export default {
         NF_TIPO: "",
         TRS_ID: "",
         USR_ID: "",
+        TRANSP: "",
         ITENS: [],
       },
       editedItem: {
         PRD_ID: "",
+        PRD_DESC: "",
         ITE_QTDE: "",
         ITE_VALOR: "",
-        ITE_LOTE: "",
       },
       defaultItem: {
         PRD_ID: "",
+        PRD_DESC: "",
         ITE_QTDE: "",
         ITE_VALOR: "",
-        ITE_LOTE: "",
       },
       enableItens: false,
       txt1: false,
@@ -226,10 +237,7 @@ export default {
       api
         .get("/transportadora")
         .then((res) => {
-          this.transportadoras = res.data.data;
-          res.data.data.forEach((element) => {
-            this.transportadorasCombo.push(element.TRS_DESC);
-          });
+          this.transportadorasCombo = res.data.data;
         })
         .catch((error) => {
           console.log(error);
@@ -239,13 +247,21 @@ export default {
       api
         .get("/produtos")
         .then((res) => {
-          this.produtos = res.data.data;
-          res.data.data.forEach((element) => {
-            this.produtosCombo.push(element.PRD_DESC);
-          });
+          this.produtosCombo = res.data.data;
         })
         .catch((error) => {
           console.log(error);
+        });
+    },
+    postEntrada() {
+      api
+        .post("/entrada-nf", this.editedNF)
+        .then(() => {
+          alert("Entrada adicionada com sucesso");
+          this.$router.go(0);
+        })
+        .catch(() => {
+          alert("Erro ao cadastrar Fornecedor");
         });
     },
     editItem(item) {
@@ -272,28 +288,36 @@ export default {
       if (this.editedIndex > -1) {
         Object.assign(this.itensEntrada[this.editedIndex], this.editedItem);
       } else {
+        this.editedItem.PRD_ID = this.editedItem.PROD.PRD_ID;
+        this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
         this.itensEntrada.push(this.editedItem);
+        console.log(this.itensEntrada);
       }
       this.close();
     },
     finalizar() {
-      this.itensEntrada.forEach((element) => {
-        element.PRD_ID = this.produtos.find(
-          (e) => e.PRD_DESC === element.PRD_ID
-        ).PRD_ID;
-        this.editedNF.ITENS.push(element);
-      });
-
-      console.log(JSON.stringify(this.editedNF));
+      if (confirm("Tem certeza de que deseja finalizar a entrada?")) {
+        if (this.itensEntrada.length > 0) {
+          this.itensEntrada.forEach((element) => {
+            this.editedNF.ITENS.push(element);
+          });
+          this.postEntrada();
+        } else {
+          alert("Favor adicionar pelo menos 1 item ao produtos");
+        }
+      }
     },
     addNota() {
-      this.editedNF.NF_TIPO = "0";
-      this.editedNF.USR_ID = "1";
-      this.editedNF.TRS_ID = this.transportadoras.find(
-        (element) => element.TRS_DESC === this.editedNF.TRS_DESC
-      ).TRS_ID;
-      this.enableItens = true;
-      this.disableFields();
+      if (this.validaCampos()) {
+        this.editedNF.NF_TIPO = "0";
+        this.editedNF.USR_ID = "1";
+        this.editedNF.TRS_ID = this.editedNF.TRANSP.TRS_ID;
+        console.log(this.editedNF);
+        this.enableItens = true;
+        this.disableFields();
+      } else {
+        alert("Favor preencher todos os campos!!");
+      }
     },
     disableFields() {
       this.txt1 = true;
@@ -314,6 +338,28 @@ export default {
       this.enableItens = false;
       this.itensEntrada = [];
     },
+
+    showSucessMsg() {
+      this.alertSucess = true;
+      setTimeout(() => {
+        this.alertSucess = false;
+      }, 5000);
+    },
+    showErrorMsg() {
+      this.alertError = true;
+      setTimeout(() => {
+        this.alertError = false;
+      }, 5000);
+    },
+    validaCampos() {
+      if (this.editedNF.NF_NUM == "") return false;
+      if (this.editedNF.NF_SERIE == "") return false;
+      if (this.editedNF.ENT_FRETE == "") return false;
+      if (this.editedNF.ENT_IMPOSTO == "") return false;
+      if (this.editedNF.ENT_IMPOSTO == "") return false;
+      if (this.editedNF.TRANSP == "") return false;
+      return true;
+    },
   },
 };
 </script>
@@ -331,5 +377,11 @@ p.description {
 }
 .buttoncolor {
   background-color: "#ffb500";
+}
+.alerts {
+  width: 200px;
+  height: 100px;
+  position: relative;
+  float: right;
 }
 </style>
