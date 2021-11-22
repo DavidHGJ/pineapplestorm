@@ -53,7 +53,8 @@ use Exception;
  * 
  * @androide23
  */
-class QueryManager{
+class QueryManager
+{
 
     /** Instância do gerenciador de query */
     private static $QueryManager = null;
@@ -62,22 +63,27 @@ class QueryManager{
     /** Estrutura da query */
     private static $query = null;
 
-    private function __construct(){
-        static::$conexao = ( new Conexao("localhost", "pine", "root", "") )-> getConexao();
+    private function __construct()
+    {
+        static::$conexao = (new Conexao("localhost", "pine", "root", "12345"))->getConexao();
         static::$query = new Query();
     }
 
-    private function __close(){}
-    
-    public function __wakeup(){
-        throw new Exception("Não foi possível recuperar instância.");    
+    private function __close()
+    {
+    }
+
+    public function __wakeup()
+    {
+        throw new Exception("Não foi possível recuperar instância.");
     }
 
     /**
      * Retorna uma instância do gerenciador de query's.
      */
-    public static function getInstance(){
-        if(static::$QueryManager === null)
+    public static function getInstance()
+    {
+        if (static::$QueryManager === null)
             static::$QueryManager = new static();
 
         return static::$QueryManager;
@@ -88,7 +94,8 @@ class QueryManager{
      * 
      * @return static::Conexao conexao
      */
-    public function getConexao(){
+    public function getConexao()
+    {
         return static::$conexao;
     }
 
@@ -97,8 +104,9 @@ class QueryManager{
      * 
      * @return QueryManager Instância do gerenciador de query
      */
-    public function setAcao(string $acao){
-        static::$query-> setAcao($acao);
+    public function setAcao(string $acao)
+    {
+        static::$query->setAcao($acao);
         return $this;
     }
 
@@ -107,8 +115,9 @@ class QueryManager{
      * 
      * @return QueryManager Instância do gerenciador de query
      */
-    public function setTabela(Tabela $tabela){
-        static::$query-> setTabelaPrincipal($tabela);
+    public function setTabela(Tabela $tabela)
+    {
+        static::$query->setTabelaPrincipal($tabela);
         return $this;
     }
 
@@ -117,12 +126,13 @@ class QueryManager{
      * 
      * @return QueryManager Instância do gerenciador de query
      */
-    public function setCondicao(){
-        if(static::$query-> getAcao() == Acao::INSERT)
+    public function setCondicao()
+    {
+        if (static::$query->getAcao() == Acao::INSERT)
             throw new Exception("Só é possível atribuir condição quando a ação for de 'SELECT', 'UPDATE' ou 'DELETE'");
 
         $args = func_get_args();
-        static::$query-> setCondicao($args);
+        static::$query->setCondicao($args);
         return $this;
     }
 
@@ -131,12 +141,13 @@ class QueryManager{
      * 
      * @return QueryManager Instância do gerenciador de query
      */
-    public function addCondicao(){
-        if(static::$query-> getAcao() == Acao::INSERT)
+    public function addCondicao()
+    {
+        if (static::$query->getAcao() == Acao::INSERT)
             throw new Exception("Só é possível adicionar condição quando a ação for de 'SELECT', 'UPDATE' ou 'DELETE'");
 
         $args = func_get_args();
-        static::$query-> addCondicao($args);
+        static::$query->addCondicao($args);
         return $this;
     }
 
@@ -146,8 +157,9 @@ class QueryManager{
      * 
      * @return QueryManager Instância do gerenciador de query
      */
-    public function setValores(mixed ... $valores){
-        static::$query-> setValores($valores);
+    public function setValores(mixed ...$valores)
+    {
+        static::$query->setValores($valores);
         return $this;
     }
 
@@ -156,8 +168,9 @@ class QueryManager{
      * 
      * @return PDO resultado da consulta
      */
-    public function queryExec(){
-        return $this-> getConexao()-> query( $this-> queryDebug() );
+    public function queryExec()
+    {
+        return $this->getConexao()->query($this->queryDebug());
     }
 
     /**
@@ -165,7 +178,8 @@ class QueryManager{
      * 
      * @return String script da query
      */
-    public function queryDebug(){
-        return trim(static::$query-> getQuery());
+    public function queryDebug()
+    {
+        return trim(static::$query->getQuery());
     }
 }

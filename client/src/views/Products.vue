@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-data-table
+      hide-default-footer
+      disable-pagination
       :headers="headers"
       :items="desserts"
       sort-by="calories"
@@ -52,12 +54,6 @@
                         label="Peso"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.PRD_QTDE"
-                        label="Quantidade"
-                      ></v-text-field>
-                    </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -98,7 +94,7 @@ export default {
         { text: "categoria", value: "CAT_ID" },
         { text: "fornecedor", value: "FOR_ID" },
         { text: "Peso", value: "PRD_PESO" },
-        { text: "Quantidade", value: "PRD_QTDE" },
+        { text: "Quantidade", value: "PRD_QTD" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
@@ -109,7 +105,7 @@ export default {
         CAT_ID: "",
         FOR_ID: "",
         PRD_PESO: "",
-        PRD_QTDE: "",
+        PRD_STATUS: "",
       },
       defaultItem: {
         PRD_ID: "",
@@ -117,7 +113,6 @@ export default {
         CAT_ID: "",
         FOR_ID: "",
         PRD_PESO: "",
-        PRD_QTDE: "",
         PRD_STATUS: "A",
       },
     };
@@ -150,7 +145,6 @@ export default {
     },
 
     postProduto() {
-      console.log(this.editedItem);
       api
         .post("/produtos", this.editedItem)
         .then(() => {
@@ -233,7 +227,6 @@ p.description {
 }
 
 .tabela {
-  border-radius: 2em;
   margin-left: 15px;
   box-shadow: 5px 5px 5px 5px #101519; /*any color you want*/
 }

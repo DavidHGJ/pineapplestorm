@@ -26,7 +26,7 @@ create table if not exists contato(
 create table if not exists filiais(
 	fil_id int auto_increment,
     fil_cnpj char(14),
-    fil_insc char(10),
+    fil_insc char(12),
     fil_status char(1),
     fil_desc varchar(255),
     fil_cep char(9),
@@ -52,7 +52,7 @@ create table if not exists transportadora(
     trs_num varchar(9),
     trs_cep char(9),
     trs_cnpj char(14),
-    trs_insc char(10),
+    trs_insc char(12),
     trs_status char(1),
     trs_complemento varchar(45),
     
@@ -73,9 +73,9 @@ create table if not exists fornecedor(
 	for_id int auto_increment,
     for_nome varchar(255),
     for_numero varchar(5),
-    for_cep char(5),
+    for_cep char(9),
     for_cnpj char(14),
-    for_insc char(10),
+    for_insc char(12),
     for_status char(1),
     for_complemento varchar(45),
     
@@ -180,7 +180,6 @@ create table if not exists item_entrada(
     prd_id int,
     ite_qtde double,
     ite_valor double,
-    ite_lote double,
     ent_id int,
     
     constraint pk_item_entrada primary key(ite_id),
@@ -207,7 +206,6 @@ create table if not exists saida(
 create table if not exists item_saida(
 	its_id int auto_increment,
     prd_id int,
-    sai_lote varchar(10),
     sai_qtde double,
     sai_valor double,
     sai_id int,
@@ -219,6 +217,8 @@ create table if not exists item_saida(
     constraint un_item_saida_prd_id_sai_id unique key(prd_id, sai_id)
 );
 
+-- SET GLOBAL log_bin_trust_function_creators = 1;
+
 delimiter $$
 create function calcula_quantidade_produto( 
 	produto_id bigint 
@@ -229,8 +229,8 @@ begin
     declare qtd_saida bigint;
     declare retorno bigint;
     
-    set qtd_entrada = (select sum(ite_qtde) from item_entrada where prd_id = produto_id);
-    set qtd_saida = (select sum(sai_qtde) from item_saida where prd_id = produto_id);
+    set qtd_entrada = (select ifnull(sum(ite_qtde), 0) from item_entrada where prd_id = produto_id);
+    set qtd_saida = (select ifnull(sum(sai_qtde), 0) from item_saida where prd_id = produto_id);
     
     set retorno = qtd_entrada - qtd_saida;
     
@@ -245,7 +245,7 @@ create function conta_qtde_items_saida(
 begin
 	declare retorno bigint;
 
-	set retorno = (select sum(sai_qtde) from item_saida where sai_id = saida_id);
+	set retorno = (select ifnull(sum(sai_qtde), 0) from item_saida where sai_id = saida_id);
     
     return retorno;
 end;
@@ -258,7 +258,7 @@ create function valor_total_items_saida(
 begin
 	declare retorno bigint;
 
-	set retorno = (select sum(sai_valor) from item_saida where sai_id = saida_id);
+	set retorno = (select ifnull(sum(sai_valor), 0) from item_saida where sai_id = saida_id);
     
     return retorno;
 end
@@ -271,7 +271,7 @@ create function valor_total_items_entrada(
 begin
 	declare retorno bigint;
 
-	set retorno = (select sum(ite_valor) from item_entrada where ite_id = entrada_id);
+	set retorno = (select ifnull(sum(ite_valor), 0) from item_entrada where ite_id = entrada_id);
     
     return retorno;
 end;
@@ -284,7 +284,7 @@ create function conta_qtde_items_entrada(
 begin
 	declare retorno bigint;
 
-	set retorno = (select sum(ite_qtde) from item_entrada where ite_id = entrada_id);
+	set retorno = (select ifnull(sum(ite_qtde),0) from item_entrada where ite_id = entrada_id);
     
     return retorno;
 end
