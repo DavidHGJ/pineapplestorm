@@ -58,12 +58,14 @@ class Produto implements iController
 
                 $response[$index]['CAT_ID'] = $categoria->get($dado->CAT_ID);
 
+                $this->queryManager->reset();
                 unset($categoria);
 
                 $fornecedor = new Fornecedor;
 
                 $response[$index]['FOR_ID'] = $fornecedor->get($dado->FOR_ID);
 
+                $this->queryManager->reset();
                 unset($fornecedor);
 
                 $response[$index]['PRD_DESC'] = $dado->PRD_DESC;
