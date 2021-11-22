@@ -183,7 +183,7 @@ class QueryManager
         return trim(static::$query->getQuery());
     }
 
-    public static function reset(){
+    public function reset(){
         static::$query->reset();
     }
 }
