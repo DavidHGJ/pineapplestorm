@@ -43,6 +43,8 @@ class Produto implements iController
                 ->setCondicao('PRD_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
+        $this->queryManager->reset();
+
         if ($retornoConsulta->rowCount() > 0) {
 
             $retornoConsulta = $retornoConsulta->fetchAll();
