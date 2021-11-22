@@ -46,7 +46,7 @@ class Query{
      * Defini a tabela principal da query.
      */
     public function setTabelaPrincipal(Tabela $tabela){
-        if(is_null($this-> tabelas))
+        if(is_null($tabela))
             throw new Exception("Não foi possível definir tabela para consulta.");
         else if(($this-> tabelas)->count() > 0)
             throw new Exception("A tabela principal já foi definida.\n Não pode ser definida novamente.");
