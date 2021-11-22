@@ -168,4 +168,8 @@ class QueryManager{
     public function queryDebug(){
         return trim(static::$query-> getQuery());
     }
+
+    public static function reset(){
+        unset(static::$query);
+    }
 }

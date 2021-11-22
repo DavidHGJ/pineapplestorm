@@ -119,7 +119,7 @@ create table if not exists produto(
 create table if not exists nota_fiscal(
 	nf_id int auto_increment,
     nf_num varchar(9),
-    nf_tipo bit,
+    nf_tipo int,
     nf_serie int(3),
     
     constraint pk_nota_fiscal primary key(nf_id),
