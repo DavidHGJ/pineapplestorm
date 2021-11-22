@@ -253,8 +253,14 @@ class Query{
         return $this-> valores;
     }
 
-    public function getTabela(){
+    public function reset(){
+         unset($acao);
+      
+         unset($tabelas);
         
+         unset($condicao);
+       
+         unset($valores);
     }
 }
 
