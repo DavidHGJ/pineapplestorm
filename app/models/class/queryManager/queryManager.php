@@ -65,7 +65,7 @@ class QueryManager
 
     private function __construct()
     {
-        static::$conexao = (new Conexao("localhost", "pine", "root", "12345"))->getConexao();
+        static::$conexao = (new Conexao("localhost", "pine", "root", ""))->getConexao();
         static::$query = new Query();
     }
 
