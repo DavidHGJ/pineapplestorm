@@ -12,7 +12,7 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class EntradaNf
+class ItemSaida
 {
 
     private QueryManager $queryManager;
@@ -26,7 +26,7 @@ class EntradaNf
     {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
-        $this->tabela = $this->tabelaManager->getTabela("entrada");
+        $this->tabela = $this->tabelaManager->getTabela("item_saida");
     }
 
     public function get($identificador)
@@ -40,11 +40,11 @@ class EntradaNf
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('ENT_ID', Operador::IGUAL, strval($identificador))
+                ->setCondicao('ITS_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
         if ($retornoConsulta->rowCount() > 0) {
-            $response = ['error' => false, 'message' => 'Dados encontrados com sucesso.'];
+            $response = ['error' => false, 'message' => ''];
 
             $response['data'] = $retornoConsulta->fetchAll();
         } else
@@ -53,33 +53,30 @@ class EntradaNf
         return $response;
     }
 
-    public function post($request)
+    public function post($request, $idSaida)
     {
-        $notaFiscal = new NotaFiscal;
+        $this->tabela->setColuna(
+            'prd_id',
+            'sai_lote',
+            'sai_qtde',
+            'sai_valor',
+            'sai_id'
+        );
 
-        $notaFiscal->post($request);
+        $retornoConsulta = $this->queryManager
+            ->setAcao(Acao::INSERT)
+            ->setTabela($this->tabela)
+            ->setValores(
+                "'$request->PRD_ID'",
+                "'$request->SAI_LOTE'",
+                "'$request->SAI_QTDE'",
+                "'$request->SAI_VALOR'",
+                "'$idSaida'"
+            )
+            ->queryExec();
 
-        $idNotaFiscal = QueryManager::getInstance()->getConexao()->lastInsertId();
-
-        unset($notaFiscal);
-
-        $entrada = new Entrada;
-
-        $entrada->post($request, $idNotaFiscal);
-
-        $idEntrada = QueryManager::getInstance()->getConexao()->lastInsertId();
-
-        unset($entrada);
-
-        foreach($request->ITENS as $item)
-        {
-            $itemEntrada = new ItemEntrada;
-
-            $itemEntrada->post($item, $idEntrada);
-
-            unset($itemEntrada);
-        }
-
-        return ['error' => false, 'message' => 'Operação realizada com sucesso.'];
+        return ($retornoConsulta)
+            ? ['error' => false, 'message' => 'Operação realizada com sucesso.']
+            : ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
     }
 }

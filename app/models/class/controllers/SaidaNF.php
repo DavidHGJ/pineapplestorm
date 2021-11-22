@@ -12,7 +12,7 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class EntradaNf
+class SaidaNF
 {
 
     private QueryManager $queryManager;
@@ -26,7 +26,7 @@ class EntradaNf
     {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
-        $this->tabela = $this->tabelaManager->getTabela("entrada");
+        $this->tabela = $this->tabelaManager->getTabela("saida");
     }
 
     public function get($identificador)
@@ -40,7 +40,7 @@ class EntradaNf
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('ENT_ID', Operador::IGUAL, strval($identificador))
+                ->setCondicao('SAI_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
         if ($retornoConsulta->rowCount() > 0) {
@@ -63,21 +63,21 @@ class EntradaNf
 
         unset($notaFiscal);
 
-        $entrada = new Entrada;
+        $saida = new Saida;
 
-        $entrada->post($request, $idNotaFiscal);
+        $saida->post($request, $idNotaFiscal);
 
         $idEntrada = QueryManager::getInstance()->getConexao()->lastInsertId();
 
-        unset($entrada);
+        unset($saida);
 
         foreach($request->ITENS as $item)
         {
-            $itemEntrada = new ItemEntrada;
+            $itemSaida = new ItemSaida;
 
-            $itemEntrada->post($item, $idEntrada);
+            $itemSaida->post($item, $idEntrada);
 
-            unset($itemEntrada);
+            unset($itemSaida);
         }
 
         return ['error' => false, 'message' => 'Operação realizada com sucesso.'];
