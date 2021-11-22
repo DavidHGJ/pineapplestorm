@@ -184,6 +184,6 @@ class QueryManager
     }
 
     public static function reset(){
-        unset(static::$query);
+        static::$query->reset();
     }
 }
