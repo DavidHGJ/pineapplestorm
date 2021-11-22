@@ -12,7 +12,7 @@ use models\class\queryManager\TableManager;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class ItemEntrada
+class Saida
 {
 
     private QueryManager $queryManager;
@@ -26,7 +26,7 @@ class ItemEntrada
     {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
-        $this->tabela = $this->tabelaManager->getTabela("item_entrada");
+        $this->tabela = $this->tabelaManager->getTabela("saida");
     }
 
     public function get($identificador)
@@ -40,7 +40,7 @@ class ItemEntrada
             $retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->setCondicao('ite_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('SAI_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
         if ($retornoConsulta->rowCount() > 0) {
@@ -53,23 +53,27 @@ class ItemEntrada
         return $response;
     }
 
-    public function post($request, $idEntrada)
+    public function post($request, $idNotaFiscal)
     {
         $this->tabela->setColuna(
-            'prd_id',
-            'ite_qtde',
-            'ite_valor',
-            'ent_id'
+            'SAI_ID',
+            'FIL_ID',
+            'SAI_LOTE',
+            'SAI_DATA',
+            'USR_ID',
+            'NF_ID'
         );
 
         $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->PRD_ID'",
-                "'$request->ITE_QTDE'",
-                "'$request->ITE_VALOR'",
-                "'$idEntrada'"
+                "'$request->SAI_ID'",
+                "'$request->FIL_ID'",
+                "'$request->SAI_LOTE'",
+                "'".date('Y-m-d H:i:s')."'",
+                "'$request->USR_ID'",
+                "'$idNotaFiscal'"
             )
             ->queryExec();
 
@@ -86,24 +90,26 @@ class ItemEntrada
             $tabela = clone $this->tabela;
 
             $tabela->setColuna(
-                'prd_id',
-                'ite_qtde',
-                'ite_valor',
-                'ite_lote',
-                'ent_id'
+                'TRS_ID',
+                'ENT_DATA',
+                'ENT_FRETE',
+                'ENT_IMPOSTO',
+                'USR_ID',
+                'NF_ID'
             );
 
             $this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->PRD_ID'",
-                    "'$request->ITE_QTDE'",
-                    "'$request->ITE_VALOR'",
-                    "'$request->ITE_LOTE'",
-                    "'$request->ENT_ID'"
+                    "'$request->TRS_ID'",
+                    "'".date('Y-m-d H:i:s')."'",
+                    "'$request->ENT_FRETE'",
+                    "'$request->ENT_IMPOSTO'",
+                    "'$request->USR_ID'",
+                    "'$request->NF_ID'"
                 )
-                ->setCondicao('ite_id', Operador::IGUAL, $identificador)
+                ->setCondicao('ENT_ID', Operador::IGUAL, $identificador)
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
@@ -118,7 +124,7 @@ class ItemEntrada
             $this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
-                ->setCondicao('ite_id', Operador::IGUAL, strval($identificador))
+                ->setCondicao('ENT_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];

@@ -1,25 +1,52 @@
-<template>
-    <v-form id="form">
-        <v-container id="container-form">
-            <figure id="container-img">
-                <img src="../assets/images/logo.png">
-                <figcaption>Pineapplestorm</figcaption>
-            </figure>
-            <v-text-field type="text" color="#ffb406" label="E-mail" class="text"/>
-            <v-text-field type="password" color="#ffb406" label="Senha" class="text"/>
-            <a id="esqueceu-senha">Esqueceu a senha</a>
-            <div id="botoes">
-                <v-btn color="#000" id="entrar">Entrar</v-btn>
-                <v-btn color="#ffb406" outlined>Cadastrar</v-btn>
-            </div>
-        </v-container>
-    </v-form>
+<template id="contentBody">
+  <v-form id="form">
+    <v-container id="container-form">
+      <figure id="container-img">
+        <img src="../assets/images/logo.png" />
+        <figcaption>Pineapplestorm</figcaption>
+      </figure>
+      <v-text-field
+        type="text"
+        color="#ffb406"
+        label="Login"
+        class="text"
+        v-model="login"
+      />
+      <v-text-field
+        type="password"
+        color="#ffb406"
+        label="Senha"
+        class="text"
+        v-model="senha"
+      />
+      <div id="botoes">
+        <v-btn color="#ffb500" id="entrar" @click="authenticate()"
+          >Entrar</v-btn
+        >
+      </div>
+    </v-container>
+  </v-form>
 </template>
 
 <script>
 export default {
-    name: 'TelaLogin'
-}
+  data() {
+    return {
+      login: "",
+      senha: "",
+    };
+  },
+  name: "TelaLogin",
+  methods: {
+    authenticate() {
+      if (this.login == "admin" && this.senha == "123") {
+        this.$router.push("/");
+      } else {
+        alert("Login ou senha invalidos");
+      }
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -29,7 +56,7 @@ export default {
     left: 50%
     transform: translate(-50%, -50%)
 
-    background-color: #fff
+    background-color: #262b2f
 
     box-sizing: border-box
     padding: 25px 15px
@@ -67,7 +94,7 @@ export default {
 
 .text
     width: 50%
-    
+
     margin: 0 auto
 
 #esqueceu-senha

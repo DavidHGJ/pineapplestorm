@@ -11,15 +11,15 @@
       <template v-slot:top>
         <v-toolbar flat color="primary">
           <v-toolbar-title
-            >Categorias
-            <v-icon>mdi-clipboard-edit-outline</v-icon>
+            >Contatos Forncedor
+            <v-icon>mdi-account-circle</v-icon>
           </v-toolbar-title>
           <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn color="primary" dark class="mb-2 buttoncolor" v-on="on"
-                >Nova Categoria</v-btn
+                >Novo Contato</v-btn
               >
             </template>
             <v-card>
@@ -66,13 +66,14 @@
 import api from "../api/api";
 
 export default {
-  name: "Categorias",
+  name: "ContatoFornecedores",
   data() {
     return {
       dialog: false,
       headers: [
-        { text: "id", value: "CAT_ID" },
-        { text: "Descrição", value: "CAT_DESC" },
+        { text: "Id", value: "CNT_ID" },
+        { text: "Tipo de Contato", value: "CNT_DESC" },
+        { text: "Descrição", value: "CNT_DESC" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],

@@ -11,6 +11,9 @@ import Filiais from '../views/Filiais'
 import Login from '../views/Login'
 import Erro from '../views/Erro'
 import Categorias from '../views/Categorias'
+import ContatoFornecedores from '../views/ContatoFornecedores'
+import ContatoTransportadoras from '../views/ContatoTransportadoras'
+import ContatoFiliais from '../views/ContatoFiliais'
 
 Vue.use(VueRouter)
 
@@ -38,20 +41,35 @@ const routes = [
       },
       {
         path: '/Fornecedores',
-        component: Fornecedores
+        component: Fornecedores,
+      },
+      {
+        path: '/ContatoFornecedores/:id',
+        component: ContatoFornecedores,
+        params: true
       },
       {
         path: '/Transportadoras',
         component: Transportadoras
       },
       {
+        path: '/ContatoTransportadoras/:id',
+        component: ContatoTransportadoras,
+        params: true
+      },
+      {
         path: '/Filiais',
         component: Filiais
       },
       {
+        path: '/ContatoFiliais/:id',
+        component: ContatoFiliais,
+        params: true
+      },
+      {
         path: '/Categorias',
         component: Categorias
-      }
+      },
     ]
   },
   {

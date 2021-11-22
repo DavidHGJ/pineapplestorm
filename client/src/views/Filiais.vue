@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-data-table
+      hide-default-footer
+      disable-pagination
       :headers="headers"
       :items="desserts"
       sort-by="calories"
@@ -85,7 +87,8 @@
       </template>
       <template v-slot:[`item.action`]="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> Editar </v-icon>
-        <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
+        <v-icon small class="mr-2" @click="deleteItem(item)"> Deletar </v-icon>
+        <v-icon small @click="abrirContatos(item)"> Contatos </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="carregarFilial">Resetar</v-btn>
@@ -97,6 +100,7 @@
 <script>
 import api from "../api/api";
 import { mask } from "maska";
+import { cnpjValidation } from "../../js/cnpj.validation";
 
 export default {
   name: "Filiais",
@@ -226,12 +230,19 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        this.updateFilial(this.editedItem.FIL_ID);
+      if (this.validaCnpj(this.editedItem.FIL_CNPJ)) {
+        if (this.editedIndex > -1) {
+          this.updateFilial(this.editedItem.FIL_ID);
+        } else {
+          this.postFilial(this.editedIndex);
+        }
+        this.close();
       } else {
-        this.postFilial(this.editedIndex);
+        alert("CNPJ Inválido!!");
       }
-      this.close();
+    },
+    validaCnpj(cnpj) {
+      return cnpjValidation(cnpj);
     },
     removeMask(item) {
       item.FIL_CNPJ = item.FIL_CNPJ.replace(/[^0-9]/g, "");
@@ -239,6 +250,9 @@ export default {
       item.FIL_CEP = item.FIL_CEP.replace(/[^0-9]/g, "");
       item.FIL_STATUS = "A";
       return item;
+    },
+    abrirContatos(item) {
+      this.$router.push({ path: `/ContatoFiliais/${item.FIL_ID}` }); // -> /user/123
     },
   },
 };
@@ -257,7 +271,6 @@ p.description {
 }
 
 .tabela {
-  border-radius: 2em;
   margin-left: 15px;
   box-shadow: 5px 5px 5px 5px #101519; /*any color you want*/
 }
