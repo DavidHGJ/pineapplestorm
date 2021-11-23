@@ -48,8 +48,7 @@ class Query{
     public function setTabelaPrincipal(Tabela $tabela){
         if(is_null($tabela))
             throw new Exception("Não foi possível definir tabela para consulta.");
-        else if(($this-> tabelas)->count() > 0)
-            throw new Exception("A tabela principal já foi definida.\n Não pode ser definida novamente.");
+       
 
         ($this-> tabelas)-> offsetSet($tabela, "t" . strval(count($this-> tabelas) + 1));
     }
@@ -76,7 +75,7 @@ class Query{
                 if(is_null($this-> condicao))
                     $this-> condicao = new Condicao($aux[0], $aux[1], $aux[2]);
                 else
-                ($this-> condicao)-> addExpressao($aux[0], $aux[1], $aux[2]);    
+                    ($this-> condicao)-> addExpressao($aux[0], $aux[1], $aux[2]);    
             break;
 
             case 4:
