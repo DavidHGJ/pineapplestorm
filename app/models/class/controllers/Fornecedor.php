@@ -43,6 +43,12 @@ class Fornecedor implements iController
                 ->setCondicao('FOR_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
+               $this->queryManager
+                ->setAcao(Acao::SELECT)
+                ->setTabela($this->tabela)
+                ->setCondicao('FOR_ID', Operador::IGUAL, strval($identificador))
+                ->queryExec();
+
         if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];
 
