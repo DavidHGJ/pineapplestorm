@@ -253,13 +253,7 @@ class Query{
     }
 
     public function reset(){
-         unset($this-> acao);
-      
-         unset($this-> tabelas);
-        
          unset($this-> condicao);
-       
-         unset($this-> valores);
     }
 }
 
