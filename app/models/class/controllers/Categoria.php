@@ -49,7 +49,7 @@ class Categoria implements iController
             $response['data'] = $retornoConsulta->fetchAll();
         } else
             $response[] = ['error' => true, 'message' => 'Nenhum dado encontrado.'];
-
+        
         return $response;
     }
 

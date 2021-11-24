@@ -62,7 +62,7 @@ export default {
           icon: "mdi-truck",
         },
         {
-          title: "Saidas",
+          title: "Saídas",
           href: "/Saida",
           icon: "mdi-truck-delivery",
         },

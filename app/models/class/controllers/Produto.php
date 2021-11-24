@@ -43,37 +43,9 @@ class Produto implements iController
                 ->setCondicao('PRD_ID', Operador::IGUAL, strval($identificador))
                 ->queryExec();
 
+        $this->queryManager->reset();
+
         if ($retornoConsulta->rowCount() > 0) {
-
-            $retornoConsulta = $retornoConsulta->fetchAll();
-
-            foreach ($retornoConsulta as $index => $dado)
-            {
-
-                $response[$index]['PRD_ID'] = $dado->PRD_ID;
-
-                $categoria = new Categoria;
-
-                $response[$index]['CAT_ID'] = $categoria->get($dado->CAT_ID);
-
-                unset($categoria);
-
-                $fornecedor = new Fornecedor;
-
-                $response[$index]['FOR_ID'] = $fornecedor->get($dado->FOR_ID);
-
-                unset($fornecedor);
-
-                $response[$index]['PRD_DESC'] = $dado->PRD_DESC;
-                $response[$index]['PRD_PESO'] = $dado->PRD_PESO;
-                $response[$index]['PRD_STATUS'] = $dado->PRD_STATUS;
-                $response[$index]['PRD_QTD'] = $dado->PTD_QTD;
-                $response[$index]['PRD_REGDATE'] = $dado->PRD_REGDATE;
-            }
-
-            var_dump($response);
-            exit;
-
             $response = ['error' => false, 'message' => ''];
 
             $response['data'] = $retornoConsulta->fetchAll();
