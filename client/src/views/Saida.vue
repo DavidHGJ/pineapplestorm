@@ -111,23 +111,16 @@
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.ITE_QTDE"
+                            v-model="editedItem.SAI_QTDE"
                             label="Quantidade"
                             v-maska="'###########'"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.ITE_VALOR"
+                            v-model="editedItem.SAI_VALOR"
                             label="Valor"
                             v-maska="'##########'"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.ITE_LOTE"
-                            label="Lote"
-                            v-maska="'#########'"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -180,9 +173,8 @@ export default {
       alertError: false,
       headers: [
         { text: "Produto", value: "PRD_DESC" },
-        { text: "Quantidade", value: "ITE_QTDE" },
-        { text: "Valor", value: "ITE_VALOR" },
-        { text: "Lote", value: "ITE_LOTE" },
+        { text: "Quantidade", value: "SAI_QTDE" },
+        { text: "Valor", value: "SAI_VALOR" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       dialog: false,
@@ -192,16 +184,14 @@ export default {
         NF_SERIE: "",
         NF_TIPO: "",
         SAI_LOTE: "",
-        TRS_ID: "",
         USR_ID: "",
         FILIAL: "",
         ITENS: [],
       },
       editedItem: {
         PRD_ID: "",
-        ITE_QTDE: "",
-        ITE_VALOR: "",
-        ITE_LOTE: "",
+        SAI_QTDE: "",
+        SAI_VALOR: "",
         PRD_DESC: "",
         PROD: "",
       },
@@ -209,7 +199,6 @@ export default {
         PRD_ID: "",
         ITE_QTDE: "",
         ITE_VALOR: "",
-        ITE_LOTE: "",
       },
       enableItens: false,
       txt1: false,
@@ -258,7 +247,7 @@ export default {
 
     postSaida() {
       api
-        .post("/entrada-nf", this.editedNF)
+        .post("/saida-nf", this.editedNF)
         .then(() => {
           alert("Saída adicionada com sucesso");
           this.$router.go(0);
@@ -292,20 +281,23 @@ export default {
         Object.assign(this.itensSaida[this.editedIndex], this.editedItem);
       } else {
         this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
+        this.editedItem.PRD_ID = this.editedItem.PROD.PRD_ID;
         this.itensSaida.push(this.editedItem);
       }
       this.close();
     },
     finalizar() {
-      // if (confirm("Tem certeza de que deseja finalizar a saída?")) {
-      //   if (this.editedNF.ITENS.length > 0) {
-      //     this.itensSaida.forEach((element) => {
-      //       element.PRD_ID = element.PROD.PRD_ID;
-      //       this.editedNF.ITENS.push(element);
-      //     });
-      //   }
-      //   this.postFornecedor();
-      // }
+      if (confirm("Tem certeza de que deseja finalizar a saída?")) {
+        if (this.itensSaida.length > 0) {
+          this.itensSaida.forEach((element) => {
+            this.editedNF.ITENS.push(element);
+          });
+          this.postSaida();
+        } else {
+          alert("Favor adicionar pelo menos 1 item ao produtos");
+        }
+      }
+      this;
     },
     addNota() {
       if (this.validaCampos()) {

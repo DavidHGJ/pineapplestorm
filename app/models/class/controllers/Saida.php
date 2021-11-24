@@ -56,7 +56,6 @@ class Saida
     public function post($request, $idNotaFiscal)
     {
         $this->tabela->setColuna(
-            'SAI_ID',
             'FIL_ID',
             'SAI_LOTE',
             'SAI_DATA',
@@ -68,10 +67,9 @@ class Saida
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->SAI_ID'",
                 "'$request->FIL_ID'",
                 "'$request->SAI_LOTE'",
-                "'".date('Y-m-d H:i:s')."'",
+                "'" . date('Y-m-d H:i:s') . "'",
                 "'$request->USR_ID'",
                 "'$idNotaFiscal'"
             )
@@ -103,7 +101,7 @@ class Saida
                 ->setTabela($tabela)
                 ->setValores(
                     "'$request->TRS_ID'",
-                    "'".date('Y-m-d H:i:s')."'",
+                    "'" . date('Y-m-d H:i:s') . "'",
                     "'$request->ENT_FRETE'",
                     "'$request->ENT_IMPOSTO'",
                     "'$request->USR_ID'",
