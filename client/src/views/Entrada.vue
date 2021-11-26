@@ -34,7 +34,7 @@
               </v-col>
               <v-col cols="12" sm="6" md="2">
                 <v-text-field
-                  label="Valor Frete"
+                  label="Valor Frete (R$)"
                   v-maska="'##########'"
                   v-model="editedNF.ENT_FRETE"
                   :disabled="txt3"
@@ -42,7 +42,7 @@
               </v-col>
               <v-col cols="12" sm="6" md="2">
                 <v-text-field
-                  label="Valor Imposto"
+                  label="Valor Imposto (R$)"
                   v-maska="'##########'"
                   v-model="editedNF.ENT_IMPOSTO"
                   :disabled="txt4"
@@ -127,7 +127,7 @@
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
                             v-model="editedItem.ITE_VALOR"
-                            label="Valor"
+                            label="Valor (R$)"
                             v-maska="'##########'"
                           ></v-text-field>
                         </v-col>
@@ -215,6 +215,7 @@ export default {
       txt4: false,
       txt5: false,
       btn1: false,
+      valid: true,
     };
   },
   computed: {
@@ -261,7 +262,7 @@ export default {
           this.$router.go(0);
         })
         .catch(() => {
-          alert("Erro ao cadastrar Fornecedor");
+          alert("Erro ao cadastrar Entrada");
         });
     },
     editItem(item) {

@@ -57,7 +57,6 @@ class ItemSaida
     {
         $this->tabela->setColuna(
             'prd_id',
-            'sai_lote',
             'sai_qtde',
             'sai_valor',
             'sai_id'
@@ -68,7 +67,6 @@ class ItemSaida
             ->setTabela($this->tabela)
             ->setValores(
                 "'$request->PRD_ID'",
-                "'$request->SAI_LOTE'",
                 "'$request->SAI_QTDE'",
                 "'$request->SAI_VALOR'",
                 "'$idSaida'"
