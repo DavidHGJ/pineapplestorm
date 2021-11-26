@@ -13,7 +13,7 @@ use PDO;
 /**
  *## Classe responsável pelo endpoint das transportadora.
  */
-class FornecedorContato implements iController
+class TransportadoraContato implements iController
 {
 
     private QueryManager $queryManager;
@@ -27,7 +27,7 @@ class FornecedorContato implements iController
     {
         $this->queryManager = QueryManager::getInstance();
         $this->tabelaManager = TableManager::getInstance();
-        $this->tabela = $this->tabelaManager->getTabela("fornecedor_x_contato");
+        $this->tabela = $this->tabelaManager->getTabela("transportadora_x_contato");
     }
 
     public function get($identificador)
@@ -37,7 +37,7 @@ class FornecedorContato implements iController
                 SELECT 
                     * 
                 FROM 
-                    fornecedor_x_contato as x 
+                    transportadora_x_contato as x 
                 LEFT JOIN contato as c 
                 ON 
                     x.cnt_id = c.cnt_id");
@@ -46,13 +46,13 @@ class FornecedorContato implements iController
                 SELECT 
                     * 
                 FROM 
-                    fornecedor_x_contato as x 
+                    transportadora_x_contato as x 
                 LEFT JOIN contato as c 
                 ON 
                     x.cnt_id = c.cnt_id
                 WHERE
-                    for_id = $identificador");
-
+                    trs_id = $identificador");
+                    
         if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];
 
@@ -72,7 +72,7 @@ class FornecedorContato implements iController
         unset($contato);
 
         $this->tabela->setColuna(
-            'FOR_ID',
+            'TRS_ID',
             'CNT_ID'
         );
 
@@ -80,7 +80,7 @@ class FornecedorContato implements iController
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->FOR_ID'",
+                "'$request->TRS_ID'",
                 "'$idContato'"
             )
             ->queryExec();
@@ -98,13 +98,13 @@ class FornecedorContato implements iController
             $return = $this->queryManager->getConexao()->query("
                 UPDATE 
                     contato
-                    left join fornecedor_x_contato for_x_con
+                    left join transportadora_x_contato for_x_con
                         on for_x_con.cnt_id = contato.cnt_id 
                 SET 
                     tpc_id = '$request->TPC_ID',
                     cnt_desc = '$request->CNT_DESC'
                 where
-                    for_x_con.for_id = $identificador
+                    for_x_con.trs_id = $identificador
                     and for_x_con.cnt_id = $request->CNT_ID
             ");
 
@@ -124,9 +124,9 @@ class FornecedorContato implements iController
 
             $return = $this->queryManager->getConexao()->query("
                 DELETE FROM
-                    fornecedor_x_contato
+                    transportadora_x_contato
                 WHERE
-                    for_id = '$identificador'
+                    trs_id = '$identificador'
                     and
                     cnt_id = '$request->CNT_ID'
             ");

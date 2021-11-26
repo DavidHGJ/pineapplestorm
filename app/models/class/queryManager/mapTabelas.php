@@ -35,7 +35,7 @@ abstract class MapTabelas{
 
             new Tabela('CONTATO', 'CNT_ID', 'TPC_ID', 'CNT_DESC'),
 
-            new Tabela('FILIAIX_X_CONTATO', 'FIL_ID', 'CNT_ID'),
+            new Tabela('FILIAIS_X_CONTATO', 'FIL_ID', 'CNT_ID'),
 
             new Tabela('TRANSPORTADORA_X_CONTATO', 'TRS_ID', 'CNT_ID'),
 
