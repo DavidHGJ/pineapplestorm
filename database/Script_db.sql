@@ -30,11 +30,11 @@ create table if not exists filiais(
     fil_status char(1),
     fil_desc varchar(255),
     fil_cep char(9),
-    fil_num int(9),
+    fil_num varchar(9),
     fil_complemento varchar(45),
     
     constraint pk_filiais primary key(fil_id),
-    constraint un_filiais_cnpj_insc unique key(fil_cnpj, fil_insc)
+    constraint un_filiais_cnpj unique key(fil_cnpj)
 );
 
 create table if not exists filiais_x_contato(
@@ -47,32 +47,32 @@ create table if not exists filiais_x_contato(
 );
 
 create table if not exists transportadora(
-	trs_id int auto_increment,
-    trs_desc varchar(255),
-    trs_num varchar(9),
-    trs_cep char(9),
-    trs_cnpj char(14),
-    trs_insc char(12),
-    trs_status char(1),
-    trs_complemento varchar(45),
+	@trs_id int auto_increment,
+    @trs_desc varchar(255),
+    @trs_num varchar(9),
+    @trs_cep char(9),
+    @trs_cnpj char(14),
+    @trs_insc char(12),
+    @trs_status char(1),
+    @trs_complemento varchar(45),
     
-    constraint pk_transportadora primary key(trs_id),
-    constraint un_transportadora_cnpj_insc unique key(trs_cnpj, trs_insc)
+    constraint pk_transportadora primary key(@trs_id),
+    constraint un_transportadora_cnpj unique key(@trs_cnpj)
 );
 
 create table if not exists transportadora_x_contato(
-	trs_id int,
+	@trs_id int,
     cnt_id int,
     
-    constraint fk_trs_x_cnt_transportadora foreign key(trs_id) references transportadora(trs_id),
-    constraint fk_trs_x_cnt_contato foreign key(cnt_id) references contato(cnt_id),
-    constraint un_transportadora_x_contato_trs_id_cnt_id unique key(trs_id, cnt_id)
+    constraint fk_@trs_x_cnt_transportadora foreign key(@trs_id) references transportadora(@trs_id),
+    constraint fk_@trs_x_cnt_contato foreign key(cnt_id) references contato(cnt_id),
+    constraint un_transportadora_x_contato_@trs_id_cnt_id unique key(@trs_id, cnt_id)
 );
 
 create table if not exists fornecedor(
 	for_id int auto_increment,
     for_nome varchar(255),
-    for_numero varchar(5),
+    for_numero varchar(9),
     for_cep char(9),
     for_cnpj char(14),
     for_insc char(12),
@@ -80,7 +80,7 @@ create table if not exists fornecedor(
     for_complemento varchar(45),
     
     constraint pk_fornecedor primary key(for_id),
-    constraint un_fornecedor_cnpj_insc unique key(for_cnpj, for_insc)
+    constraint un_fornecedor_cnpj unique key(for_cnpj)
 );
 
 create table if not exists fornecedor_x_contato(
@@ -161,7 +161,7 @@ create table if not exists grupo_x_usuario(
 
 create table if not exists entrada(
 	ent_id int auto_increment,
-    trs_id int,
+    @trs_id int,
     ent_data date,
     ent_frete double,
     ent_imposto double,
@@ -169,7 +169,7 @@ create table if not exists entrada(
     nf_id int,
     
     constraint pk_entrada primary key(ent_id),
-    constraint fk_ent_transporte foreign key(trs_id) references transportadora(trs_id),
+    constraint fk_ent_transporte foreign key(@trs_id) references transportadora(@trs_id),
     constraint fk_ent_usuario foreign key(usr_id) references usuario(usr_id),
     constraint fk_ent_nota_fiscal foreign key(nf_id) references nota_fiscal(nf_id),
     constraint un_entrada_nf_id unique key(nf_id)
@@ -290,6 +290,125 @@ begin
 end
 $$
 
+delimiter $$
+create procedure fornecedor_insert(
+	for_nome varchar(255),
+    for_numero varchar(5),
+    for_cep char(5),
+    for_cnpj char(14),
+    for_insc char(10),
+    for_status char(1),
+    for_complemento varchar(45)
+)
+begin
+	declare valida_insc int;
+    
+    set @valida_insc = (select count(0) from fornecedor where for_insc = @for_insc);
+    
+    if(@valida_insc > 0)
+    then
+		signal sqlstate '45001' set message_text = "Inscrição já foi cadastrada.";
+	else
+		insert into fornecedor(
+			for_nome, 
+            for_numero, 
+            for_cep, 
+            for_cnpj, 
+            for_insc, 
+            for_status, 
+            for_complemento
+		)
+        values(
+			@for_nome, 
+            @for_numero, 
+            @for_cep,
+            @for_cnpj, 
+            @for_insc, 
+            @for_status, 
+            @for_complemento
+		);
+    end if;
+end
+$$
 
+delimiter $$
+create procedure filiais_insert(
+	fil_cnpj char(14),
+    fil_insc char(10),
+    fil_status char(1),
+    fil_desc varchar(255),
+    fil_cep char(5),
+    fil_num varchar(5),
+    fil_complemento varchar(45)
+)
+begin 
+	declare valida_insc int;
+    
+    set @valida_insc = (select count(0) from filiais where fil_insc = @fil_insc);
+    
+    if(@valida_insc > 0)
+    then
+		signal sqlstate '45001' set message_text = "Inscrição já foi cadastrada.";
+	else
+		insert into filiais(
+			fil_cnpj,
+            fil_insc,
+            fil_status,
+            fil_desc,
+            fil_cep,
+            fil_num,
+            fil_complemento
+		)
+        values(
+			@fil_cnpj,
+            @fil_insc,
+            @fil_status,
+            @fil_desc,
+            @fil_cep,
+            @fil_num,
+            @fil_complemento
+		);
+    end if;
+end
+$$
 
-
+delimiter $$
+create procedure transportadora_insert(
+	trs_desc varchar(255),
+    trs_num varchar(9),
+    trs_cep varchar(9),
+    trs_cnpj char(14),
+    trs_insc char(10),
+    trs_status char(1),
+    trs_complemento varchar(45)
+)
+begin 
+	declare valida_insc int;
+    
+    set @valida_insc = (select count(0) from transportadora where trs_insc = @trs_insc);
+    
+    if(@valida_insc > 0)
+    then
+		signal sqlstate '45001' set message_text = "Inscrição já foi cadastrada.";
+	else
+		insert into filiais(
+			trs_desc,
+			trs_num,
+			trs_cep,
+			trs_cnpj,
+			trs_insc,
+			trs_status,
+			trs_complemento
+		)
+        values(
+			@trs_desc,
+			@trs_num,
+			@trs_cep,
+			@trs_cnpj,
+			@trs_insc,
+			@trs_status,
+			@trs_complemento
+		);
+    end if;
+end
+$$
