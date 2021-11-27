@@ -153,6 +153,26 @@
         </v-btn>
       </v-col>
     </v-row>
+    <v-data-table
+      hide-default-footer
+      disable-pagination
+      :headers="headersSaida"
+      :items="dessertsSaida"
+      class="elevation-1 primary tabela"
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="primary">
+          <v-toolbar-title
+            >Lista de Saídas
+            <v-icon>mdi-truck</v-icon>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="carregarFornecedor">Resetar</v-btn>
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
@@ -177,6 +197,14 @@ export default {
         { text: "Valor", value: "SAI_VALOR" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
+      headersSaida: [
+        { text: "Id", value: "SAI_ID" },
+        { text: "Filial", value: "FIL_ID" },
+        { text: "Lote", value: "SAI_LOTE" },
+        { text: "Qtde", value: "SAI_QTDE" },
+        { text: "Valor (R$)", value: "SAI_VALOR" },
+      ],
+      dessertsSaida: [],
       dialog: false,
       editedIndex: -1,
       editedNF: {
@@ -222,6 +250,7 @@ export default {
   created() {
     this.carregarFiliais();
     this.carregarProdutos();
+    this.carregarEntradas();
   },
   methods: {
     carregarFiliais() {
@@ -239,6 +268,17 @@ export default {
         .get("/produtos")
         .then((res) => {
           this.produtosCombo = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    carregarEntradas() {
+      api
+        .get("/saida-nf")
+        .then((res) => {
+          this.dessertsSaida = res.data.data;
         })
         .catch((error) => {
           console.log(error);

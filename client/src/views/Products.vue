@@ -37,35 +37,27 @@
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="12">
-                      <!-- <v-text-field
-                        v-model="editedItem.CAT_ID"
-                        label="Categoria"
-                      ></v-text-field> -->
                       <v-select
+                        v-model="editedItem.CAT_ID"
                         :items="categoriasCombo"
-                        item-text="CAT_DESC"
-                        item-value="CAT_ID"
-                        return-object
-                        v-model="editedItem.CATEGORIA"
+                        item-text="name"
+                        item-value="value"
                         label="Selecionar Categoria"
-                        outlined
-                        dense
+                        persistent-hint
+                        return-object
+                        @change="mudarTipoCat(editedItem.CAT_ID)"
                       ></v-select>
                     </v-col>
                     <v-col cols="12" sm="6" md="12">
-                      <!-- <v-text-field
-                        v-model="editedItem.FOR_ID"
-                        label="Fornecedor"
-                      ></v-text-field> -->
                       <v-select
+                        v-model="editedItem.FOR_ID"
                         :items="fornecedoresCombo"
-                        item-text="FOR_NOME"
-                        item-value="FOR_ID"
-                        return-object
-                        v-model="editedItem.FORNECEDOR"
+                        item-text="name"
+                        item-value="value"
                         label="Selecionar Fornecedor"
-                        outlined
-                        dense
+                        persistent-hint
+                        return-object
+                        @change="mudarTipoFor(editedItem.FOR_ID)"
                       ></v-select>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
@@ -104,7 +96,7 @@
 import api from "../api/api";
 
 export default {
-  name: "Produtos",
+  name: "Categorias",
   data() {
     return {
       dialog: false,
@@ -141,7 +133,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Novo Produto" : "Editar Produto";
+      return this.editedIndex === -1 ? "Nova Categoria" : "Editar Categoria";
     },
   },
 
@@ -162,68 +154,17 @@ export default {
         .get("/produtos")
         .then((res) => {
           this.desserts = res.data.data;
-          this.carregarFornecedoresPeloId(this.desserts);
-          this.carregarCategoriasPeloId(this.desserts);
-          console.log(this.desserts);
         })
         .catch((error) => {
           console.log(error);
         });
     },
 
-    carregarFornecedoresPeloId(itens) {
-      itens.forEach((element) => {
-        api
-          .get(`/fornecedores/${element.FOR_ID}`)
-          .then((res) => {
-            element.FOR_ID = res.data.data[0].FOR_NOME;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    },
-
-    carregarCategoriasPeloId(itens) {
-      itens.forEach((element) => {
-        api
-          .get(`/categoria/${element.CAT_ID}`)
-          .then((res) => {
-            element.CAT_ID = res.data.data[0].CAT_DESC;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    },
-
-    carregarCategorias() {
-      api
-        .get("/categoria")
-        .then((res) => {
-          this.categoriasCombo = res.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    carregarFornecedores() {
-      api
-        .get("/fornecedores")
-        .then((res) => {
-          this.fornecedoresCombo = res.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    postProduto() {
+    postProdutos() {
       api
         .post("/produtos", this.editedItem)
         .then(() => {
-          alert("Produto cadastrada com sucesso");
+          alert("Produto cadastrado com sucesso");
           this.carregarProdutos();
         })
         .catch(() => {
@@ -239,11 +180,11 @@ export default {
           this.carregarProdutos();
         })
         .catch(() => {
-          alert("Erro ao atualizar Produto");
+          alert("Erro ao cadastrar Produto");
         });
     },
 
-    deleteUser(id) {
+    deleteProduto(id) {
       api
         .delete(`/produtos/${id}`)
         .then(() => {
@@ -252,6 +193,40 @@ export default {
         })
         .catch(() => {
           alert("Erro ao deletar Produto");
+        });
+    },
+
+    carregarCategorias() {
+      api
+        .get("/categoria")
+        .then((res) => {
+          res.data.data.forEach((element) => {
+            const categoria = {
+              value: `${element.CAT_ID}`,
+              name: `${element.CAT_DESC}`,
+            };
+            this.categoriasCombo.push(categoria);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    carregarFornecedores() {
+      api
+        .get("/fornecedores")
+        .then((res) => {
+          res.data.data.forEach((element) => {
+            const fornecedor = {
+              value: `${element.FOR_ID}`,
+              name: `${element.FOR_NOME}`,
+            };
+            this.fornecedoresCombo.push(fornecedor);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
 
@@ -264,9 +239,9 @@ export default {
     deleteItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       const idItem = Object.assign({}, item);
-      confirm("Tem certeza de que deseja excluir este produto?") &&
+      confirm("Tem certeza de que deseja excluir esta Categoria?") &&
         //this.desserts.splice(index, 1);
-        this.deleteUser(idItem.PRD_ID);
+        this.deleteProduto(idItem.PRD_ID);
     },
 
     close() {
@@ -277,35 +252,34 @@ export default {
       }, 300);
     },
 
-    save() {
-      if (this.editedIndex > -1) {
-        if (this.validaCampos()) {
-          this.editedItem.CAT_ID = this.editedItem.CATEGORIA.CAT_ID;
-          this.editedItem.FOR_ID = this.editedItem.CATEGORIA.CAT_ID;
-          this.updateProduto(this.editedItem.PRD_ID);
-          this.close();
-        } else {
-          alert("Favor preencher todos os campos");
-        }
-      } else {
-        if (this.validaCampos()) {
-          this.editedItem.CAT_ID = this.editedItem.CATEGORIA.CAT_ID;
-          this.editedItem.FOR_ID = this.editedItem.CATEGORIA.CAT_ID;
-          this.postProduto(this.editedIndex);
-          this.close();
-        } else {
-          alert("Favor preencher todos os campos");
-        }
-      }
-    },
-
     validaCampos() {
       if (this.editedItem.PRD_DESC == "") return false;
+      if (this.editedItem.CAT_ID == "") return false;
+      if (this.editedItem.FOR_ID == "") return false;
       if (this.editedItem.PRD_PESO == "") return false;
-      if (this.editedItem.FORNECEDOR == null) return false;
-      if (this.editedItem.CATEGORIA == null) return false;
 
       return true;
+    },
+
+    save() {
+      if (this.validaCampos()) {
+        if (this.editedIndex > -1) {
+          this.updateProduto(this.editedItem.PRD_ID);
+          console.log(this.editedItem);
+        } else {
+          this.postProdutos(this.editedIndex);
+          console.log(this.editedItem);
+        }
+        this.close();
+      } else {
+        alert("Favor preencher todos os campos");
+      }
+    },
+    mudarTipoCat(item) {
+      this.editedItem.CAT_ID = item.value;
+    },
+    mudarTipoFor(item) {
+      this.editedItem.FOR_ID = item.value;
     },
   },
 };

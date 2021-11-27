@@ -161,6 +161,26 @@
         </v-btn>
       </v-col>
     </v-row>
+    <v-data-table
+      hide-default-footer
+      disable-pagination
+      :headers="headersEntrada"
+      :items="dessertsEntrada"
+      class="elevation-1 primary tabela"
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="primary">
+          <v-toolbar-title
+            >Lista de entradas
+            <v-icon>mdi-truck</v-icon>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="carregarFornecedor">Resetar</v-btn>
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
@@ -185,6 +205,16 @@ export default {
         { text: "Valor", value: "ITE_VALOR" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
+      headersEntrada: [
+        { text: "Id", value: "ENT_ID" },
+        { text: "Transportadora", value: "TRS_ID" },
+        { text: "Data", value: "ENT_DATA" },
+        { text: "Qtde", value: "ENT_QTDE" },
+        { text: "Valor", value: "ENT_VALOR" },
+        { text: "Frete (R$)", value: "ENT_FRETE" },
+        { text: "Imposto (R$)", value: "ENT_IMPOSTO" },
+      ],
+      dessertsEntrada: [],
       dialog: false,
       editedIndex: -1,
       editedNF: {
@@ -232,6 +262,7 @@ export default {
   created() {
     this.carregarTransportadora();
     this.carregarProdutos();
+    this.carregarEntradas();
   },
   methods: {
     carregarTransportadora() {
@@ -249,6 +280,17 @@ export default {
         .get("/produtos")
         .then((res) => {
           this.produtosCombo = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    carregarEntradas() {
+      api
+        .get("/entrada-nf")
+        .then((res) => {
+          this.dessertsEntrada = res.data.data;
         })
         .catch((error) => {
           console.log(error);

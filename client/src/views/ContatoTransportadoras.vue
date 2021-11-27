@@ -30,10 +30,22 @@
               <v-card-text>
                 <v-container>
                   <v-row>
-                    <v-col cols="12" sm="6" md="12">
+                    <v-col cols="12" sm="6" md="3">
+                      <v-select
+                        v-model="editedItem.TPC_ID"
+                        :items="tiposContato"
+                        item-text="name"
+                        item-value="value"
+                        label="Selecione o Tipo"
+                        persistent-hint
+                        return-object
+                        @change="mudarTipo(editedItem.TPC_ID)"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="9">
                       <v-text-field
-                        v-model="editedItem.CAT_DESC"
-                        label="Nome da Categoria"
+                        v-model="editedItem.CNT_DESC"
+                        label="Descrição contato"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -56,7 +68,7 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="carregarCategoria">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarContatos">Resetar</v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -66,31 +78,41 @@
 import api from "../api/api";
 
 export default {
-  name: "ContatoFornecedores",
+  name: "ContatoTransportadoras",
   data() {
     return {
       dialog: false,
       headers: [
         { text: "Id", value: "CNT_ID" },
-        { text: "Tipo de Contato", value: "CNT_DESC" },
+        { text: "Tipo de Contato", value: "TPC_ID" },
         { text: "Descrição", value: "CNT_DESC" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
+      tiposContato: [
+        { name: "Telefone", value: "1" },
+        { name: "Email", value: "2" },
+      ],
+      selectedItems: [],
       editedIndex: -1,
       editedItem: {
-        CAT_DESC: "",
-        CAT_STATUS: "",
+        TRS_ID: "",
+        TPC_ID: "",
+        CNT_DESC: "",
       },
       defaultItem: {
-        CAT_DESC: "",
-        CAT_STATUS: "",
+        TRS_ID: "",
+        TPC_ID: "",
+        CNT_DESC: "",
+      },
+      deleteCNT: {
+        CNT_ID: "",
       },
     };
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nova Categoria" : "Editar Categoria";
+      return this.editedIndex === -1 ? "Novo Contato" : "Editar Contato";
     },
   },
 
@@ -101,12 +123,12 @@ export default {
   },
 
   created() {
-    this.carregarCategoria();
+    this.carregarContatos();
   },
   methods: {
-    carregarCategoria() {
+    carregarContatos() {
       api
-        .get("/categoria")
+        .get(`/transportadora-contato/${this.$route.params.id}`)
         .then((res) => {
           this.desserts = res.data.data;
         })
@@ -115,39 +137,44 @@ export default {
         });
     },
 
-    postCategoria() {
+    postContato() {
       api
-        .post("/categoria", this.addStatus(this.editedItem))
+        .post("/transportadora-contato", this.editedItem)
         .then(() => {
-          alert("Categoria cadastrada com sucesso");
-          this.carregarCategoria();
+          alert("Contato adicionado com sucesso");
+          this.carregarContatos();
         })
         .catch(() => {
-          alert("Erro ao cadastrar Categoria");
+          alert("Erro ao adicionar Contato");
         });
     },
 
-    updateCategoria(id) {
+    updateContato() {
       api
-        .put(`/categoria/${id}`, this.editedItem)
+        .put(
+          `/transportadora-contato/${this.$route.params.id}`,
+          this.editedItem
+        )
         .then(() => {
           alert("Categoria atualizada com sucesso");
-          this.carregarCategoria();
+          this.carregarContatos();
         })
         .catch(() => {
           alert("Erro ao cadastrar Categoria");
         });
     },
 
-    deleteUser(id) {
+    deleteContato(id) {
       api
-        .delete(`/categoria/${id}`)
+        .delete(`/transportadora-contato/${this.$route.params.id}`, {
+          data: { CNT_ID: id },
+        })
         .then(() => {
-          alert("Categoria deletada com sucesso");
-          this.carregarCategoria();
+          alert("Contato deletado com sucesso");
+          this.carregarContatos();
         })
         .catch(() => {
-          alert("Erro ao deletar Categoria");
+          alert("Erro ao deletar Contato");
         });
     },
 
@@ -160,9 +187,11 @@ export default {
     deleteItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       const idItem = Object.assign({}, item);
-      confirm("Tem certeza de que deseja excluir esta Categoria?") &&
+      if (confirm("Tem certeza de que deseja excluir este Contato?")) {
         //this.desserts.splice(index, 1);
-        this.deleteUser(idItem.CAT_ID);
+        this.deleteCNT.CNT_ID = idItem.CNT_ID;
+        this.deleteContato(idItem.CNT_ID);
+      }
     },
 
     close() {
@@ -173,17 +202,32 @@ export default {
       }, 300);
     },
 
+    validaCampos() {
+      if (this.editedItem.CNT_DESC == "") return false;
+      if (this.editedItem.TPC_ID == "") return false;
+      this.editedItem.TRS_ID = this.$route.params.id;
+
+      return true;
+    },
+
     save() {
-      if (this.editedIndex > -1) {
-        this.updateCategoria(this.editedItem.CAT_ID);
+      if (this.validaCampos()) {
+        if (this.editedIndex > -1) {
+          this.updateContato();
+        } else {
+          this.postContato(this.editedIndex);
+        }
+        this.close();
       } else {
-        this.postCategoria(this.editedIndex);
+        alert("Favor preencher todos os campos");
       }
-      this.close();
     },
     addStatus(item) {
       item.CAT_STATUS = "A";
       return item;
+    },
+    mudarTipo(item) {
+      this.editedItem.TPC_ID = item.value;
     },
   },
 };
