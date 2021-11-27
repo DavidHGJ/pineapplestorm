@@ -35,7 +35,10 @@ class TransportadoraContato implements iController
         if (is_null($identificador))
             $retornoConsulta = $this->queryManager->getConexao()->query("
                 SELECT 
-                    * 
+                    x.trs_id AS TRS_ID,
+                    c.cnt_id AS CNT_ID,
+                    c.tpc_id AS TPC_ID,
+                    c.cnt_desc AS CNT_DESC
                 FROM 
                     transportadora_x_contato as x 
                 LEFT JOIN contato as c 
@@ -44,7 +47,10 @@ class TransportadoraContato implements iController
         else
             $retornoConsulta = $this->queryManager->getConexao()->query("
                 SELECT 
-                    * 
+                    x.trs_id AS TRS_ID,
+                    c.cnt_id AS CNT_ID,
+                    c.tpc_id AS TPC_ID,
+                    c.cnt_desc AS CNT_DESC
                 FROM 
                     transportadora_x_contato as x 
                 LEFT JOIN contato as c 

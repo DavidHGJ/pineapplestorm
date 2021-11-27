@@ -35,7 +35,10 @@ class FilialContato implements iController
         if (is_null($identificador))
             $retornoConsulta = $this->queryManager->getConexao()->query("
                 SELECT 
-                    * 
+                    x.fil_id AS FIL_ID,
+                    c.cnt_id AS CNT_ID,
+                    c.tpc_id AS TPC_ID,
+                    c.cnt_desc AS CNT_DESC
                 FROM 
                     filiais_x_contato as x 
                 LEFT JOIN contato as c 
@@ -44,7 +47,10 @@ class FilialContato implements iController
         else
             $retornoConsulta = $this->queryManager->getConexao()->query("
                 SELECT 
-                    * 
+                    x.fil_id AS FIL_ID,
+                    c.cnt_id AS CNT_ID,
+                    c.tpc_id AS TPC_ID,
+                    c.cnt_desc AS CNT_DESC
                 FROM 
                     filiais_x_contato as x 
                 LEFT JOIN contato as c 
