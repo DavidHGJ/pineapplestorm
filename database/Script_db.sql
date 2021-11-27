@@ -391,7 +391,7 @@ begin
     then
 		signal sqlstate '45001' set message_text = "Inscrição já foi cadastrada.";
 	else
-		insert into filiais(
+		insert into transportadora(
 			trs_desc,
 			trs_num,
 			trs_cep,
