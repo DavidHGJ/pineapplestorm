@@ -36,17 +36,37 @@
                         label="Descrição do Produto"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                    <v-col cols="12" sm="6" md="12">
+                      <!-- <v-text-field
                         v-model="editedItem.CAT_ID"
                         label="Categoria"
-                      ></v-text-field>
+                      ></v-text-field> -->
+                      <v-select
+                        :items="categoriasCombo"
+                        item-text="CAT_DESC"
+                        item-value="CAT_ID"
+                        return-object
+                        v-model="editedItem.CATEGORIA"
+                        label="Selecionar Categoria"
+                        outlined
+                        dense
+                      ></v-select>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
+                    <v-col cols="12" sm="6" md="12">
+                      <!-- <v-text-field
                         v-model="editedItem.FOR_ID"
                         label="Fornecedor"
-                      ></v-text-field>
+                      ></v-text-field> -->
+                      <v-select
+                        :items="fornecedoresCombo"
+                        item-text="FOR_NOME"
+                        item-value="FOR_ID"
+                        return-object
+                        v-model="editedItem.FORNECEDOR"
+                        label="Selecionar Fornecedor"
+                        outlined
+                        dense
+                      ></v-select>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
@@ -98,6 +118,8 @@ export default {
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       desserts: [],
+      categoriasCombo: [],
+      fornecedoresCombo: [],
       editedIndex: -1,
       editedItem: {
         PRD_ID: "",
@@ -131,6 +153,8 @@ export default {
 
   created() {
     this.carregarProdutos();
+    this.carregarCategorias();
+    this.carregarFornecedores();
   },
   methods: {
     carregarProdutos() {
@@ -138,6 +162,57 @@ export default {
         .get("/produtos")
         .then((res) => {
           this.desserts = res.data.data;
+          this.carregarFornecedoresPeloId(this.desserts);
+          this.carregarCategoriasPeloId(this.desserts);
+          console.log(this.desserts);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    carregarFornecedoresPeloId(itens) {
+      itens.forEach((element) => {
+        api
+          .get(`/fornecedores/${element.FOR_ID}`)
+          .then((res) => {
+            element.FOR_ID = res.data.data[0].FOR_NOME;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    },
+
+    carregarCategoriasPeloId(itens) {
+      itens.forEach((element) => {
+        api
+          .get(`/categoria/${element.CAT_ID}`)
+          .then((res) => {
+            element.CAT_ID = res.data.data[0].CAT_DESC;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    },
+
+    carregarCategorias() {
+      api
+        .get("/categoria")
+        .then((res) => {
+          this.categoriasCombo = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    carregarFornecedores() {
+      api
+        .get("/fornecedores")
+        .then((res) => {
+          this.fornecedoresCombo = res.data.data;
         })
         .catch((error) => {
           console.log(error);
@@ -204,11 +279,33 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        this.updateProduto(this.editedItem.PRD_ID);
+        if (this.validaCampos()) {
+          this.editedItem.CAT_ID = this.editedItem.CATEGORIA.CAT_ID;
+          this.editedItem.FOR_ID = this.editedItem.CATEGORIA.CAT_ID;
+          this.updateProduto(this.editedItem.PRD_ID);
+          this.close();
+        } else {
+          alert("Favor preencher todos os campos");
+        }
       } else {
-        this.postProduto(this.editedIndex);
+        if (this.validaCampos()) {
+          this.editedItem.CAT_ID = this.editedItem.CATEGORIA.CAT_ID;
+          this.editedItem.FOR_ID = this.editedItem.CATEGORIA.CAT_ID;
+          this.postProduto(this.editedIndex);
+          this.close();
+        } else {
+          alert("Favor preencher todos os campos");
+        }
       }
-      this.close();
+    },
+
+    validaCampos() {
+      if (this.editedItem.PRD_DESC == "") return false;
+      if (this.editedItem.PRD_PESO == "") return false;
+      if (this.editedItem.FORNECEDOR == null) return false;
+      if (this.editedItem.CATEGORIA == null) return false;
+
+      return true;
     },
   },
 };
