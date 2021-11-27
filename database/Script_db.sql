@@ -47,26 +47,26 @@ create table if not exists filiais_x_contato(
 );
 
 create table if not exists transportadora(
-	@trs_id int auto_increment,
-    @trs_desc varchar(255),
-    @trs_num varchar(9),
-    @trs_cep char(9),
-    @trs_cnpj char(14),
-    @trs_insc char(12),
-    @trs_status char(1),
-    @trs_complemento varchar(45),
+	trs_id int auto_increment,
+    trs_desc varchar(255),
+    trs_num varchar(9),
+    trs_cep char(9),
+    trs_cnpj char(14),
+    trs_insc char(12),
+    trs_status char(1),
+    trs_complemento varchar(45),
     
-    constraint pk_transportadora primary key(@trs_id),
-    constraint un_transportadora_cnpj unique key(@trs_cnpj)
+    constraint pk_transportadora primary key(trs_id),
+    constraint un_transportadora_cnpj unique key(trs_cnpj)
 );
 
 create table if not exists transportadora_x_contato(
-	@trs_id int,
+	trs_id int,
     cnt_id int,
     
-    constraint fk_@trs_x_cnt_transportadora foreign key(@trs_id) references transportadora(@trs_id),
-    constraint fk_@trs_x_cnt_contato foreign key(cnt_id) references contato(cnt_id),
-    constraint un_transportadora_x_contato_@trs_id_cnt_id unique key(@trs_id, cnt_id)
+    constraint fk_trs_x_cnt_transportadora foreign key(trs_id) references transportadora(trs_id),
+    constraint fk_trs_x_cnt_contato foreign key(cnt_id) references contato(cnt_id),
+    constraint un_transportadora_x_contato_trs_id_cnt_id unique key(trs_id, cnt_id)
 );
 
 create table if not exists fornecedor(
@@ -161,7 +161,7 @@ create table if not exists grupo_x_usuario(
 
 create table if not exists entrada(
 	ent_id int auto_increment,
-    @trs_id int,
+    trs_id int,
     ent_data date,
     ent_frete double,
     ent_imposto double,
@@ -169,7 +169,7 @@ create table if not exists entrada(
     nf_id int,
     
     constraint pk_entrada primary key(ent_id),
-    constraint fk_ent_transporte foreign key(@trs_id) references transportadora(@trs_id),
+    constraint fk_ent_transporte foreign key(trs_id) references transportadora(trs_id),
     constraint fk_ent_usuario foreign key(usr_id) references usuario(usr_id),
     constraint fk_ent_nota_fiscal foreign key(nf_id) references nota_fiscal(nf_id),
     constraint un_entrada_nf_id unique key(nf_id)
