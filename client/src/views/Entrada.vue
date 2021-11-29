@@ -210,7 +210,7 @@ export default {
         { text: "Transportadora", value: "TRS_ID" },
         { text: "Data", value: "ENT_DATA" },
         { text: "Qtde", value: "ENT_QTDE" },
-        { text: "Valor", value: "ENT_VALOR" },
+        { text: "Valor (R$)", value: "ENT_VALOR" },
         { text: "Frete (R$)", value: "ENT_FRETE" },
         { text: "Imposto (R$)", value: "ENT_IMPOSTO" },
       ],
