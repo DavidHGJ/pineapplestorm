@@ -97,7 +97,7 @@
 import api from "../api/api";
 
 export default {
-  name: "Categorias",
+  name: "Products",
   data() {
     return {
       dialog: false,
@@ -134,7 +134,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nova Categoria" : "Editar Categoria";
+      return this.editedIndex === -1 ? "Novo Produto" : "Editar Produto";
     },
   },
 
