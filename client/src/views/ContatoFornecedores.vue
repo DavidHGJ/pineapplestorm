@@ -112,7 +112,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nova Categoria" : "Editar Categoria";
+      return this.editedIndex === -1 ? "Nova Contato" : "Editar Contato";
     },
   },
 
