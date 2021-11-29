@@ -11,7 +11,7 @@
       <template v-slot:top>
         <v-toolbar flat color="primary">
           <v-toolbar-title
-            >Contatos Forncedor
+            >Contatos Fornecedor
             <v-icon>mdi-account-circle</v-icon>
           </v-toolbar-title>
           <!-- <v-divider class="mx-4" inset vertical></v-divider> -->
