@@ -68,7 +68,7 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="carregarContatos">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarContatos">Recarregar</v-btn>
       </template>
     </v-data-table>
   </v-container>

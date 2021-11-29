@@ -170,7 +170,7 @@
         </v-toolbar>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="carregarFornecedor">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarFornecedor">Recarregar</v-btn>
       </template>
     </v-data-table>
   </v-container>
