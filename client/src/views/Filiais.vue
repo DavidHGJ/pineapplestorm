@@ -230,15 +230,19 @@ export default {
     },
 
     save() {
-      if (this.validaCnpj(this.editedItem.FIL_CNPJ)) {
-        if (this.editedIndex > -1) {
-          this.updateFilial(this.editedItem.FIL_ID);
+      if (this.validaCampos()) {
+        if (this.validaCnpj(this.editedItem.FIL_CNPJ)) {
+          if (this.editedIndex > -1) {
+            this.updateFilial(this.editedItem.FIL_ID);
+          } else {
+            this.postFilial(this.editedIndex);
+          }
+          this.close();
         } else {
-          this.postFilial(this.editedIndex);
+          alert("CNPJ Inválido!!");
         }
-        this.close();
       } else {
-        alert("CNPJ Inválido!!");
+        alert("Favor preencher todos os campos!!");
       }
     },
     validaCnpj(cnpj) {

@@ -231,15 +231,19 @@ export default {
     },
 
     save() {
-      if (this.validaCnpj(this.editedItem.FOR_CNPJ)) {
-        if (this.editedIndex > -1) {
-          this.updateFornecedor(this.editedItem.FOR_ID);
+      if (this.validaCampos()) {
+        if (this.validaCnpj(this.editedItem.FOR_CNPJ)) {
+          if (this.editedIndex > -1) {
+            this.updateFornecedor(this.editedItem.FOR_ID);
+          } else {
+            this.postFornecedor(this.editedIndex);
+          }
+          this.close();
         } else {
-          this.postFornecedor(this.editedIndex);
+          alert("CNPJ Inválido!!");
         }
-        this.close();
       } else {
-        alert("CNPJ Inválido!!");
+        alert("Favor preencher todos os campos!!");
       }
     },
 
