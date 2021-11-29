@@ -232,15 +232,19 @@ export default {
     },
 
     save() {
-      if (this.validaCnpj(this.editedItem.TRS_CNPJ)) {
-        if (this.editedIndex > -1) {
-          this.updateTransportadora(this.editedItem.TRS_ID);
+      if (this.validaCampos()) {
+        if (this.validaCnpj(this.editedItem.TRS_CNPJ)) {
+          if (this.editedIndex > -1) {
+            this.updateTransportadora(this.editedItem.TRS_ID);
+          } else {
+            this.postTransportadora(this.editedIndex);
+          }
+          this.close();
         } else {
-          this.postTransportadora(this.editedIndex);
+          alert("CNPJ Inválido!!");
         }
-        this.close();
       } else {
-        alert("CNPJ Inválido!!");
+        alert("Favor preencher todos os campos!!");
       }
     },
     validaCnpj(cnpj) {
@@ -255,6 +259,14 @@ export default {
     },
     abrirContatos(item) {
       this.$router.push({ path: `/ContatoTransportadoras/${item.TRS_ID}` }); // -> /user/123
+    },
+    validaCampos() {
+      if (this.editedItem.TRS_DESC == "") return false;
+      if (this.editedItem.TRS_CNPJ == "") return false;
+      if (this.editedItem.TRS_CEP == "") return false;
+      if (this.editedItem.TRS_NUM == "") return false;
+      if (this.editedItem.TRS_COMPLEMENTO == "") return false;
+      return true;
     },
   },
 };

@@ -260,6 +260,15 @@ export default {
         path: `/ContatoFornecedores/${item.FOR_ID}`,
       }); // -> /user/123
     },
+
+    validaCampos() {
+      if (this.editedItem.FOR_DESC == "") return false;
+      if (this.editedItem.FOR_CNPJ == "") return false;
+      if (this.editedItem.FOR_CEP == "") return false;
+      if (this.editedItem.FOR_NUM == "") return false;
+      if (this.editedItem.FOR_COMPLEMENTO == "") return false;
+      return true;
+    },
   },
 };
 </script>

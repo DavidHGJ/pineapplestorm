@@ -173,16 +173,24 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        this.updateCategoria(this.editedItem.CAT_ID);
+      if (this.validaCampos()) {
+        if (this.editedIndex > -1) {
+          this.updateCategoria(this.editedItem.CAT_ID);
+        } else {
+          this.postCategoria(this.editedIndex);
+        }
+        this.close();
       } else {
-        this.postCategoria(this.editedIndex);
+        alert("Favor preencher todos os campos!!");
       }
-      this.close();
     },
     addStatus(item) {
       item.CAT_STATUS = "A";
       return item;
+    },
+    validaCampos() {
+      if (this.editedItem.CAT_DESC == "") return false;
+      return true;
     },
   },
 };

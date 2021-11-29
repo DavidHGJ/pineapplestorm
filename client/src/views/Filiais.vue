@@ -254,6 +254,15 @@ export default {
     abrirContatos(item) {
       this.$router.push({ path: `/ContatoFiliais/${item.FIL_ID}` }); // -> /user/123
     },
+
+    validaCampos() {
+      if (this.editedItem.FIL_DESC == "") return false;
+      if (this.editedItem.FIL_CNPJ == "") return false;
+      if (this.editedItem.FIL_CEP == "") return false;
+      if (this.editedItem.FIL_NUM == "") return false;
+      if (this.editedItem.FIL_COMPLEMENTO == "") return false;
+      return true;
+    },
   },
 };
 </script>

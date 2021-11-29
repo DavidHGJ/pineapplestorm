@@ -64,6 +64,7 @@
                       <v-text-field
                         v-model="editedItem.PRD_PESO"
                         label="Peso"
+                        v-maska="'##########'"
                       ></v-text-field>
                     </v-col>
                   </v-row>
