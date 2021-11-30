@@ -191,7 +191,7 @@ export default {
   name: "Entrada",
   data() {
     return {
-      transportadoras: [],
+      
       transportadorasCombo: [],
       produtos: [],
       produtosCombo: [],
@@ -207,7 +207,7 @@ export default {
       ],
       headersEntrada: [
         { text: "Id", value: "ENT_ID" },
-        { text: "Transportadora", value: "TRS_ID" },
+        { text: "Transportadora", value: "TRS_DESC" },
         { text: "Data", value: "ENT_DATA" },
         { text: "Qtde", value: "ENT_QTDE" },
         { text: "Valor (R$)", value: "ENT_VALOR" },

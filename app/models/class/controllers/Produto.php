@@ -32,16 +32,56 @@ class Produto implements iController
     public function get($identificador)
     {
         if (is_null($identificador))
-            $retornoConsulta = $this->queryManager
+            /*$retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->queryExec();
+                ->queryExec();*/
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                select
+                    PRD.PRD_ID,
+                    PRD.PRD_DESC,
+                    CAT.CAT_DESC,
+                    FORN.FOR_NOME,
+                    PRD.PRD_PESO,
+                    PRD.PRD_STATUS,
+                    CALCULA_QUANTIDADE_PRODUTO(PRD.PRD_ID) AS PRD_QTD,
+                    PRD.PRD_REGDATE
+                from
+                    produto prd
+                    inner join categoria cat
+                        on prd.cat_id = cat.cat_id
+                    inner join fornecedor forn
+                        on prd.for_id = forn.for_id
+                "
+            );
         else
-            $retornoConsulta = $this->queryManager
+            /*$retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
                 ->setCondicao('PRD_ID', Operador::IGUAL, strval($identificador))
-                ->queryExec();
+                ->queryExec();*/
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                select
+                    PRD.PRD_ID,
+                    PRD.PRD_DESC,
+                    CAT.CAT_DESC,
+                    FORN.FOR_NOME,
+                    PRD.PRD_PESO,
+                    PRD.PRD_STATUS,
+                    CALCULA_QUANTIDADE_PRODUTO(PRD.PRD_ID) AS PRD_QTD,
+                    PRD.PRD_REGDATE
+                from
+                    produto prd
+                    inner join categoria cat
+                        on prd.cat_id = cat.cat_id
+                    inner join fornecedor forn
+                        on prd.for_id = forn.for_id
+                where
+                    prd.prd_id = $identificador
+                "
+            );
 
         $this->queryManager->reset();
 

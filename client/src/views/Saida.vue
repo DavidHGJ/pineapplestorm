@@ -199,7 +199,7 @@ export default {
       ],
       headersSaida: [
         { text: "Id", value: "SAI_ID" },
-        { text: "Filial", value: "FIL_ID" },
+        { text: "Filial", value: "FIL_DESC" },
         { text: "Lote", value: "SAI_LOTE" },
         { text: "Qtde", value: "SAI_QTDE" },
         { text: "Valor (R$)", value: "SAI_VALOR" },

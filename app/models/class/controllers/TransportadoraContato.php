@@ -37,25 +37,27 @@ class TransportadoraContato implements iController
                 SELECT 
                     x.trs_id AS TRS_ID,
                     c.cnt_id AS CNT_ID,
-                    c.tpc_id AS TPC_ID,
+                    tpc.tpc_desc AS TPC_DESC,
                     c.cnt_desc AS CNT_DESC
                 FROM 
                     transportadora_x_contato as x 
                 LEFT JOIN contato as c 
-                ON 
-                    x.cnt_id = c.cnt_id");
+                    ON x.cnt_id = c.cnt_id
+                INNER JOIN tipo_contato tpc
+                    ON c.tpc_id = tpc.tpc_id");
         else
             $retornoConsulta = $this->queryManager->getConexao()->query("
                 SELECT 
                     x.trs_id AS TRS_ID,
                     c.cnt_id AS CNT_ID,
-                    c.tpc_id AS TPC_ID,
+                    tpc.tpc_desc AS TPC_DESC,
                     c.cnt_desc AS CNT_DESC
                 FROM 
                     transportadora_x_contato as x 
                 LEFT JOIN contato as c 
-                ON 
-                    x.cnt_id = c.cnt_id
+                    ON x.cnt_id = c.cnt_id
+                INNER JOIN tipo_contato tpc
+                    ON c.tpc_id = tpc.tpc_id
                 WHERE
                     trs_id = $identificador");
                     

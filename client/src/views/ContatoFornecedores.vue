@@ -84,7 +84,7 @@ export default {
       dialog: false,
       headers: [
         { text: "Id", value: "CNT_ID" },
-        { text: "Tipo de Contato", value: "TPC_ID" },
+        { text: "Tipo de Contato", value: "TPC_DESC" },
         { text: "Descrição", value: "CNT_DESC" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],

@@ -113,7 +113,7 @@ class Transportadora implements iController
                 'TRS_COMPLEMENTO'
             );
 
-            $this->queryManager
+            /*$this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
@@ -126,7 +126,23 @@ class Transportadora implements iController
                     '$request->TRS_COMPLEMENTO'
                 )
                 ->setCondicao('TRS_ID', Operador::IGUAL, $identificador)
-                ->queryExec();
+                ->queryExec();*/
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                update 
+                    transportadora
+                set
+                    TRS_DESC = '$request->TRS_DESC',
+                    TRS_NUM = '$request->TRS_NUM',
+                    TRS_CEP = '$request->TRS_CEP',
+                    TRS_CNPJ = '$request->TRS_CNPJ',
+                    TRS_INSC = '$request->TRS_INSC',
+                    TRS_STATUS = '$request->TRS_STATUS',
+                    TRS_COMPLEMENTO = '$request->TRS_COMPLEMENTO'
+                where
+                    TRS_ID = $identificador
+                "
+            );
             
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
         }

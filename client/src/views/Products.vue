@@ -104,8 +104,8 @@ export default {
       headers: [
         { text: "id", value: "PRD_ID" },
         { text: "Descrição", value: "PRD_DESC" },
-        { text: "categoria", value: "CAT_ID" },
-        { text: "fornecedor", value: "FOR_ID" },
+        { text: "categoria", value: "CAT_DESC" },
+        { text: "fornecedor", value: "FOR_NOME" },
         { text: "Peso (kg)", value: "PRD_PESO" },
         { text: "Quantidade", value: "PRD_QTD" },
         { text: "Ações", value: "action", sortable: false, align: "left" },

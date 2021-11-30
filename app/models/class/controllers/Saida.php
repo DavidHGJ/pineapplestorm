@@ -32,16 +32,60 @@ class Saida
     public function get($identificador)
     {
         if (is_null($identificador))
-            $retornoConsulta = $this->queryManager
+            /*$retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->queryExec();
+                ->queryExec();*/
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                select
+                    SAI.SAI_ID,
+                    FIL.FIL_DESC,
+                    SAI.SAI_LOTE,
+                    SAI.SAI_DATA,
+                    USR.USR_NOME,
+                    NF.NF_NUM,
+                    CONTA_QTDE_ITEMS_SAIDA(SAI_ID) AS SAI_QTDE,
+                    VALOR_TOTAL_ITEMS_SAIDA(SAI_ID) AS SAI_VALOR
+                from
+                    saida sai
+                    inner join usuario usr
+                        on sai.usr_id = usr.usr_id
+                    inner join nota_fiscal nf
+                        on sai.nf_id = nf.nf_id
+                    inner join filiais fil
+                        on sai.fil_id = fil.fil_id
+                "
+            );
         else
-            $retornoConsulta = $this->queryManager
+            /*$retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
                 ->setCondicao('SAI_ID', Operador::IGUAL, strval($identificador))
-                ->queryExec();
+                ->queryExec();*/
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                select
+                    SAI.SAI_ID,
+                    FIL.FIL_DESC,
+                    SAI.SAI_LOTE,
+                    SAI.SAI_DATA,
+                    USR.USR_NOME,
+                    NF.NF_NUM,
+                    CONTA_QTDE_ITEMS_SAIDA(SAI_ID) AS SAI_QTDE,
+                    VALOR_TOTAL_ITEMS_SAIDA(SAI_ID) AS SAI_VALOR
+                from
+                    saida sai
+                    inner join usuario usr
+                        on sai.usr_id = usr.usr_id
+                    inner join nota_fiscal nf
+                        on sai.nf_id = nf.nf_id
+                    inner join filiais fil
+                        on sai.fil_id = fil.fil_id
+                where
+                    sai.sai_id = $identificador
+                "
+            );
 
         if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];

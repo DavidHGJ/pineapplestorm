@@ -32,16 +32,63 @@ class Entrada
     public function get($identificador)
     {
         if (is_null($identificador))
-            $retornoConsulta = $this->queryManager
+            /*$retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
-                ->queryExec();
+                ->queryExec();*/
+
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                select
+                    ENT.ENT_ID,
+                    TRS.TRS_DESC,
+                    ENT.ENT_DATA,
+                    ENT.ENT_FRETE,
+                    ENT.ENT_IMPOSTO,
+                    USR.USR_NOME,
+                    NF.NF_NUM,
+                    CONTA_QTDE_ITEMS_ENTRADA(ENT.ENT_ID) AS ENT_QTDE, 
+                    VALOR_TOTAL_ITEMS_ENTRADA(ENT.ENT_ID) AS ENT_VALOR
+                from
+                    entrada ent
+                    inner join transportadora trs
+                        on ent.trs_id = trs.trs_id
+                    inner join usuario usr
+                        on ent.usr_id = usr.usr_id
+                    inner join nota_fiscal nf
+                        on ent.nf_id = nf.nf_id
+                "
+            );
         else
-            $retornoConsulta = $this->queryManager
+            /*$retornoConsulta = $this->queryManager
                 ->setAcao(Acao::SELECT)
                 ->setTabela($this->tabela)
                 ->setCondicao('ENT_ID', Operador::IGUAL, strval($identificador))
-                ->queryExec();
+                ->queryExec();*/
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                select
+                    ENT.ENT_ID,
+                    TRS.TRS_DESC,
+                    ENT.ENT_DATA,
+                    ENT.ENT_FRETE,
+                    ENT.ENT_IMPOSTO,
+                    USR.USR_NOME,
+                    NF.NF_NUM,
+                    CONTA_QTDE_ITEMS_ENTRADA(ENT.ENT_ID) AS ENT_QTDE, 
+                    VALOR_TOTAL_ITEMS_ENTRADA(ENT.ENT_ID) AS ENT_VALOR
+                from
+                    entrada ent
+                    inner join transportadora trs
+                        on ent.trs_id = trs.trs_id
+                    inner join usuario usr
+                        on ent.usr_id = usr.usr_id
+                    inner join nota_fiscal nf
+                        on ent.nf_id = nf.nf_id
+                where
+                    ent.ent_id = $identificador
+                "
+            );
 
         if ($retornoConsulta->rowCount() > 0) {
             $response = ['error' => false, 'message' => ''];

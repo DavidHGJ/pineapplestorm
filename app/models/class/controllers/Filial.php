@@ -113,7 +113,7 @@ class Filial implements iController
                 'FIL_COMPLEMENTO'
             );
 
-            $this->queryManager
+            /*$this->queryManager
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
@@ -126,7 +126,24 @@ class Filial implements iController
                     '$request->FIL_COMPLEMENTO'
                 )
                 ->setCondicao('FIL_ID', Operador::IGUAL, $identificador)
-                ->queryExec();
+                ->queryExec();*/
+
+            $retornoConsulta = $this->queryManager->getConexao()->query(
+                "
+                update 
+                    filiais
+                set
+                    FIL_CNPJ = '$request->FIL_CNPJ',
+                    FIL_INSC = '$request->FIL_INSC',
+                    FIL_STATUS = '$request->FIL_STATUS',
+                    FIL_DESC = '$request->FIL_DESC',
+                    FIL_CEP = '$request->FIL_CEP',
+                    FIL_NUM = '$request->FIL_NUM',
+                    FIL_COMPLEMENTO = '$request->FIL_COMPLEMENTO'
+                where
+                    FIL_ID = $identificador
+                "
+            );
 
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
         }
