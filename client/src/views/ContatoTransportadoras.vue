@@ -171,6 +171,7 @@ export default {
         })
         .then(() => {
           alert("Contato deletado com sucesso");
+          this.editedIndex = -1;
           this.carregarContatos();
         })
         .catch(() => {

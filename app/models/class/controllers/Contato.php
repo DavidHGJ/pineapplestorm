@@ -60,14 +60,25 @@ class Contato implements iController
             'CNT_DESC'
         );
 
-        $retornoConsulta = $this->queryManager
+        /*$retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
                 "'$request->TPC_ID'",
                 "'$request->CNT_DESC'"
             )
-            ->queryExec();
+            ->queryExec();*/
+
+        var_dump($request->TPC_ID);
+        var_dump($request->CNT_DESC);
+       
+        $this->queryManager->getConexao()->query("
+            INSERT INTO contato(TPC_ID, CNT_DESC)
+            VALUES(
+                '$request->TPC_ID',
+                '$request->CNT_DESC'
+            )
+        ");
 
         return QueryManager::getInstance()->getConexao()->lastInsertId();
     }
@@ -103,11 +114,17 @@ class Contato implements iController
         if (is_null($identificador))
             return ['error' => true, 'message' => 'Não foi possível realizar a operação.'];
         else {
-            $this->queryManager
+            /*$this->queryManager
                 ->setAcao(Acao::DELETE)
                 ->setTabela($this->tabela)
                 ->setCondicao('CNT_ID', Operador::IGUAL, strval($identificador))
-                ->queryExec();
+                ->queryExec();*/
+                $this->queryManager->getConexao()->query("
+                    DELETE FROM
+                        contato
+                    WHERE
+                        cnt_id = $identificador
+                ");
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];
         }
