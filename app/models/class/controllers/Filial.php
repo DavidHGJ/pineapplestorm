@@ -65,19 +65,31 @@ class Filial implements iController
             'FIL_COMPLEMENTO'
         );
 
-        $retornoConsulta = $this->queryManager
+        /*$retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->FIL_CNPJ'",
-                "'$request->FIL_INSC'",
-                "'$request->FIL_STATUS'",
-                "'$request->FIL_DESC'",
-                "'$request->FIL_CEP'",
-                "'$request->FIL_NUM'",
-                "'$request->FIL_COMPLEMENTO'"
+                '$request->FIL_CNPJ',
+                '$request->FIL_INSC',
+                '$request->FIL_STATUS',
+                '$request->FIL_DESC',
+                '$request->FIL_CEP',
+                '$request->FIL_NUM',
+                '$request->FIL_COMPLEMENTO'
             )
-            ->queryExec();
+            ->queryExec();*/
+
+        $retornoConsulta = $this->queryManager->getConexao()->query(
+            "call filiais_insert(
+                '$request->FIL_CNPJ',
+                '$request->FIL_INSC',
+                '$request->FIL_STATUS',
+                '$request->FIL_DESC',
+                '$request->FIL_CEP',
+                '$request->FIL_NUM',
+                '$request->FIL_COMPLEMENTO'
+            )"
+        );
 
         return ($retornoConsulta)
             ? ['error' => false, 'message' => 'Operação realizada com sucesso.']
@@ -105,13 +117,13 @@ class Filial implements iController
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->FIL_CNPJ'",
-                    "'$request->FIL_INSC'",
-                    "'$request->FIL_STATUS'",
-                    "'$request->FIL_DESC'",
-                    "'$request->FIL_CEP'",
-                    "'$request->FIL_NUM'",
-                    "'$request->FIL_COMPLEMENTO'"
+                    '$request->FIL_CNPJ',
+                    '$request->FIL_INSC',
+                    '$request->FIL_STATUS',
+                    '$request->FIL_DESC',
+                    '$request->FIL_CEP',
+                    '$request->FIL_NUM',
+                    '$request->FIL_COMPLEMENTO'
                 )
                 ->setCondicao('FIL_ID', Operador::IGUAL, $identificador)
                 ->queryExec();

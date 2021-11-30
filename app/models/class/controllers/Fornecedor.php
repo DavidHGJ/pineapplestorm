@@ -65,7 +65,7 @@ class Fornecedor implements iController
             'FOR_COMPLEMENTO'
         );
 
-        $retornoConsulta = $this->queryManager
+       /* $retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
@@ -77,7 +77,29 @@ class Fornecedor implements iController
                 "'$request->FOR_STATUS'",
                 "'$request->FOR_COMPLEMENTO'"
             )
-            ->queryExec();
+            ->queryExec();*/
+
+            $retornoConsulta = $this->queryManager->getConexao()->query("
+                call fornecedor_insert(
+                    '$request->FOR_NOME',
+                    '$request->FOR_NUMERO',
+                    '$request->FOR_CEP',
+                    '$request->FOR_CNPJ',
+                    '$request->FOR_INSC',
+                    '$request->FOR_STATUS',
+                    '$request->FOR_COMPLEMENTO'
+                )
+            ");
+
+            var_dump("call fornecedor_insert(
+                '$request->FOR_NOME',
+                '$request->FOR_NUMERO',
+                '$request->FOR_CEP',
+                '$request->FOR_CNPJ',
+                '$request->FOR_INSC',
+                '$request->FOR_STATUS',
+                '$request->FOR_COMPLEMENTO'
+            )");
 
         return ($retornoConsulta)
             ? ['error' => false, 'message' => 'Operação realizada com sucesso.']

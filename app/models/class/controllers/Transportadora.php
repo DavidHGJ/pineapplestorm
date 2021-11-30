@@ -65,19 +65,31 @@ class Transportadora implements iController
             'TRS_COMPLEMENTO'
         );
 
-        $retornoConsulta = $this->queryManager
+        /*$retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
-                "'$request->TRS_DESC'",
-                "'$request->TRS_NUM'",
-                "'$request->TRS_CEP'",
-                "'$request->TRS_CNPJ'",
-                "'$request->TRS_INSC'",
-                "'$request->TRS_STATUS'",
-                "'$request->TRS_COMPLEMENTO'"
+                '$request->TRS_DESC',
+                '$request->TRS_NUM',
+                '$request->TRS_CEP',
+                '$request->TRS_CNPJ',
+                '$request->TRS_INSC',
+                '$request->TRS_STATUS',
+                '$request->TRS_COMPLEMENTO'
             )
-            ->queryExec();
+            ->queryExec();*/
+
+        $retornoConsulta = $this->queryManager->getConexao()->query(
+            "call transportadora_insert(
+                '$request->TRS_DESC',
+                '$request->TRS_NUM',
+                '$request->TRS_CEP',
+                '$request->TRS_CNPJ',
+                '$request->TRS_INSC',
+                '$request->TRS_STATUS',
+                '$request->TRS_COMPLEMENTO'
+            )"
+        );
 
         return ($retornoConsulta)
             ? ['error' => false, 'message' => 'Operação realizada com sucesso.']
@@ -105,17 +117,17 @@ class Transportadora implements iController
                 ->setAcao(Acao::UPDATE)
                 ->setTabela($tabela)
                 ->setValores(
-                    "'$request->TRS_DESC'",
-                    "'$request->TRS_NUM'",
-                    "'$request->TRS_CEP'",
-                    "'$request->TRS_CNPJ'",
-                    "'$request->TRS_INSC'",
-                    "'$request->TRS_STATUS'",
-                    "'$request->TRS_COMPLEMENTO'"
+                    '$request->TRS_DESC',
+                    '$request->TRS_NUM',
+                    '$request->TRS_CEP',
+                    '$request->TRS_CNPJ',
+                    '$request->TRS_INSC',
+                    '$request->TRS_STATUS',
+                    '$request->TRS_COMPLEMENTO'
                 )
                 ->setCondicao('TRS_ID', Operador::IGUAL, $identificador)
                 ->queryExec();
-
+            
             return ['error' => false, 'message' => 'Registro alterado com sucesso.'];
         }
     }

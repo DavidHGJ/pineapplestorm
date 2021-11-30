@@ -292,20 +292,20 @@ $$
 
 delimiter $$
 create procedure fornecedor_insert(
-	for_nome varchar(255),
-    for_numero varchar(5),
-    for_cep char(5),
-    for_cnpj char(14),
-    for_insc char(10),
-    for_status char(1),
-    for_complemento varchar(45)
+	in for_nome varchar(255),
+    in for_numero varchar(9),
+    in for_cep char(9),
+    in for_cnpj char(14),
+    in for_insc char(12),
+    in for_status char(1),
+    in for_complemento varchar(45)
 )
 begin
 	declare valida_insc int;
     
-    set @valida_insc = (select count(0) from fornecedor where for_insc = @for_insc);
+    set valida_insc = (select count(0) from fornecedor forn where forn.for_insc = for_insc);
     
-    if(@valida_insc > 0)
+    if(valida_insc > 0)
     then
 		signal sqlstate '45001' set message_text = "Inscrição já foi cadastrada.";
 	else
@@ -319,17 +319,19 @@ begin
             for_complemento
 		)
         values(
-			@for_nome, 
-            @for_numero, 
-            @for_cep,
-            @for_cnpj, 
-            @for_insc, 
-            @for_status, 
-            @for_complemento
+			for_nome, 
+            for_numero, 
+            for_cep,
+            for_cnpj, 
+            for_insc, 
+            for_status, 
+            for_complemento
 		);
     end if;
 end
 $$
+
+
 
 delimiter $$
 create procedure filiais_insert(
@@ -344,9 +346,9 @@ create procedure filiais_insert(
 begin 
 	declare valida_insc int;
     
-    set @valida_insc = (select count(0) from filiais where fil_insc = @fil_insc);
+    set valida_insc = (select count(0) from filiais fil where fil.fil_insc = fil_insc);
     
-    if(@valida_insc > 0)
+    if(valida_insc > 0)
     then
 		signal sqlstate '45001' set message_text = "Inscrição já foi cadastrada.";
 	else
@@ -360,13 +362,13 @@ begin
             fil_complemento
 		)
         values(
-			@fil_cnpj,
-            @fil_insc,
-            @fil_status,
-            @fil_desc,
-            @fil_cep,
-            @fil_num,
-            @fil_complemento
+			fil_cnpj,
+            fil_insc,
+            fil_status,
+            fil_desc,
+            fil_cep,
+            fil_num,
+            fil_complemento
 		);
     end if;
 end
@@ -385,11 +387,14 @@ create procedure transportadora_insert(
 begin 
 	declare valida_insc int;
     
-    set @valida_insc = (select count(0) from transportadora where trs_insc = @trs_insc);
+    set valida_insc = (select count(0) from transportadora trs where trs.trs_insc = trs_insc);
     
-    if(@valida_insc > 0)
+    if(valida_insc > 0)
     then
 		signal sqlstate '45001' set message_text = "Inscrição já foi cadastrada.";
+	elseif(trs_desc is null)
+    then
+		signal sqlstate '45001' set message_text = "Não é possível inserir descrição nula.";
 	else
 		insert into transportadora(
 			trs_desc,
@@ -401,13 +406,13 @@ begin
 			trs_complemento
 		)
         values(
-			@trs_desc,
-			@trs_num,
-			@trs_cep,
-			@trs_cnpj,
-			@trs_insc,
-			@trs_status,
-			@trs_complemento
+			trs_desc,
+			trs_num,
+			trs_cep,
+			trs_cnpj,
+			trs_insc,
+			trs_status,
+			trs_complemento
 		);
     end if;
 end
