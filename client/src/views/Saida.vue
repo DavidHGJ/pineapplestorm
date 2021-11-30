@@ -317,14 +317,18 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.itensSaida[this.editedIndex], this.editedItem);
+      if (this.validaCamposProduto()) {
+        if (this.editedIndex > -1) {
+          Object.assign(this.itensSaida[this.editedIndex], this.editedItem);
+        } else {
+          this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
+          this.editedItem.PRD_ID = this.editedItem.PROD.PRD_ID;
+          this.itensSaida.push(this.editedItem);
+        }
+        this.close();
       } else {
-        this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
-        this.editedItem.PRD_ID = this.editedItem.PROD.PRD_ID;
-        this.itensSaida.push(this.editedItem);
+        alert("Favor preencher todos os campos!!");
       }
-      this.close();
     },
     finalizar() {
       if (confirm("Tem certeza de que deseja finalizar a saída?")) {
@@ -387,6 +391,12 @@ export default {
       if (this.editedNF.NF_SERIE == "") return false;
       if (this.editedNF.SAI_LOTE == "") return false;
       if (this.editedNF.FILIAL == "") return false;
+      return true;
+    },
+    validaCamposProduto() {
+      if (this.editedItem.PROD == "") return false;
+      if (this.editedItem.SAI_QTDE == "") return false;
+      if (this.editedItem.SAI_VALOR == "") return false;
       return true;
     },
   },

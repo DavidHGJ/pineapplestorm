@@ -328,15 +328,19 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.itensEntrada[this.editedIndex], this.editedItem);
+      if (this.validaCamposProduto()) {
+        if (this.editedIndex > -1) {
+          Object.assign(this.itensEntrada[this.editedIndex], this.editedItem);
+        } else {
+          this.editedItem.PRD_ID = this.editedItem.PROD.PRD_ID;
+          this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
+          this.itensEntrada.push(this.editedItem);
+          console.log(this.itensEntrada);
+        }
+        this.close();
       } else {
-        this.editedItem.PRD_ID = this.editedItem.PROD.PRD_ID;
-        this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
-        this.itensEntrada.push(this.editedItem);
-        console.log(this.itensEntrada);
+        alert("Favor preencher todos os campos!!");
       }
-      this.close();
     },
     finalizar() {
       if (confirm("Tem certeza de que deseja finalizar a entrada?")) {
@@ -400,6 +404,13 @@ export default {
       if (this.editedNF.ENT_FRETE == "") return false;
       if (this.editedNF.ENT_IMPOSTO == "") return false;
       if (this.editedNF.ENT_IMPOSTO == "") return false;
+      if (this.editedNF.TRANSP == "") return false;
+      return true;
+    },
+    validaCamposProduto() {
+      if (this.editedItem.PROD == "") return false;
+      if (this.editedItem.ITE_QTDE == "") return false;
+      if (this.editedItem.ITE_VALOR == "") return false;
       if (this.editedNF.TRANSP == "") return false;
       return true;
     },
