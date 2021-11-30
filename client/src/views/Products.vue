@@ -63,7 +63,7 @@
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         v-model="editedItem.PRD_PESO"
-                        label="Peso"
+                        label="Peso (kg)"
                         v-maska="'##########'"
                       ></v-text-field>
                     </v-col>
@@ -87,7 +87,7 @@
         <v-icon small @click="deleteItem(item)"> Deletar </v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="carregarProdutos">Resetar</v-btn>
+        <v-btn color="primary" @click="carregarProdutos">Recarregar</v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -106,7 +106,7 @@ export default {
         { text: "Descrição", value: "PRD_DESC" },
         { text: "categoria", value: "CAT_ID" },
         { text: "fornecedor", value: "FOR_ID" },
-        { text: "Peso", value: "PRD_PESO" },
+        { text: "Peso (kg)", value: "PRD_PESO" },
         { text: "Quantidade", value: "PRD_QTD" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
