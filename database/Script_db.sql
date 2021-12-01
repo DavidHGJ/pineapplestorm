@@ -256,7 +256,7 @@ create function valor_total_items_saida(
 	saida_id bigint
 )returns double
 begin
-	declare retorno bigint;
+	declare retorno double;
 
 	set retorno = (select ifnull(sum(sai_valor), 0) from item_saida where sai_id = saida_id);
     
@@ -269,9 +269,9 @@ create function valor_total_items_entrada(
 	entrada_id bigint
 )returns double
 begin
-	declare retorno bigint;
+	declare retorno double;
 
-	set retorno = (select ifnull(sum(ite_valor), 0) from item_entrada where ite_id = entrada_id);
+	set retorno = (select ifnull(sum(ite_valor), 0) from item_entrada where ent_id = entrada_id);
     
     return retorno;
 end;
@@ -336,11 +336,11 @@ $$
 delimiter $$
 create procedure filiais_insert(
 	fil_cnpj char(14),
-    fil_insc char(10),
+    fil_insc char(12),
     fil_status char(1),
     fil_desc varchar(255),
-    fil_cep char(5),
-    fil_num varchar(5),
+    fil_cep char(9),
+    fil_num varchar(9),
     fil_complemento varchar(45)
 )
 begin 
@@ -380,7 +380,7 @@ create procedure transportadora_insert(
     trs_num varchar(9),
     trs_cep varchar(9),
     trs_cnpj char(14),
-    trs_insc char(10),
+    trs_insc char(12),
     trs_status char(1),
     trs_complemento varchar(45)
 )
