@@ -254,7 +254,7 @@ $$
 delimiter $$ 
 create function valor_total_items_saida(
 	saida_id bigint
-)returns bigint
+)returns double
 begin
 	declare retorno bigint;
 
@@ -267,7 +267,7 @@ $$
 delimiter $$ 
 create function valor_total_items_entrada(
 	entrada_id bigint
-)returns bigint
+)returns double
 begin
 	declare retorno bigint;
 

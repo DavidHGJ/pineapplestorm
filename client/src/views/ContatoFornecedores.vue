@@ -161,13 +161,14 @@ export default {
         });
     },
 
-    deleteUser(id) {
+    deleteContato(id) {
       api
         .delete(`/fornecedor-contato/${this.$route.params.id}`, {
           data: { CNT_ID: id },
         })
         .then(() => {
           alert("Categoria deletada com sucesso");
+          this.editedIndex = -1;
           this.carregarContatos();
         })
         .catch(() => {
@@ -187,7 +188,7 @@ export default {
       if (confirm("Tem certeza de que deseja excluir este Contato?")) {
         //this.desserts.splice(index, 1);
         this.deleteCNT.CNT_ID = idItem.CNT_ID;
-        this.deleteUser(idItem.CNT_ID);
+        this.deleteContato(idItem.CNT_ID);
       }
     },
 

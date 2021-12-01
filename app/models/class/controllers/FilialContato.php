@@ -73,10 +73,13 @@ class FilialContato implements iController
 
     public function post($request)
     {
+        
         $contato = new Contato;
 
-        $idContato = $contato->post($request);
+        $this->queryManager->reset();
 
+        $idContato = $contato->post($request);
+        var_dump($contato);
         unset($contato);
 
         $this->tabela->setColuna(
@@ -84,14 +87,22 @@ class FilialContato implements iController
             'CNT_ID'
         );
 
-        $retornoConsulta = $this->queryManager
+        /*$retornoConsulta = $this->queryManager
             ->setAcao(Acao::INSERT)
             ->setTabela($this->tabela)
             ->setValores(
                 "'$request->FIL_ID'",
                 "'$idContato'"
             )
-            ->queryExec();
+            ->queryExec();*/
+        $retornoConsulta = $this->queryManager->getConexao()->query("
+                INSERT INTO filiais_x_contato(FIL_ID, CNT_ID)
+                VALUES(
+                    $request->FIL_ID,
+                    $idContato
+                )
+        
+        ");
 
         return ($retornoConsulta)
             ? ['error' => false, 'message' => 'Operação realizada com sucesso.']
@@ -129,14 +140,14 @@ class FilialContato implements iController
         else {
             
             $request = json_decode(file_get_contents("php://input"));
-
+            var_dump($request);
             $return = $this->queryManager->getConexao()->query("
                 DELETE FROM
                     filiais_x_contato
                 WHERE
-                    fil_id = '$identificador'
+                    fil_id = $identificador
                     and
-                    cnt_id = '$request->CNT_ID'
+                    cnt_id = $request->CNT_ID
             ");
 
             if ($return)
@@ -144,7 +155,7 @@ class FilialContato implements iController
                     DELETE FROM
                         contato
                     WHERE
-                        cnt_id = '$request->CNT_ID'
+                        cnt_id = $request->CNT_ID
                 ");
 
             return ['error' => false, 'message' => 'Registro removido com sucesso.'];

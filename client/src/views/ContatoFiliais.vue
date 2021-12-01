@@ -153,11 +153,11 @@ export default {
       api
         .put(`/filial-contato/${this.$route.params.id}`, this.editedItem)
         .then(() => {
-          alert("Categoria atualizada com sucesso");
+          alert("Contato atualizada com sucesso");
           this.carregarContatos();
         })
         .catch(() => {
-          alert("Erro ao cadastrar Categoria");
+          alert("Erro ao cadastrar Contato");
         });
     },
 
@@ -168,6 +168,7 @@ export default {
         })
         .then(() => {
           alert("Contato deletada com sucesso");
+          this.editedIndex = -1;
           this.carregarContatos();
         })
         .catch(() => {
@@ -209,6 +210,7 @@ export default {
 
     save() {
       if (this.validaCampos()) {
+        console.log(this.editedIndex);
         if (this.editedIndex > -1) {
           this.updateContato();
         } else {
