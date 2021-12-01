@@ -319,6 +319,8 @@ export default {
     save() {
       if (this.validaCamposProduto()) {
         if (this.editedIndex > -1) {
+          this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
+          this.editedItem.PRD_ID = this.editedItem.PROD.PRD_ID;
           Object.assign(this.itensSaida[this.editedIndex], this.editedItem);
         } else {
           this.editedItem.PRD_DESC = this.editedItem.PROD.PRD_DESC;
