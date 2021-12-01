@@ -120,7 +120,7 @@
                           <v-text-field
                             v-model="editedItem.SAI_VALOR"
                             label="Valor"
-                            v-maska="'##########'"
+                            v-maska="'#*,##'"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -194,7 +194,7 @@ export default {
       headers: [
         { text: "Produto", value: "PRD_DESC" },
         { text: "Quantidade", value: "SAI_QTDE" },
-        { text: "Valor", value: "SAI_VALOR" },
+        { text: "Valor (R$)", value: "SAI_VALOR" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       headersSaida: [
@@ -334,6 +334,7 @@ export default {
       if (confirm("Tem certeza de que deseja finalizar a saída?")) {
         if (this.itensSaida.length > 0) {
           this.itensSaida.forEach((element) => {
+            element.SAI_VALOR = element.SAI_VALOR.replace(",", ".");
             this.editedNF.ITENS.push(element);
           });
           this.postSaida();

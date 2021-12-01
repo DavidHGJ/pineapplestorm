@@ -35,7 +35,7 @@
               <v-col cols="12" sm="6" md="2">
                 <v-text-field
                   label="Valor Frete (R$)"
-                  v-maska="'##########'"
+                  v-maska="'#*,##'"
                   v-model="editedNF.ENT_FRETE"
                   :disabled="txt3"
                 ></v-text-field>
@@ -43,7 +43,7 @@
               <v-col cols="12" sm="6" md="2">
                 <v-text-field
                   label="Valor Imposto (R$)"
-                  v-maska="'##########'"
+                  v-maska="'#*,##'"
                   v-model="editedNF.ENT_IMPOSTO"
                   :disabled="txt4"
                 ></v-text-field>
@@ -128,7 +128,7 @@
                           <v-text-field
                             v-model="editedItem.ITE_VALOR"
                             label="Valor (R$)"
-                            v-maska="'##########'"
+                            v-maska="'#*,##'"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -178,20 +178,20 @@
         </v-toolbar>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="carregarFornecedor">Recarregar</v-btn>
+        <v-btn color="primary" @click="carregarEntradas">Recarregar</v-btn>
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
+//import { mapGetters } from "vuex";
 import api from "../api/api";
 
 export default {
   name: "Entrada",
   data() {
     return {
-      
       transportadorasCombo: [],
       produtos: [],
       produtosCombo: [],
@@ -202,7 +202,7 @@ export default {
       headers: [
         { text: "Produto", value: "PRD_DESC" },
         { text: "Quantidade", value: "ITE_QTDE" },
-        { text: "Valor", value: "ITE_VALOR" },
+        { text: "Valor (R$)", value: "ITE_VALOR" },
         { text: "Ações", value: "action", sortable: false, align: "left" },
       ],
       headersEntrada: [
@@ -296,6 +296,10 @@ export default {
           console.log(error);
         });
     },
+    retiraVirgula() {
+      this.editedNF.ENT_FRETE = this.editedNF.ENT_FRETE.replace(",", ".");
+      this.editedNF.ENT_IMPOSTO = this.editedNF.ENT_IMPOSTO.replace(",", ".");
+    },
     postEntrada() {
       api
         .post("/entrada-nf", this.editedNF)
@@ -346,8 +350,10 @@ export default {
       if (confirm("Tem certeza de que deseja finalizar a entrada?")) {
         if (this.itensEntrada.length > 0) {
           this.itensEntrada.forEach((element) => {
+            element.ITE_VALOR = element.ITE_VALOR.replace(",", ".");
             this.editedNF.ITENS.push(element);
           });
+          this.retiraVirgula();
           this.postEntrada();
         } else {
           alert("Favor adicionar pelo menos 1 item ao produtos");

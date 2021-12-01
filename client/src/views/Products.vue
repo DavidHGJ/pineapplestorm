@@ -64,7 +64,7 @@
                       <v-text-field
                         v-model="editedItem.PRD_PESO"
                         label="Peso (kg)"
-                        v-maska="'##########'"
+                        v-maska="'#*,##'"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -264,6 +264,7 @@ export default {
 
     save() {
       if (this.validaCampos()) {
+        this.editedItem.PRD_PESO = this.editedItem.PRD_PESO.replace(",", ".");
         if (this.editedIndex > -1) {
           this.updateProduto(this.editedItem.PRD_ID);
           console.log(this.editedItem);
